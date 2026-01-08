@@ -1,0 +1,32 @@
+# Node.js
+node_modules/
+.vite/
+
+# OS files
+.DS_Store
+
+# IDE
+.idea/
+
+# Temporary files
+*.log
+.cache/
+
+# Build artifacts in 医療資料
+医療資料/*.js
+医療資料/*.js.map
+医療資料/*.css
+医療資料/*.mjs
+医療資料/*.cjs
+医療資料/*.d.ts
+医療資料/*.d.mts
+医療資料/*.html
+医療資料/*.vue
+医療資料/*.woff
+医療資料/*.woff2
+医療資料/*.ttf
+医療資料/*.json
+医療資料/*.compressed.json
+
+# Duplicate timestamped files
+*\ 13-*
