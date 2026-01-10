@@ -1,0 +1,1 @@
+/Users/ryukouokumura/Desktop/boss-workspace/Cursor-to-WordPress/post_to_wp.py
