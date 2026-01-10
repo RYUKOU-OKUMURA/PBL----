@@ -88,6 +88,18 @@ When creating new LINE columns:
    - Review existing files in `投稿済み/` folder to determine the latest publication date
      最新の公開日を確認するには、`投稿済み/`フォルダ内の既存ファイルを確認
 
+4. **Avoid dangerous characters in filenames** - These characters cause shell issues:
+   **ファイル名に危険な文字を使わない** - これらの文字はシェルで問題を引き起こします:
+   - `"` (double quote / ダブルクォート)
+   - `'` (single quote / シングルクォート)
+   - `` ` `` (backtick / バッククォート)
+   - `\` (backslash / バックスラッシュ)
+   - `$` (dollar sign / ドル記号)
+   - `!` (exclamation mark / エクスクラメーション)
+
+   If a filename contains these characters, scripts like `post_to_wp.py` may fail.
+   これらの文字がファイル名に含まれていると、`post_to_wp.py` などのスクリプトが失敗する可能性があります。
+
 ## Avoiding Repetition / 繰り返しの回避
 
 When creating multiple columns, especially consecutive ones (e.g., year-end → new year):
