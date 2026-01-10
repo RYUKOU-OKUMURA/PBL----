@@ -7,10 +7,16 @@ node_modules/
 
 # IDE
 .idea/
+.vscode/
+*.code-workspace
 
 # Temporary files
 *.log
 .cache/
+
+# Build output
+dist/
+dist-mermaid/
 
 # Build artifacts in 医療資料
 医療資料/*.js
