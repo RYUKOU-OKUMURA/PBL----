@@ -36,3 +36,7 @@ dist-mermaid/
 
 # Duplicate timestamped files
 *\ 13-*
+
+# AI Team (generated)
+.ai-team/logs/
+.ai-team/tmp/
