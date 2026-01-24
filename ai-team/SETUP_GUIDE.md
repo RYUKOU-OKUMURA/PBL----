@@ -44,7 +44,7 @@ for i in {0..3}; do
   tmux send-keys -t multiagent:0.$i 'claude --dangerously-skip-permissions' C-m
 done
 ```
-
+```
 # 部下4画面（4分割）
 tmux attach-session -t multiagent
 ```
