@@ -15,6 +15,7 @@ PBL情報発信/
 ├── HPブログ記事/                  # HPブログ記事の保管先
 ├── LINEコラム/                    # LINEコラム記事の保管先
 ├── 03_研究資料・レビュー/         # PubMedリサーチ結果等
+├── 身体系/                        # Obsidian Clippings（身体系）へのシンボリックリンク
 ├── post_to_wp.py                  # WordPress投稿スクリプト
 └── .claude/
     ├── agents/                    # サブエージェント定義
