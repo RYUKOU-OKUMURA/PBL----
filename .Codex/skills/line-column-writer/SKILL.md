@@ -1,49 +1,48 @@
 ---
 name: line-column-writer
-description: 整体院・治療院のLINE配信用コラムを執筆するスキル。15〜25行のライトな健康コラムを、温かく親しみやすいトーンで作成する。季節フックから始まり、(^^)/で締める奥村スタイル。使用タイミング：(1)LINE公式アカウントで配信するコラム、(2)短めの健康Tips記事、(3)患者・フォロワー向けの気軽な読み物、(4)季節に合わせた予防ケア情報
+description: Write short health columns for a clinic or seitai practice's LINE official account in the established repository voice. Use when Codex is asked to create a LINEコラム, short seasonal health tip, weekly broadcast text, reader-friendly prevention advice, or a light educational post for patients and followers. This skill fits outputs around 15-25 lines, warm Japanese copy, weekly scheduling, and repository save paths under `LINEコラム/YYYY/`.
 ---
 
-# LINEコラム執筆スキル
+# Line Column Writer
 
-整体院・治療院のLINE配信用コラムを、一貫した品質で執筆するためのガイド。
+Use this skill for weekly LINE content that feels human, warm, and easy to read on a phone. Keep the delivery lightweight; this is not a full blog article.
 
-## 基本ルール
+## Repository Context
 
-- です・ます調
-- 温かく親しみやすく、少し勢いのある語り口
-- 専門用語は避ける。必要な場合はすぐ平易に言い換える
-- 絵文字は控えめに 2〜3 個程度
-- 15〜25 行を目安に、スマホで読みやすい短い段落にする
-- 締めは `(^^)/` を使う
+- Read [年間スケジュール.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/年間スケジュール.md) when the date matters.
+- Review the nearest existing columns in the same month or season to avoid repetition.
 
-## 構成
+## Workflow
 
-1. 季節や天候のフックで始める
-2. 読者が共感しやすい悩みを提示する
-3. 原因や背景をシンプルに説明する
-4. 今日からできる具体策を 1〜2 個だけ伝える
-5. 前向きな一言で締める
+1. Fix the delivery date first. If the user gives only a theme, infer the likely season from the requested publication date or current schedule.
+2. Pick one concrete reader problem. Do not solve three problems in one column.
+3. Draft in five beats: seasonal hook, problem empathy, simple professional insight, one or two practical actions, encouraging close.
+4. Keep paragraphs short for mobile reading and avoid mechanical section headers.
+5. If asked to save, use `LINEコラム/YYYY/YYYY-MM-DD_【タイトル】.md`.
 
-## 書き方のコツ
+## Style Rules
 
-- 「〜していませんか？」の問いかけを入れる
-- 数字を 1 つ入れると記憶に残りやすい
-- 家族や院での小さな実感を入れて人間味を出す
-- 箇条書きや括弧付き見出しで区切りすぎず、自然な流れを優先する
+- Use `です・ます調`.
+- Keep the tone warm, encouraging, and slightly lively.
+- Use few emojis. Two or three per column is enough.
+- End with `(^^)/`.
+- Avoid overtly AI-like framing such as `【1】`, `【ポイント】`, or rigid mini-headings.
+- Avoid medical jargon. If a technical term is unavoidable, explain it immediately in plain Japanese.
+- Avoid fear-based persuasion and guaranteed outcomes.
 
-## 避ける表現
+## Structural Targets
 
-- 医学専門用語の多用
-- 長すぎる説明
-- 脅かす表現
-- 効果の断定
-- AIっぽく整いすぎた見出し構成
+- Target 15-25 lines.
+- Keep most lines to a phone-friendly visual width.
+- Prefer one specific action with a number, duration, or frequency, such as `コップ1杯`, `5回`, or `1時間に1回`.
+- Add a short personal touch only when it improves warmth and credibility.
 
-## チェックリスト
+## Output
 
-- [ ] 15〜25 行程度に収まっている
-- [ ] 季節フックから始まっている
-- [ ] 実践アドバイスは 1〜2 個に絞っている
-- [ ] 専門用語を避けている
-- [ ] 効果を断定していない
-- [ ] `(^^)/` で締めている
+When drafting from scratch, provide:
+
+1. A title in the format `【タイトル】`
+2. The column body
+3. The suggested save path if the user wants the file written
+
+If the user asks for review instead of drafting, rewrite only the lines that break these rules.

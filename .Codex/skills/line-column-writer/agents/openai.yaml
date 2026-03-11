@@ -1,0 +1,4 @@
+interface:
+  display_name: "LINE Column Writer"
+  short_description: "LINE配信用の短い健康コラムを週次運用で執筆する"
+  default_prompt: "Use $line-column-writer to draft a weekly LINE health column for this theme and publication date."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "WP Fixed Elements"
+  short_description: "WordPress投稿前の固定要素を安全に追記するスキル"
+  default_prompt: "Use $wp-fixed-elements to add the required WordPress fixed elements to this repository blog draft."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Medical Ad Compliance"
+  short_description: "整体院・鍼灸院の広告表現を公開前に点検するスキル"
+  default_prompt: "Use $medical-ad-compliance to review this draft for healthcare advertising compliance risks and rewrite any unsafe claims."

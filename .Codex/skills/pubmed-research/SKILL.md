@@ -1,60 +1,42 @@
 ---
 name: pubmed-research
-description: PubMed を中心に医学論文を調べ、ブログ記事や医療コンテンツ向けのエビデンスを整理するスキル。論文検索、研究デザイン評価、日本語要約、引用用メモの作成に使う。トリガー：医学論文を探す、エビデンスを調べる、PubMedで調査、研究を検索、科学的根拠を確認
+description: Search, triage, and summarize medical literature from PubMed for repository health content. Use when Codex needs to gather scientific evidence, find PubMed papers, check research support for a health claim, collect systematic reviews or RCTs, translate a Japanese topic into English MeSH search terms, or prepare citation-ready notes for blog posts, LINE columns, and research memos.
 ---
 
-# PubMedリサーチスキル
+# PubMed Research
 
-医学論文のリサーチを体系的に行い、ブログ記事のソースとして使いやすい形で整理する。
+Use primary sources first. Prefer PubMed, PubMed Central, and publisher pages over secondary summaries.
 
-## 基本ワークフロー
+## Load This Resource
 
-1. テーマを検索語に分解する
-2. PubMed で主要論文を探す
-3. タイトル、著者、雑誌、出版年、PMID、DOI を整理する
-4. 研究デザインからエビデンスの強さを評価する
-5. 要点を日本語で 3〜5 文に要約する
-6. ブログに使える引用メモへ落とし込む
+- Load `references/evidence-levels.md` when you need to rank study designs or explain why one paper is stronger than another.
 
-## 検索の考え方
+## Workflow
 
-- 主要キーワードに MeSH 用語が分かる場合は加える
-- まずは直近 5 年を優先し、必要に応じて古典的研究も補う
-- 可能ならシステマティックレビュー、メタアナリシス、RCT を優先する
-- 単一論文だけで結論を出さず、複数研究の一貫性を見る
+1. Translate the user's Japanese topic into English keywords and likely MeSH terms.
+2. Build a search that combines condition, intervention or exposure, and outcome. Add study design filters when the user wants stronger evidence.
+3. Prefer recent evidence by default, usually the last 5 years, unless the topic needs landmark older papers.
+4. Prioritize systematic reviews, meta-analyses, guidelines based on reviews, and RCTs. Use lower-level evidence only when better studies are scarce.
+5. Extract citation data, study design, sample or population, key findings, and limitations.
+6. Summarize the included papers in Japanese and give a practical note on how each paper could support or weaken the article claim.
 
-## エビデンス評価の目安
+## Search Rules
 
-1. システマティックレビュー・メタアナリシス
-2. ランダム化比較試験
-3. コホート研究
-4. ケースコントロール研究
-5. 症例報告・専門家意見
+- Use official PubMed URLs or NCBI sources whenever possible.
+- If the user asks for the latest evidence, sort or filter by publication date and state the exact publication year.
+- Distinguish between study type, evidence strength, and clinical relevance. They are related but not identical.
+- If impact factor is requested and a reliable primary source is not accessible, say that it could not be verified instead of guessing.
+- Note retractions, major limitations, tiny sample sizes, and conflict-of-interest signals when visible.
 
-## 出力フォーマット
+## Output Format
 
-```markdown
-## 論文リスト
+For each paper, include:
 
-### 1. 論文タイトル（日本語訳）
-- 原題:
-- 著者:
-- 掲載誌:
-- 出版年:
-- PMID:
-- DOI:
-- 研究デザイン:
-- エビデンス評価:
+- Original title
+- Journal and publication year
+- PMID and DOI when available
+- Study design and evidence level
+- Short Japanese summary
+- One-line note for how the repository could cite or use the finding
 
-#### 要約
-3〜5文の日本語要約
-
-#### ブログ引用メモ
-「○○らの研究では、〜」
-```
-
-## 注意点
-
-- 一般向け記事では専門用語をそのまま出しすぎない
-- 利益相反や研究の限界も確認する
-- 断定表現に直結しないよう、臨床現場向けの言い換えを添える
+If the user requests a literature roundup, add a short synthesis section that explains where the evidence is consistent and where it conflicts.

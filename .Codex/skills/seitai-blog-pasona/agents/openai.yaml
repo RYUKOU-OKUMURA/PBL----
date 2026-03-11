@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seitai Blog PASONA"
+  short_description: "整体院HPブログをPASONA構成で自然に執筆するスキル"
+  default_prompt: "Use $seitai-blog-pasona to write an HP blog article in this repository's PASONA style and voice."

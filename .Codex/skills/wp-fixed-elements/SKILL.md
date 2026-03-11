@@ -1,57 +1,39 @@
 ---
 name: wp-fixed-elements
-description: PBLのHPブログ記事をWordPressへ載せる前に、TL;DR、執筆者情報、目次、免責事項、CTA、フッター、JSON-LD などの固定要素を差し込むスキル。記事本文完成後の最終整形で使用する。
+description: Add the repository's required WordPress fixed elements to a blog draft before posting, including TL;DR, author block, table of contents, disclaimer, LINE CTA, footer, and JSON-LD. Use when Codex is asked to prepare a blog article for WordPress, insert fixed HTML snippets, add front matter tags, or check whether a repository blog draft is ready for `post_to_wp.py`.
 ---
 
-# WordPress固定要素挿入スキル
+# WP Fixed Elements
 
-PBLのHPブログ記事に、WordPress公開前の固定要素を一貫した形で挿入するためのガイド。
+Use this skill only for repository HP blog articles. Edit the article in place and preserve the writer's substantive content.
 
-## 使うタイミング
+## Load This Resource
 
-- HPブログ記事の本文が完成したあと
-- QA修正が終わり、WordPress投稿前の最終整形をするとき
-- `post_to_wp.py` へ渡す前に要素漏れがないか確認したいとき
+- Load `reference.md` for the canonical HTML snippets and fixed URLs.
 
-## 基本ルール
+## Workflow
 
-- 元の本文内容はなるべく崩さない
-- 固定URL、画像URL、院名表記は reference の内容を優先する
-- 目次は記事の見出し構成に合わせて `href` と `id` を対応させる
-- 参考文献は研究引用がある場合のみ入れる
-- JSON-LD の `headline` `description` `HowTo` 各項目は記事内容に合わせて埋める
+1. Read the target markdown file completely.
+2. Detect whether fixed elements already exist. If `class="tldr"` or `<nav class="toc">` is present, avoid duplicating those blocks.
+3. Insert the fixed blocks in this order: TL;DR, author block, TOC near the top; disclaimer, LINE CTA, footer, and JSON-LD near the end.
+4. Convert article `##` headings into anchored `<h2 id="...">` form when needed for the TOC.
+5. Preserve `## メタディスクリプション` and `## サジェストキーワード` sections.
+6. Add or replace front matter `tags:` with the repository's required tag set.
+7. Verify the result is still readable markdown-plus-HTML and that no block was duplicated.
 
-## 追加する固定要素
+## Generation Rules
 
-1. TL;DR
-2. 執筆者情報
-3. 目次
-4. 免責事項
-5. LINE案内とCTAボタン
-6. フッター
-7. 参考文献（任意）
-8. JSON-LD
+- Write TL;DR as 80-120 Japanese characters.
+- Include at least one concrete number or measurable detail in TL;DR.
+- Build the TOC from actual `##` headings except metadata sections.
+- Use Japanese heading text as anchor ids unless the target file already uses a different established pattern.
+- Replace a plain-text disclaimer with the canonical HTML disclaimer when present.
+- Keep any article-specific references section before the disclaimer block.
 
-## 作業手順
+## Output Expectations
 
-1. 記事タイトル、TL;DR、見出し、セルフケア3項目を確認する
-2. `reference.md` を開き、固定要素テンプレートを取得する
-3. 記事見出しに合わせて目次リンクを調整する
-4. TL;DR と JSON-LD の説明文を一致させる
-5. 研究引用があれば参考文献を追加する
-6. 免責事項、CTA、フッターを記事末尾に入れる
-7. HTMLの閉じ忘れやリンク切れがないか確認する
+After editing, report:
 
-## 出力チェック
-
-- [ ] TL;DR が 80〜120 字程度で入っている
-- [ ] 執筆者情報が入っている
-- [ ] 見出しに対応した目次がある
-- [ ] 免責事項が入っている
-- [ ] CTA とフッターが入っている
-- [ ] 参考文献は必要時のみ挿入している
-- [ ] JSON-LD が記事内容に合っている
-
-## 参照
-
-詳細なHTMLスニペットは [reference.md](reference.md) を参照。
+- which file was modified
+- whether elements were newly inserted or already present
+- any sections that need human confirmation, such as an unusual heading structure or missing numbered self-care steps for JSON-LD `HowTo`

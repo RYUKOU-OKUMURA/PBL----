@@ -1,157 +1,50 @@
 ---
 name: seitai-blog-pasona
-description: 整体院・治療院向けHPブログ記事を執筆するスキル。PASONAフレームワークに基づき、約3000文字の専門的かつ親しみやすい健康コンテンツを作成する。「僕」一人称、です・ます調、専門用語には平易な説明を添える。使用タイミング：(1)整体院・治療院のブログ記事作成、(2)健康・体の不調に関する解説記事、(3)症状別の原因と対策を説明する記事、(4)セルフケア方法を紹介する記事
+description: Write HP blog articles for this repository's seitai or clinic website using the established PASONA-based structure and voice. Use when Codex is asked to draft, rewrite, or expand a 健康ブログ記事, 整体院HP記事, 症状解説記事, セルフケア記事, or repository blog draft that should use first-person `僕`, `です・ます調`, patient-friendly explanations, and an approximately 3000-character flow.
 ---
 
-# 整体院ブログ記事執筆スキル（PASONA版）
+# Seitai Blog PASONA
 
-整体院・治療院のHPブログ記事を、一貫した品質で執筆するためのガイド。
+Use this skill for full website blog articles, not short social or LINE posts. Preserve warmth, specificity, and readable explanations for non-experts.
 
-## 文体・トーン
+## Repository Context
 
-### 基本ルール
-- **一人称**: 「僕」
-- **敬体**: です・ます調
-- **語りかけ**: 「〜なんです」「〜ですよね」など自然に
-- **トーン**: 専門性 × やさしさ × 励まし
+- Read [ブログ記事執筆マスターガイド.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/ブログ記事執筆マスターガイド.md) before drafting.
+- Read [SEO技術ガイド.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/SEO技術ガイド.md) when metadata, structured data, or search framing matters.
+- Review nearby articles in the same series or folder so the new draft does not repeat the last post.
 
-### ミニエピソード
-各記事に匿名の患者事例を1つ以上含める。
+## Workflow
 
-```
-「運動したいけれど、動くと痛い」「整体は受けたいけれど、強い刺激は不安」。
-こんな相談を、僕は日々の現場でよく受けます。先日も、長引く腰の違和感で
-運動を避けてきた50代の方が、「怖くて動けないまま時間だけ過ぎた」と
-お話ししてくれました。
-```
+1. Clarify the article angle, target reader, and repository destination folder.
+2. Gather supporting evidence if the claim needs research support. Use `$pubmed-research` when the article depends on literature.
+3. Draft in PASONA order: reader problem, why it happens, solution direction, three at-home actions, and the next step.
+4. Keep most of the article in natural paragraphs. Use numbered items only for `今日からできること`.
+5. Add the required disclaimer at the end.
+6. If the article is publication-bound, run `$medical-ad-compliance` before finalizing.
 
-### 読みやすさ（モバイルファースト）
-- 段落：2〜4文で改行
-- 本文の70%以上はプレーンな段落
-- 箇条書きは「今日からできること」セクション中心
-- 見出し：`##` と `###` を使用
-- 太字：重要語の最小限強調
-- 目安：約3000文字
+## Voice Rules
 
-## 記事構成（PASONA）
+- Use first-person `僕`.
+- Use `です・ます調`.
+- Speak with professional warmth, not textbook distance.
+- Explain technical terms immediately in plain Japanese or with a short analogy.
+- Include at least one short anonymous patient episode when writing a full article from scratch.
+- Avoid exaggerated guarantees, aggressive sales language, and dense blocks of unexplained jargon.
 
-### 1. はじめに（Problem）
-読者の悩みを代弁し、共感を示す。
+## Structural Rules
 
-**必須要素：**
-- 匿名の短い患者エピソード1つ
-- 読者への共感「〜ですよね」
-- 記事で扱う内容の予告
+- Target roughly 3000 Japanese characters unless the user explicitly wants a different length.
+- Use `##` and `###` headings.
+- Keep paragraph flow natural. Do not turn the whole article into bullets.
+- Make `今日からできること` a numbered list with exactly three actions.
+- Include `痛みが出たら中止` in the self-care section.
+- End with this disclaimer or a meaning-preserving equivalent:
 
-**禁止：** 箇条書き
-
-### 2. なぜ起こるのか（Agitation）
-原因を説明し、放置リスクを淡々と伝える。
-
-**必須要素：**
-- 専門用語→直後に平易な説明
-- 比喩を1つ以上
-- 放置リスク（脅かさず淡々と）
-
-**禁止：** 箇条書き、恐怖を煽る表現
-
-### 3. 解決の方向性（Solution）
-「評価→施術→再評価」の流れを文章で説明する。
-
-**必須要素：**
-- 評価で何を確認するか
-- 施術でどうアプローチするか
-- 再評価で変化を確認すること
-- 段階的に進める旨
-
-**禁止：** 箇条書き
-
-### 4. 今日からできること（Narrow down）
-読者が自宅でできる具体策を3項目、番号付きで提示。
-
-**必須要素：**
-- 目安（回数・時間）を明記
-- 「痛みが出たら中止」を記載
-- 安全で再現性が高い内容
-
-**形式：** 番号付きリスト（1. 2. 3.）
-
-```
-1. 座位の骨盤リセットと呼吸（目安2分×2回/日）
-   椅子に浅く座り、坐骨で座面を感じます。骨盤を前後に小さく転がし、
-   力みの少ない"ちょうど真ん中"を探してください。
-
-2. 首のやさしいストレッチ（目安5回×2セット）
-   顎を引きすぎないよう注意しながら、頭全体を後ろへスライド。
-   痛みがあればそこで止めましょう。
-
-3. 立ち上がりの分解練習（目安5回×2セット）
-   椅子から立つ直前で一瞬止まり、ゆっくり立ってゆっくり座る。
-```
-
-### 5. まとめと次の一歩（Action）
-要点を再掲し、前向きなメッセージで締める。
-
-**必須要素：**
-- 記事の要点をやさしく再掲
-- 「できることから少しずつ」など励まし
-- 相談・予約への導線（自然に）
-
-**禁止：** 箇条書き
-
-## 専門用語の平易化
-
-専門用語を使ったら、**直後に**平易な説明・比喩を補う。
-
-| 専門用語 | 平易な説明 |
-|---------|----------|
-| 神経筋制御 | 筋肉と神経のチームワーク |
-| ウィークリンク | 動作の鎖の中の弱い環 |
-| 免荷 | 体重の一部を預けて負担を軽くする工夫 |
-| 不安定性 | 小さな揺れで微調整を引き出す刺激 |
-| トリガーポイント | 筋肉の中の小さな結び目 |
-| 筋膜癒着 | 洗濯物が絡まったようにくっつく状態 |
-| 代償動作 | かばう動き |
-| 可動域 | 関節が動く範囲 |
-| アライメント | 骨や関節の並び・配列 |
-
-**例文：**
-```
-ここで鍵になるのが「神経筋制御」です。神経筋制御とは、筋肉と神経の
-チームワークのこと。簡単に言うと「どの筋肉を、どの順番で、どの強さで
-働かせるか」を指揮する指揮者の役割です。
-```
-
-## 安全・コンプライアンス
-
-### 必須ディスクレーマー（記事末尾）
-```
+```md
 本記事は一般情報であり、個別の診断・治療を提供するものではありません。
 痛みや違和感が出たら中止し、必要に応じて専門家へご相談ください。
 ```
 
-### 禁止表現
-- 誇大表現：「完治」「100%」「即効性」「必ず治る」
-- 断定的な効果保証
-- 他者・他院の誹謗
-- 数値の断定（「約」「目安」を添える）
+## Save Path
 
-### セルフケア記載時の注意
-- 「痛みが出たら中止」を必ず明記
-- 禁忌がある場合は注意喚起
-- 無理をさせない表現を心がける
-
-## 品質チェックリスト
-
-記事完成時に確認：
-
-- [ ] 一人称が「僕」で統一
-- [ ] です・ます調で語尾に揺れがない
-- [ ] 専門用語→直後に平易説明がある
-- [ ] 匿名の患者エピソードが1つ以上ある
-- [ ] PASONA構成（はじめに→なぜ→解決→今日から→まとめ）
-- [ ] 「今日からできること」が3項目ある
-- [ ] 「痛みが出たら中止」が記載されている
-- [ ] 誇大表現がない
-- [ ] ディスクレーマーがある
-- [ ] 約3000文字
+If the user asks you to save the draft and does not specify a destination, default to `HPブログ記事/投稿前/`.

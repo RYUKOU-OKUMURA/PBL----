@@ -1,0 +1,4 @@
+interface:
+  display_name: "PubMed Research"
+  short_description: "PubMedで健康記事向け論文を検索して要約整理するスキル"
+  default_prompt: "Use $pubmed-research to gather PubMed evidence for this medical content topic and summarize the strongest papers."
