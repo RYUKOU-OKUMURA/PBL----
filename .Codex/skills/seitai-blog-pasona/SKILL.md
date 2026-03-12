@@ -28,6 +28,10 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 - Use `です・ます調`.
 - Speak with professional warmth, not textbook distance.
 - Explain technical terms immediately in plain Japanese or with a short analogy.
+- Use patient-friendly search language in `title`, `H1`, `TL;DR`, `excerpt`, and major `H2` headings. Keep formal technical terms only where they improve precision or match real search intent.
+- When a technical term matters for SEO or accuracy, introduce it once in the first half of the article as `平易語（専門語）` or `専門語、つまり平易語`, then use the plain term for most later mentions.
+- Avoid raw clinician-facing terms in body copy, such as `介入`, `個別化`, `エビデンス強度`, and `生活機能スコア`. Rewrite them as patient-friendly phrases like `調整`, `その人に合わせること`, `研究の確かさ`, and `日常生活のつらさ`.
+- In body text, introduce studies as `2025年の研究では` or `複数の研究をまとめたレビューでは`. Keep researcher names in references unless naming them is genuinely necessary.
 - Include at least one short anonymous patient episode when writing a full article from scratch.
 - Avoid exaggerated guarantees, aggressive sales language, and dense blocks of unexplained jargon.
 
@@ -36,6 +40,7 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 - Target roughly 3000 Japanese characters unless the user explicitly wants a different length.
 - Use `##` and `###` headings.
 - Keep paragraph flow natural. Do not turn the whole article into bullets.
+- Keep the reader-facing wording softer than the internal outline. For example, describe the solution flow as `今の状態を確認する → 無理のない調整を進める → 変化を確かめる`, not bare clinician shorthand like `評価→介入→再評価`.
 - Make `今日からできること` a numbered list with exactly three actions.
 - Include `痛みが出たら中止` in the self-care section.
 - End with this disclaimer or a meaning-preserving equivalent:
