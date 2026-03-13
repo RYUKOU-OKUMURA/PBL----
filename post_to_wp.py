@@ -1126,7 +1126,8 @@ def post_to_wordpress(
     slug: Optional[str] = None,
     date: Optional[str] = None,
     excerpt: Optional[str] = None,
-    featured_media: Optional[int] = None
+    featured_media: Optional[int] = None,
+    post_id: Optional[int] = None
 ) -> requests.Response:
     """
     WordPressにコンテンツを投稿する。
@@ -1142,6 +1143,7 @@ def post_to_wordpress(
         date: 投稿日時（ISO 8601形式）
         excerpt: 抜粋
         featured_media: アイキャッチ画像のメディアID
+        post_id: 更新対象の投稿ID。指定時は既存投稿を更新する
     
     Returns:
         requests.Response: APIレスポンス
@@ -1150,6 +1152,8 @@ def post_to_wordpress(
         SystemExit: 接続エラー時
     """
     endpoint = f"{config['WP_URL']}/wp-json/wp/v2/posts"
+    if post_id is not None:
+        endpoint = f"{endpoint}/{post_id}"
     
     # 投稿データ
     post_data = {
@@ -1159,11 +1163,11 @@ def post_to_wordpress(
     }
     
     # オプションパラメータを追加
-    if categories:
+    if categories is not None:
         post_data['categories'] = categories
         logger.debug(f"カテゴリID: {categories}")
     
-    if tags:
+    if tags is not None:
         post_data['tags'] = tags
         logger.debug(f"タグID: {tags}")
     
@@ -1185,6 +1189,8 @@ def post_to_wordpress(
     
     logger.debug(f"投稿先: {endpoint}")
     logger.debug(f"ステータス: {status}")
+    if post_id is not None:
+        logger.debug(f"更新対象投稿ID: {post_id}")
     
     try:
         response = requests.post(
@@ -1235,16 +1241,21 @@ def print_success(response: requests.Response, config: dict) -> None:
     post_id = data.get('id')
     post_link = data.get('link')
     post_status = data.get('status')
+    post_categories = data.get('categories')
+    post_tags = data.get('tags')
     
     # 編集URL
     edit_url = f"{config['WP_URL']}/wp-admin/post.php?post={post_id}&action=edit"
     
+    action_label = "投稿が完了しました！" if response.status_code == 201 else "投稿の更新が完了しました！"
     logger.info("=" * 50)
-    logger.info("投稿が完了しました！")
+    logger.info(action_label)
     logger.info("=" * 50)
     logger.info(f"投稿ID: {post_id}")
     logger.info(f"ステータス: {post_status}")
     logger.info(f"編集URL: {edit_url}")
+    logger.info(f"カテゴリID: {post_categories}")
+    logger.info(f"タグID: {post_tags}")
     
     if post_status == 'publish':
         logger.info(f"公開URL: {post_link}")
@@ -1330,7 +1341,7 @@ def handle_response(response: requests.Response, config: dict) -> None:
         response: APIレスポンス
         config: 設定辞書
     """
-    if response.status_code == 201:
+    if response.status_code in (200, 201):
         print_success(response, config)
     else:
         print_error(response)
@@ -1358,6 +1369,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
   python post_to_wp.py articles/sample.md -v        # 詳細ログ付きで投稿
   python post_to_wp.py articles/page.html           # HTMLファイルを投稿
   python post_to_wp.py articles/sample.md --create-terms  # カテゴリ/タグを自動作成
+  python post_to_wp.py articles/sample.md --update-post-id 123  # 既存投稿を更新
 
 Front Matter対応:
   Markdownファイルの先頭に以下のYAML形式でメタデータを指定できます:
@@ -1410,6 +1422,12 @@ Front Matter対応:
         '--create-terms',
         action='store_true',
         help='存在しないカテゴリ/タグを自動作成'
+    )
+
+    parser.add_argument(
+        '--update-post-id',
+        type=int,
+        help='指定した投稿IDの既存下書き/投稿を更新する'
     )
     
     # アイキャッチ画像オプション
@@ -1498,23 +1516,25 @@ def main():
     category_ids = None
     tag_ids = None
     
-    if 'categories' in metadata and metadata['categories']:
+    if 'categories' in metadata:
         categories = metadata['categories']
-        if isinstance(categories, str):
+        if categories is None:
+            categories = []
+        elif isinstance(categories, str):
             categories = [categories]
         logger.info(f"カテゴリを解決中: {categories}")
-        category_ids = resolve_category_ids(config, categories, args.create_terms)
-        if category_ids:
-            logger.info(f"カテゴリID: {category_ids}")
+        category_ids = resolve_category_ids(config, categories, args.create_terms) if categories else []
+        logger.info(f"カテゴリID: {category_ids}")
     
-    if 'tags' in metadata and metadata['tags']:
+    if 'tags' in metadata:
         tags = metadata['tags']
-        if isinstance(tags, str):
+        if tags is None:
+            tags = []
+        elif isinstance(tags, str):
             tags = [tags]
         logger.info(f"タグを解決中: {tags}")
-        tag_ids = resolve_tag_ids(config, tags, args.create_terms)
-        if tag_ids:
-            logger.info(f"タグID: {tag_ids}")
+        tag_ids = resolve_tag_ids(config, tags, args.create_terms) if tags else []
+        logger.info(f"タグID: {tag_ids}")
     
     # その他のメタデータ
     slug = metadata.get('slug')
@@ -1585,7 +1605,8 @@ def main():
         slug=slug,
         date=date,
         excerpt=excerpt,
-        featured_media=featured_media_id
+        featured_media=featured_media_id,
+        post_id=args.update_post_id
     )
     
     # レスポンス処理
