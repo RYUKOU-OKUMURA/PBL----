@@ -1,0 +1,10 @@
+# post_to_wp.py
+requests>=2.28.0
+markdown2>=2.4.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# analyze_content_seo.py（GA4 × WordPress × Search Console 統合分析）
+google-analytics-data>=0.17.0
+google-api-python-client>=2.100.0
+google-auth>=2.22.0

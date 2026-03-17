@@ -379,7 +379,7 @@ def get_category_id(
         # 名前で検索
         response = requests.get(
             endpoint,
-            params={'search': category_name},
+            params={'search': category_name, 'per_page': 100},
             auth=HTTPBasicAuth(config['WP_USER'], config['WP_APP_PASSWORD']),
             timeout=30
         )
@@ -460,7 +460,7 @@ def get_tag_id(
         # 名前で検索
         response = requests.get(
             endpoint,
-            params={'search': tag_name},
+            params={'search': tag_name, 'per_page': 100},
             auth=HTTPBasicAuth(config['WP_USER'], config['WP_APP_PASSWORD']),
             timeout=30
         )
@@ -565,6 +565,75 @@ def resolve_tag_ids(
         if tag_id is not None:
             tag_ids.append(tag_id)
     return tag_ids
+
+
+# =============================================================================
+# Phase 2-2.5: WordPress記事一覧取得（分析用）
+# =============================================================================
+
+def fetch_wp_posts(
+    config: dict,
+    per_page: int = 100,
+    status: str = 'publish',
+    fields: Optional[List[str]] = None
+) -> List[Dict[str, Any]]:
+    """
+    WordPressから投稿一覧を取得する（分析・GA4マージ用）。
+    
+    Args:
+        config: 設定辞書（WP_URL, WP_USER, WP_APP_PASSWORD）
+        per_page: 1リクエストあたりの取得件数（最大100）
+        status: 投稿ステータス（'publish', 'draft', 'private' など）
+        fields: 取得するフィールドのリスト。Noneの場合は id,title,slug,link,date,modified,tags,categories,excerpt
+    
+    Returns:
+        List[Dict]: 投稿のリスト。各要素は id, title, slug, link, date, tags, categories 等を含む
+    
+    Note:
+        URL構造が https://physical-balance-lab.com/1714/ の場合、
+        link のパス部分（/1714/）をGA4の pagePath と照合する。
+    """
+    if fields is None:
+        fields = ['id', 'title', 'slug', 'link', 'date', 'modified', 'tags', 'categories', 'excerpt']
+    
+    endpoint = f"{config['WP_URL']}/wp-json/wp/v2/posts"
+    all_posts = []
+    page = 1
+    
+    while True:
+        try:
+            params = {
+                'status': status,
+                'per_page': per_page,
+                'page': page,
+                '_fields': ','.join(fields),
+            }
+            response = requests.get(
+                endpoint,
+                params=params,
+                auth=HTTPBasicAuth(config['WP_USER'], config['WP_APP_PASSWORD']),
+                timeout=30
+            )
+            
+            if response.status_code != 200:
+                logger.warning(f"WordPress API エラー [{response.status_code}]: {response.text[:200]}")
+                break
+            
+            posts = response.json()
+            if not posts:
+                break
+            
+            all_posts.extend(posts)
+            if len(posts) < per_page:
+                break
+            page += 1
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"WordPress 記事取得中にエラー: {e}")
+            break
+    
+    logger.info(f"WordPress から {len(all_posts)} 件の投稿を取得しました")
+    return all_posts
 
 
 # =============================================================================
@@ -695,19 +764,19 @@ def find_local_images(content: str, base_path: str) -> List[Dict[str, str]]:
             logger.debug(f"データURI画像をスキップ")
             continue
         
-        # すでにMarkdownパターンで検出済みかチェック（重複回避）
-        if any(img['original'] == image_path for img in images):
+        # 絶対パスを先に解決（重複チェックで使用）
+        if os.path.isabs(image_path):
+            absolute_path = Path(image_path)
+        else:
+            absolute_path = (base_dir / image_path).resolve()
+        
+        # すでに同じファイルが検出済みかチェック（絶対パスで重複回避）
+        if any(img['absolute'] == str(absolute_path) for img in images):
             continue
         
         # alt属性を抽出
         alt_match = alt_pattern.search(full_tag)
         alt_text = alt_match.group(1) if alt_match else ''
-        
-        # 絶対パスまたは相対パスを解決
-        if os.path.isabs(image_path):
-            absolute_path = Path(image_path)
-        else:
-            absolute_path = (base_dir / image_path).resolve()
         
         # ファイルが存在するかチェック
         if absolute_path.exists() and absolute_path.is_file():
