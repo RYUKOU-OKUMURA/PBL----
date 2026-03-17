@@ -53,15 +53,20 @@ python analyze_content_seo.py
 python analyze_content_seo.py --start 2025-01-01 --end 2025-01-31
 
 # JSON出力
-python analyze_content_seo.py --format json -o 03_研究資料・レビュー/analysis.json
+python analyze_content_seo.py --format json -o Analytics/analysis.json
 
 # WordPress のみ取得（GA4/GSC 未設定時）
 python analyze_content_seo.py --wp-only
+
+# 別フォルダに出力
+python analyze_content_seo.py --output-dir 分析結果/2025-03
 ```
 
 ## 出力
 
-- **メインCSV**: 記事別の PV・セッション・GSC クリック・インプレッション
+デフォルトの出力先: `Analytics/` フォルダ
+
+- **メインCSV** (`ga4_wp_gsc_analysis.csv`): 記事別の PV・セッション・GSC クリック・インプレッション
 - **クエリ別CSV** (`*_queries.csv`): 検索クエリ×ページのインプレッション・クリック・順位
 
 ## MCP と Python の推奨

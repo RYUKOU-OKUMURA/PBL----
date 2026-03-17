@@ -469,8 +469,13 @@ def main() -> None:
     )
     parser.add_argument(
         "-o", "--output",
-        default="03_研究資料・レビュー/ga4_wp_gsc_analysis.csv",
+        default="Analytics/ga4_wp_gsc_analysis.csv",
         help="出力ファイルパス",
+    )
+    parser.add_argument(
+        "--output-dir",
+        metavar="DIR",
+        help="出力先フォルダを指定（メインCSV・クエリCSVの両方をこのフォルダに保存）",
     )
     parser.add_argument(
         "--format",
@@ -490,6 +495,13 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    output_path = args.output
+    if args.output_dir:
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        ext = "json" if args.format == "json" else "csv"
+        output_path = str(output_dir / f"ga4_wp_gsc_analysis.{ext}")
+
     setup_logging(verbose=args.verbose)
     config = load_analysis_config()
 
@@ -497,7 +509,7 @@ def main() -> None:
     ga4_rows = [] if args.wp_only else fetch_ga4_page_report(config, args.start, args.end)
     gsc_rows = [] if args.wp_only else fetch_gsc_search_analytics(config, args.start, args.end)
 
-    merge_and_output(wp_posts, ga4_rows, gsc_rows, args.output, args.format)
+    merge_and_output(wp_posts, ga4_rows, gsc_rows, output_path, args.format)
 
 
 if __name__ == "__main__":
