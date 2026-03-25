@@ -165,3 +165,29 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 **今後の対策**:
 - 複数記事のQAチェックを実行する場合、1記事ずつ順番に実行するか、3つ以内のTaskに分割して実行する
 - TeamCreateを使用する場合は、必ず完了後にTeamDeleteを実行し、リソースを適切に管理する
+
+---
+
+## Cursor Cloud specific instructions
+
+### 環境概要
+- Python 3.12 + `requirements.txt` で依存管理
+- 主要スクリプト: `post_to_wp.py`（WordPress投稿CLI）、`analyze_content_seo.py`（GA4×WP×GSC統合分析）、`Analytics/*.py`（各種分析）
+- コンテンツ（Markdown記事）は `HPブログ記事/` と `LINEコラム/` に格納
+- `ai-team/` はtmuxベースのマルチエージェントデモ（オプション）
+
+### サービス起動
+- このリポジトリは「常時起動するサーバー」を持たない。スクリプトはすべてCLIツールとして実行する
+- `post_to_wp.py` は外部WordPress REST APIに接続するため、`.env` にWP認証情報（`WP_URL`, `WP_USER`, `WP_APP_PASSWORD`）が必要
+- `analyze_content_seo.py` と `Analytics/*.py` はGoogle Cloud サービスアカウントJSONが必要（`GOOGLE_APPLICATION_CREDENTIALS`）。ローカルパスが`.env`に設定されているため、Cloud VM上では動作しない
+
+### テスト方法
+- 自動テストスイートは存在しない
+- `post_to_wp.py --help` でCLIが正常にロードされることを確認できる
+- `python3 -c "from post_to_wp import parse_front_matter, convert_markdown_to_html; print('OK')"` でインポート検証可能
+- 実際のWordPress投稿テストには有効な`.env`認証情報と外部WPサイトへの接続が必要
+
+### 注意点
+- `pip install` はユーザーインストール（`~/.local/`）になる場合がある。`~/.local/bin` がPATHに含まれていることを確認
+- ファイル名に日本語が含まれるため、globパターンやシェルコマンドでの取り扱いに注意
+- `.env` ファイルはgit管理外。`.env.example` をテンプレートとして使用する
