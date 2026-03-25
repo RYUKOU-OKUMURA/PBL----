@@ -165,3 +165,35 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 **今後の対策**:
 - 複数記事のQAチェックを実行する場合、1記事ずつ順番に実行するか、3つ以内のTaskに分割して実行する
 - TeamCreateを使用する場合は、必ず完了後にTeamDeleteを実行し、リソースを適切に管理する
+
+---
+
+## Cursor Cloud specific instructions
+
+### 概要
+
+このプロジェクトはPython製のコンテンツ管理・WordPress投稿ワークフローです。フロントエンドやデータベースはなく、主な実行対象は以下のPythonスクリプトです:
+
+- `post_to_wp.py` — Markdown/HTMLをWordPressに投稿するCLIツール
+- `analyze_content_seo.py` — GA4 x WordPress x Search Console統合分析
+- `Analytics/*.py` — 各種分析スクリプト
+
+### 依存関係
+
+`pip install -r requirements.txt` で全依存関係がインストールされます。VM起動時のupdate scriptで自動実行されます。
+
+### 環境変数
+
+`.env` ファイルにWordPress・GA4・Search Consoleの認証情報が設定済みです。変更が必要な場合は `.env.example` を参照してください。
+
+### 動作確認コマンド
+
+- `python3 post_to_wp.py --help` — WordPress投稿ツールのヘルプ表示
+- `python3 post_to_wp.py <markdown_file> --draft` — 下書きとして投稿
+- `python3 analyze_content_seo.py --wp-only` — WordPress記事一覧をCSV出力（GA4/GSC不要）
+
+### 注意事項
+
+- テストフレームワーク（pytest等）やリンター（flake8等）はこのプロジェクトには含まれていません。コード品質チェックは手動で `python3 -c "import post_to_wp"` 等のimportテストで代用してください。
+- `post_to_wp.py` は実際のWordPressサイトにPOSTするため、テスト時は必ず `--draft` オプションを使用してください。
+- GA4・Search Console関連機能にはGoogle Cloudサービスアカウントキーが必要ですが、`--wp-only` フラグで WordPress のみの分析が可能です。
