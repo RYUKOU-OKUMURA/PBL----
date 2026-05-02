@@ -20,7 +20,7 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 3. Draft in PASONA order: reader problem, why it happens, solution direction, three at-home actions, and the next step.
 4. Keep most of the article in natural paragraphs. Use numbered items only for `今日からできること`.
 5. Add the required disclaimer at the end.
-6. If the article is publication-bound, run `$medical-ad-compliance` before finalizing.
+6. If the article is publication-bound, insert WordPress fixed elements before final QA, then run `$medical-ad-compliance` on the full article including TL;DR, author block, CTA, footer, and JSON-LD.
 
 ## Voice Rules
 
@@ -32,7 +32,8 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 - When a technical term matters for SEO or accuracy, introduce it once in the first half of the article as `平易語（専門語）` or `専門語、つまり平易語`, then use the plain term for most later mentions.
 - Avoid raw clinician-facing terms in body copy, such as `介入`, `個別化`, `エビデンス強度`, and `生活機能スコア`. Rewrite them as patient-friendly phrases like `調整`, `その人に合わせること`, `研究の確かさ`, and `日常生活のつらさ`.
 - In body text, introduce studies as `2025年の研究では` or `複数の研究をまとめたレビューでは`. Keep researcher names in references unless naming them is genuinely necessary.
-- Include at least one short anonymous patient episode when writing a full article from scratch.
+- Include at least one short anonymous patient consultation example when writing a full article from scratch.
+- Keep anonymous episodes to common worries or de-identified intake concerns. Do not describe treatment results, post-treatment changes, before/after comparisons, or testimonial-style efficacy claims.
 - Avoid exaggerated guarantees, aggressive sales language, and dense blocks of unexplained jargon.
 
 ## Structural Rules

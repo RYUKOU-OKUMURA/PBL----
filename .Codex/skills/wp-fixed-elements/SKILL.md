@@ -20,6 +20,7 @@ Use this skill only for repository HP blog articles. Edit the article in place a
 5. Preserve `## メタディスクリプション` and `## サジェストキーワード` sections.
 6. Add or replace front matter `tags:` with the repository's required tag set.
 7. Verify the result is still readable markdown-plus-HTML and that no block was duplicated.
+8. Treat the inserted fixed elements as part of the article's final QA scope. Publication-bound drafts must be checked by `$medical-ad-compliance` after this step.
 
 ## Generation Rules
 
@@ -36,4 +37,5 @@ After editing, report:
 
 - which file was modified
 - whether elements were newly inserted or already present
+- that the full article, including fixed elements, still needs final style/compliance/character QA before posting
 - any sections that need human confirmation, such as an unusual heading structure or missing numbered self-care steps for JSON-LD `HowTo`
