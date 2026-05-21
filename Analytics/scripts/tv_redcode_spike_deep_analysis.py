@@ -16,7 +16,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env")
 
 try:
@@ -99,7 +99,7 @@ def parse_date_hour(s: str) -> datetime:
 
 
 def main() -> None:
-    out_dir = ROOT / "Analytics" / f"tv_redcode_deep_{date.today().isoformat()}"
+    out_dir = ROOT / "Analytics" / "projects" / f"{date.today().strftime('%Y-%m')}_tv-redcode"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     client, prop = _ga_client()

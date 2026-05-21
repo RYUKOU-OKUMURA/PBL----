@@ -21,7 +21,7 @@
 
 - 期間中のクリック合計 **約 2,644** / インプレ **約 73,029**
 
-- CSV: `Analytics/search_barrier_2026-03-21/gsc_monthly_site.csv`
+- CSV: `Analytics/projects/2026-03_search-barrier/gsc_monthly_site.csv`
 
 
 ### 直近6ヶ月 vs その前6ヶ月（おおまか）

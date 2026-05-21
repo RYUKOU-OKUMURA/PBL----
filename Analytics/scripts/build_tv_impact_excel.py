@@ -11,7 +11,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env")
 
 try:
@@ -291,7 +291,9 @@ def main() -> None:
     for r in range(1, len(strategy) + 1):
         ws3.cell(r, 2).alignment = Alignment(wrap_text=True, vertical="top")
 
-    out_path = ROOT / "Analytics" / f"TV放映_検索順位とアクセス比較_{today.isoformat()}.xlsx"
+    out_dir = ROOT / "Analytics" / "projects" / f"{today.strftime('%Y-%m')}_tv-redcode"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"TV放映_検索順位とアクセス比較_{today.isoformat()}.xlsx"
     wb.save(out_path)
     print(f"保存: {out_path}")
 

@@ -9,5 +9,5 @@ google-analytics-data>=0.17.0
 google-api-python-client>=2.100.0
 google-auth>=2.22.0
 
-# Excel レポート（Analytics/build_tv_impact_excel.py）
+# Excel レポート（Analytics/scripts/build_tv_impact_excel.py）
 openpyxl>=3.1.0

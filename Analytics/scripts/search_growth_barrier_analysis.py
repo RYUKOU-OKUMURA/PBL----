@@ -22,7 +22,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(ROOT / ".env")
 
 try:
@@ -107,7 +107,7 @@ def weighted_avg_position(rows: list) -> float | None:
 
 def main() -> None:
     service, site = gsc_service()
-    out_dir = ROOT / "Analytics" / f"search_barrier_{date.today().isoformat()}"
+    out_dir = ROOT / "Analytics" / "projects" / f"{date.today().strftime('%Y-%m')}_search-barrier"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # 日付: 16ヶ月前〜今日（GSCの保持上限付近）

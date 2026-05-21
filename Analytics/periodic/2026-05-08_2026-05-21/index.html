@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>フィジカルバランスラボ整体院 アクセスレポート (2026-05-08 〜 2026-05-21)</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px 16px 48px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f8; color: #1f2937; line-height: 1.6;
+    }
+    .container { max-width: 1080px; margin: 0 auto; }
+    h1 { font-size: 1.6rem; margin: 0 0 8px; }
+    h2 { font-size: 1.15rem; margin: 32px 0 12px; border-left: 4px solid #2563eb; padding-left: 10px; }
+    .meta { color: #6b7280; font-size: 0.92rem; margin-bottom: 24px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .card {
+      background: #fff; border-radius: 10px; padding: 14px 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+    .card .label { font-size: 0.78rem; color: #6b7280; margin-bottom: 4px; }
+    .card .value { font-size: 1.35rem; font-weight: 700; }
+    .card .sub { font-size: 0.78rem; color: #059669; margin-top: 4px; }
+    .card .sub.negative { color: #dc2626; }
+    table {
+      width: 100%; border-collapse: collapse; background: #fff;
+      border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 0.92rem; }
+    th { background: #eff6ff; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    .chart-wrap {
+      background: #fff; border-radius: 10px; padding: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+    .footer { margin-top: 32px; color: #6b7280; font-size: 0.85rem; }
+    .footer a { color: #2563eb; }
+    .nav { margin-bottom: 16px; }
+    .nav a { color: #2563eb; text-decoration: none; }
+    .badge {
+      display: inline-block; background: #dbeafe; color: #1d4ed8;
+      font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; margin-left: 8px;
+    }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav"><a href="../../index.html">← Analytics ダッシュボード</a></div>
+    <h1>フィジカルバランスラボ整体院 HP アクセスレポート</h1>
+    <p class="meta">集計期間: 2026-05-08 〜 2026-05-21 ／ 生成: 2026-05-21 16:03</p>
+
+    <h2>サマリー</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="label">ページビュー（記事行合計）</div>
+        <div class="value">524</div>
+      </div>
+      <div class="card">
+        <div class="label">セッション（記事行合計）</div>
+        <div class="value">423</div>
+      </div>
+      <div class="card">
+        <div class="label">エンゲージドセッション</div>
+        <div class="value">274</div>
+      </div>
+      <div class="card">
+        <div class="label">GSC クリック</div>
+        <div class="value">25</div>
+      </div>
+      <div class="card">
+        <div class="label">GSC インプレッション</div>
+        <div class="value">1,924</div>
+      </div>
+      <div class="card">
+        <div class="label">GSC CTR</div>
+        <div class="value">1.30%</div>
+      </div>
+      
+            <div class="card">
+              <div class="label">GA4 セッション（サイト全体）</div>
+              <div class="value">512</div>
+              <div class="sub">前期比 +9.6%</div>
+            </div>
+            <div class="card">
+              <div class="label">GA4 PV（サイト全体）</div>
+              <div class="value">926</div>
+              <div class="sub">前期比 +14.5%</div>
+            </div>
+            <div class="card">
+              <div class="label">GA4 ユーザー（サイト全体）</div>
+              <div class="value">477</div>
+              <div class="sub">前期比 +8.4%</div>
+            </div>
+    </div>
+    <p class="meta">前期比は GA4 サイト全体の 2026-04-24 〜 2026-05-07 と比較。</p>
+
+    
+        <h2>日次セッション</h2>
+        <div class="chart-wrap"><canvas id="dailyChart" height="100"></canvas></div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <script>
+        new Chart(document.getElementById('dailyChart'), {
+          type: 'line',
+          data: {
+            labels: ["2026-05-08", "2026-05-09", "2026-05-10", "2026-05-11", "2026-05-12", "2026-05-13", "2026-05-14", "2026-05-15", "2026-05-16", "2026-05-17", "2026-05-18", "2026-05-19", "2026-05-20", "2026-05-21"],
+            datasets: [{
+              label: 'セッション',
+              data: [30, 34, 40, 37, 38, 47, 39, 32, 27, 28, 53, 44, 49, 14],
+              borderColor: '#2563eb',
+              backgroundColor: 'rgba(37,99,235,0.12)',
+              fill: true,
+              tension: 0.25,
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+        </script>
+
+    <h2>記事 TOP10</h2>
+    <table>
+      <thead><tr><th>#</th><th>タイトル</th><th>PV</th><th>セッション</th><th>GSCクリック</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><a href="https://physical-balance-lab.com/976/" target="_blank" rel="noopener">【脊柱側弯症手術後の痛み – 半数以上が経験する長期的な苦痛への理解を深める】</a></td>
+          <td>97</td>
+          <td>92</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="https://physical-balance-lab.com/1176/" target="_blank" rel="noopener">【側弯症解説シリーズ】第5回：意外と知らない！脊柱側弯症と股関節・骨盤の密接な関係！</a></td>
+          <td>72</td>
+          <td>57</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><a href="https://physical-balance-lab.com/1182/" target="_blank" rel="noopener">【側弯症解説シリーズ】第7回：脊柱側弯症で変わる歩き方と背中の筋肉の働き〜気づかない身体の変化と簡単改善法〜</a></td>
+          <td>67</td>
+          <td>51</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><a href="https://physical-balance-lab.com/965/" target="_blank" rel="noopener">【脊柱側弯症の装具治療、種類と選び方のポイントを徹底解説！】</a></td>
+          <td>37</td>
+          <td>29</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><a href="https://physical-balance-lab.com/441/" target="_blank" rel="noopener">【パルス電磁場療法（PEMF）の概要と解説】</a></td>
+          <td>23</td>
+          <td>20</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><a href="https://physical-balance-lab.com/1063/" target="_blank" rel="noopener">【腰痛】意外と知らない！体育座りの光と影 〜治療家が解説する正しい使い方〜</a></td>
+          <td>16</td>
+          <td>17</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><a href="https://physical-balance-lab.com/1741/" target="_blank" rel="noopener">肩の高さが左右で違うのはなぜ？胸郭のねじれと体幹の非対称をやさしく解説</a></td>
+          <td>14</td>
+          <td>4</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><a href="https://physical-balance-lab.com/1173/" target="_blank" rel="noopener">【側弯症解説シリーズ】第4回：脊柱の動きを取り戻そう！脊柱側弯症があると硬くなる胸椎・腰椎の可動域制限について！</a></td>
+          <td>14</td>
+          <td>13</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><a href="https://physical-balance-lab.com/1092/" target="_blank" rel="noopener">大人の脊柱側弯症、手術が必要なときって？―分かりやすく解説します</a></td>
+          <td>13</td>
+          <td>7</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><a href="https://physical-balance-lab.com/1169/" target="_blank" rel="noopener">【側弯症解説シリーズ】第2回：側弯症と動きの制限の関係って？知っておきたい関節可動域のお話</a></td>
+          <td>11</td>
+          <td>6</td>
+          <td>0</td>
+        </tr></tbody>
+    </table>
+
+    <h2>検索クエリ TOP10</h2>
+    <table>
+      <thead><tr><th>#</th><th>クエリ</th><th>クリック</th><th>インプレ</th><th>平均順位</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>側 弯症 手術後 できない こと</td>
+          <td>5</td>
+          <td>347</td>
+          <td>11.0</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>無重力整体</td>
+          <td>3</td>
+          <td>54</td>
+          <td>8.3</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>無重力整体 レッドコード</td>
+          <td>3</td>
+          <td>12</td>
+          <td>3.0</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>側 弯症 手術後 痛み いつまで</td>
+          <td>2</td>
+          <td>49</td>
+          <td>6.3</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>レッドコード整体</td>
+          <td>2</td>
+          <td>30</td>
+          <td>3.2</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>側 弯症 歩行 特徴</td>
+          <td>2</td>
+          <td>17</td>
+          <td>3.4</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>側弯症 術後 痛み</td>
+          <td>2</td>
+          <td>13</td>
+          <td>4.5</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>無重力 整体 レッドコード</td>
+          <td>2</td>
+          <td>9</td>
+          <td>2.4</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>タバコ 背中痛い</td>
+          <td>1</td>
+          <td>29</td>
+          <td>8.2</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>レッドコード 整体</td>
+          <td>1</td>
+          <td>25</td>
+          <td>8.0</td>
+        </tr></tbody>
+    </table>
+
+    <div class="footer">
+      <p>データソース: GA4 / Google Search Console / WordPress</p>
+      <p>CSV: <a href="ga4_wp_gsc_analysis.csv">ga4_wp_gsc_analysis.csv</a> / <a href="ga4_wp_gsc_analysis_queries.csv">ga4_wp_gsc_analysis_queries.csv</a></p>
+    </div>
+  </div>
+</body>
+</html>

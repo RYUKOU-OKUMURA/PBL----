@@ -4,7 +4,7 @@
 
 ## 1. 時間帯別（放映日前後）
 
-- 出力: `Analytics/tv_redcode_deep_2026-03-21/ga4_hourly_sessions.csv`
+- 出力: `Analytics/projects/2026-03_tv-redcode/ga4_hourly_sessions.csv`
 
 ### セッションが多かった時間帯 TOP15
 
@@ -38,9 +38,9 @@
 
 ## 2. ランディングページ
 
-- スパイク期（3/17–3/20）: `Analytics/tv_redcode_deep_2026-03-21/ga4_landing_pages_spike_0317_0320.csv`
+- スパイク期（3/17–3/20）: `Analytics/projects/2026-03_tv-redcode/ga4_landing_pages_spike_0317_0320.csv`
 
-- 比較用 通常週（3/10–3/16）: `Analytics/tv_redcode_deep_2026-03-21/ga4_landing_pages_control_0310_0316.csv`
+- 比較用 通常週（3/10–3/16）: `Analytics/projects/2026-03_tv-redcode/ga4_landing_pages_control_0310_0316.csv`
 
 ### スパイク期（3/17–3/20）ランディング TOP15
 
@@ -64,9 +64,9 @@
 
 ## 3. 流入ソース × メディア
 
-- スパイク期: `Analytics/tv_redcode_deep_2026-03-21/ga4_source_medium_spike.csv`
+- スパイク期: `Analytics/projects/2026-03_tv-redcode/ga4_source_medium_spike.csv`
 
-- 通常週: `Analytics/tv_redcode_deep_2026-03-21/ga4_source_medium_control.csv`
+- 通常週: `Analytics/projects/2026-03_tv-redcode/ga4_source_medium_control.csv`
 
 ### スパイク期 TOP20（source / medium）
 
@@ -84,9 +84,9 @@
 
 ## 4. デバイスカテゴリ
 
-- スパイク期: `Analytics/tv_redcode_deep_2026-03-21/ga4_device_spike.csv`
+- スパイク期: `Analytics/projects/2026-03_tv-redcode/ga4_device_spike.csv`
 
-- 通常週: `Analytics/tv_redcode_deep_2026-03-21/ga4_device_control.csv`
+- 通常週: `Analytics/projects/2026-03_tv-redcode/ga4_device_control.csv`
 
 ### スパイク期のデバイス構成比（セッション）
 
@@ -105,7 +105,7 @@
 
 - 放映前: クリック **0**, インプレ **0**（該当クエリ行 0）
 - 放映後: クリック **344**, インプレ **2,937**（該当クエリ行 18）
-- 詳細CSV（放映後）: `Analytics/tv_redcode_deep_2026-03-21/gsc_queries_brand_contains_レッド.csv`
+- 詳細CSV（放映後）: `Analytics/projects/2026-03_tv-redcode/gsc_queries_brand_contains_レッド.csv`
 
 ### 放映後2週の検索クエリ TOP25（クリック順）
 

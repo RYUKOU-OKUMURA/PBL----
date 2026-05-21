@@ -16,6 +16,7 @@ import json
 import logging
 import os
 import re
+import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -469,13 +470,18 @@ def main() -> None:
     )
     parser.add_argument(
         "-o", "--output",
-        default="Analytics/ga4_wp_gsc_analysis.csv",
-        help="出力ファイルパス",
+        default=None,
+        help="出力ファイルパス（--output-dir 未指定時のみ。未指定なら periodic フォルダへ）",
     )
     parser.add_argument(
         "--output-dir",
         metavar="DIR",
         help="出力先フォルダを指定（メインCSV・クエリCSVの両方をこのフォルダに保存）",
+    )
+    parser.add_argument(
+        "--html",
+        action="store_true",
+        help="CSV 出力後に index.html を生成する",
     )
     parser.add_argument(
         "--format",
@@ -495,12 +501,18 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    output_path = args.output
+    output_dir: Optional[Path] = None
     if args.output_dir:
         output_dir = Path(args.output_dir)
+    elif args.output is None:
+        output_dir = Path("Analytics") / "periodic" / f"{args.start}_{args.end}"
+
+    if output_dir is not None:
         output_dir.mkdir(parents=True, exist_ok=True)
         ext = "json" if args.format == "json" else "csv"
         output_path = str(output_dir / f"ga4_wp_gsc_analysis.{ext}")
+    else:
+        output_path = args.output or "Analytics/ga4_wp_gsc_analysis.csv"
 
     setup_logging(verbose=args.verbose)
     config = load_analysis_config()
@@ -510,6 +522,26 @@ def main() -> None:
     gsc_rows = [] if args.wp_only else fetch_gsc_search_analytics(config, args.start, args.end)
 
     merge_and_output(wp_posts, ga4_rows, gsc_rows, output_path, args.format)
+
+    if args.html and output_dir is not None:
+        script = Path(__file__).resolve().parent / "Analytics" / "scripts" / "generate_report_html.py"
+        cmd = [
+            sys.executable,
+            str(script),
+            "--dir",
+            str(output_dir),
+            "--start",
+            args.start,
+            "--end",
+            args.end,
+        ]
+        logger.info("HTML レポート生成: %s", " ".join(cmd))
+        subprocess.run(cmd, check=True)
+        index_script = script
+        subprocess.run(
+            [sys.executable, str(index_script), "--index"],
+            check=True,
+        )
 
 
 if __name__ == "__main__":
