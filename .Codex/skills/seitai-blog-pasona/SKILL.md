@@ -19,8 +19,9 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 2. Gather supporting evidence if the claim needs research support. Use `$pubmed-research` when the article depends on literature.
 3. Draft in PASONA order: reader problem, why it happens, solution direction, three at-home actions, and the next step.
 4. Keep most of the article in natural paragraphs. Use numbered items only for `今日からできること`.
-5. Add the required disclaimer at the end.
-6. If the article is publication-bound, insert WordPress fixed elements before final QA, then run `$medical-ad-compliance` on the full article including TL;DR, author block, CTA, footer, and JSON-LD.
+5. In the solution section, include a short "see a doctor first" paragraph covering red-flag symptoms (see Safety Red-Flags below).
+6. Add the required disclaimer at the end, and a `参考文献` list with working PubMed links for every study you cite.
+7. If the article is publication-bound, insert WordPress fixed elements before final QA, then run `$medical-ad-compliance` on the full article including TL;DR, author block, CTA, footer, and JSON-LD.
 
 ## Voice Rules
 
@@ -31,14 +32,32 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 - Use patient-friendly search language in `title`, `H1`, `TL;DR`, `excerpt`, and major `H2` headings. Keep formal technical terms only where they improve precision or match real search intent.
 - When a technical term matters for SEO or accuracy, introduce it once in the first half of the article as `平易語（専門語）` or `専門語、つまり平易語`, then use the plain term for most later mentions.
 - Avoid raw clinician-facing terms in body copy, such as `介入`, `個別化`, `エビデンス強度`, and `生活機能スコア`. Rewrite them as patient-friendly phrases like `調整`, `その人に合わせること`, `研究の確かさ`, and `日常生活のつらさ`.
-- In body text, introduce studies as `2025年の研究では` or `複数の研究をまとめたレビューでは`. Keep researcher names in references unless naming them is genuinely necessary.
+- In body text, introduce studies as `2025年の研究では` or `複数の研究をまとめたレビューでは`. Never write researcher surnames like `Uchidaさんたちの研究` or `Smithらの` in body copy — keep names in the reference list only.
+- After citing a study's finding, state its limitation in the same passage: e.g. `横断研究が中心で因果関係は断定できません`, `研究の確かさは高くありません`, `人数は限られています`. A finding without a hedge is incomplete.
 - Include at least one short anonymous patient consultation example when writing a full article from scratch.
 - Keep anonymous episodes to common worries or de-identified intake concerns. Do not describe treatment results, post-treatment changes, before/after comparisons, or testimonial-style efficacy claims.
 - Avoid exaggerated guarantees, aggressive sales language, and dense blocks of unexplained jargon.
 
+## Evidence & Citations (critical for automated drafting)
+
+The strongest recent articles all share the same evidence discipline; weak older ones do not. Follow this exactly.
+
+- Cite only studies you can verify. Every study mentioned in the body MUST appear in the `参考文献` list with a real, working PubMed URL (`https://pubmed.ncbi.nlm.nih.gov/<PMID>/`), and the same PMIDs go into the JSON-LD `citation` array.
+- Never fabricate a PMID, journal name, year, sample size, or finding. If you cannot confirm a study exists, do not cite it — write the point as general physiology instead, or run `$pubmed-research` first.
+- Do not overstate. The body claim must not exceed what the study supports. Prefer `〜の可能性が示されました` / `関連が報告されました` over `〜が証明された` / `必ず〜する`.
+- Put the study type and its limitation next to the claim (systematic review / meta-analysis / RCT / cross-sectional / cohort), e.g. `2019年の8研究レビューでは…ただし横断研究が中心で因果関係は断定できません`.
+
+## Safety Red-Flags (required paragraph)
+
+Inside the solution section, add one short paragraph that tells the reader when to see a doctor instead of relying on self-care. Cover the relevant subset of: 安静時・夜間も強い痛み、しびれや力の入りにくさが広がる、発熱や体重減少、転倒・外傷後の痛み、症状が悪化していく。Frame it calmly as `セルフケアより先に医療機関での確認を優先してください`, not as fear-mongering. Make it specific to the article's symptom.
+
 ## Structural Rules
 
-- Target roughly 3000 Japanese characters unless the user explicitly wants a different length.
+- Target roughly 3000 Japanese characters of body text unless the user explicitly wants a different length.
+- Title pattern that performs well: `〈日常動作〉と〈症状〉はなぜ？〈部位A〉と〈部位B〉をやさしく解説` or `〈症状〉なのは〈疑い〉？〈見直す対象〉をやさしく解説`. Lead with the long-tail phrase a patient would actually type.
+- TL;DR (80–120 chars, one sentence) should carry one concrete study figure, e.g. `2020年の21研究メタ解析では…`.
+- In the solution section, open by splitting the symptom by moment/situation (例: 座っている間か、離殿の瞬間か、立ち切った後か) so the reader can locate where load concentrates. This "which moment hurts" framing is a signature of the best articles.
+- The anonymous episode must be framed as a typical intake worry — add a clause like `これは施術後の変化ではなく、来院時によくある悩みとして紹介しています` so it never reads as a before/after testimonial.
 - Use `##` and `###` headings.
 - Keep paragraph flow natural. Do not turn the whole article into bullets.
 - Keep the reader-facing wording softer than the internal outline. For example, describe the solution flow as `今の状態を確認する → 無理のない調整を進める → 変化を確かめる`, not bare clinician shorthand like `評価→介入→再評価`.
