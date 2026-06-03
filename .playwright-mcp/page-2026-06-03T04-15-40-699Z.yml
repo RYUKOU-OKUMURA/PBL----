@@ -1,0 +1,41 @@
+- generic [active] [ref=e1]:
+  - heading "ログイン" [level=1] [ref=e2]
+  - generic [ref=e3]:
+    - link "Powered by WordPress" [ref=e4] [cursor=pointer]:
+      - /url: https://ja.wordpress.org/
+    - generic [ref=e5]:
+      - paragraph [ref=e6]:
+        - generic [ref=e7]: ユーザー名またはメールアドレス
+        - textbox "ユーザー名またはメールアドレス" [ref=e8]
+      - generic [ref=e9]:
+        - generic [ref=e10]: パスワード
+        - generic [ref=e11]:
+          - textbox "パスワード" [ref=e12]
+          - button "パスワードを表示" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: 
+      - paragraph [ref=e15]:
+        - img "CAPTCHA" [ref=e16]
+      - paragraph [ref=e17]:
+        - generic [ref=e18]: 上に表示された文字を入力してください。
+        - textbox "上に表示された文字を入力してください。" [ref=e19]
+      - paragraph [ref=e20]:
+        - checkbox "ログイン状態を保存する" [ref=e21] [cursor=pointer]
+        - generic [ref=e22]: ログイン状態を保存する
+      - paragraph:
+        - button "ログイン" [ref=e23] [cursor=pointer]
+    - paragraph [ref=e24]:
+      - link "パスワードをお忘れですか ?" [ref=e25] [cursor=pointer]:
+        - /url: https://physical-balance-lab.com/wp/login_43257?action=lostpassword
+    - paragraph [ref=e26]:
+      - link "← 日本で唯一のレッドコード整体院 へ移動" [ref=e27] [cursor=pointer]:
+        - /url: https://physical-balance-lab.com/
+    - link "プライバシーポリシー" [ref=e29] [cursor=pointer]:
+      - /url: https://physical-balance-lab.com/privacy-policy/
+  - generic [ref=e31]:
+    - generic [ref=e32]:
+      - generic [ref=e33]: 
+      - generic [ref=e34]: 言語
+    - combobox "言語" [ref=e35] [cursor=pointer]:
+      - option "English (United States)"
+      - option "日本語" [selected]
+    - button "変更" [ref=e36] [cursor=pointer]
