@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 直近14日間の periodic データ取得 + HTML 生成
+# 直近14日間の periodic データ取得（CSV のみ）
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,7 +13,7 @@ usage() {
   cat <<'EOF'
 Usage: run_periodic.sh [--end YYYY-MM-DD] [--dry-run]
 
-  直近14日（終了日含む）の GA4×WP×GSC データを取得し、HTML レポートを生成します。
+  直近14日（終了日含む）の GA4×WP×GSC データを CSV で取得します。
 
 Options:
   --end DATE    集計終了日（デフォルト: 今日）
@@ -61,7 +61,7 @@ if [[ -d "$OUT_DIR" ]]; then
 fi
 
 PYTHON="${PYTHON:-python3}"
-CMD=("$PYTHON" analyze_content_seo.py --start "$START" --end "$END" --html)
+CMD=("$PYTHON" analyze_content_seo.py --start "$START" --end "$END")
 
 echo "集計期間: $START 〜 $END"
 echo "出力先:   $OUT_DIR"
