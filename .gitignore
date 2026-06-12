@@ -47,3 +47,6 @@ dist-mermaid/
 # Python
 **/__pycache__/
 *.pyc
+
+# Local symlinks (machine-specific paths; do not push)
+施術記録
