@@ -173,3 +173,34 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 **今後の対策**:
 - 複数記事のQAチェックを実行する場合、1記事ずつ順番に実行するか、3つ以内のTaskに分割して実行する
 - TeamCreateを使用する場合は、必ず完了後にTeamDeleteを実行し、リソースを適切に管理する
+
+---
+
+## Cursor Cloud specific instructions
+
+### 概要
+
+このリポジトリはPython 3.12ベースのCLIツール群（Webアプリケーションではない）。主要コンポーネントは以下の通り:
+
+| スクリプト | 用途 | 外部依存 |
+|-----------|------|---------|
+| `post_to_wp.py` | Markdown/HTML → WordPress下書き/公開投稿 | WordPress REST API（`.env`の`WP_URL`/`WP_USER`/`WP_APP_PASSWORD`） |
+| `analyze_content_seo.py` | GA4 × WordPress × Search Console 統合分析 | WordPress REST API + Google APIs（サービスアカウントJSON必要） |
+| `Analytics/*.py` | 各種トラフィック分析スクリプト | Google APIs |
+
+### 依存関係
+
+- `pip install -r requirements.txt` で全依存がインストールされる
+- Node.js/Docker/データベースは不要
+
+### スクリプト実行
+
+- **WordPress投稿**: `python3 post_to_wp.py <markdown_file> [--draft|--publish] [-v]`
+- **SEO分析（WPのみ）**: `python3 analyze_content_seo.py --wp-only`（GA4/GSCはサービスアカウントJSONが必要で、Cloud VMでは利用不可）
+
+### 注意点
+
+- `.env` ファイルにWordPress認証情報が含まれている。`WP_URL`、`WP_USER`、`WP_APP_PASSWORD`が正しく設定されていればWordPress APIは使用可能
+- `GOOGLE_APPLICATION_CREDENTIALS` はローカルmacOSパスを参照しており、Cloud VMでは無効。GA4/GSC関連機能はスキップされるが、`analyze_content_seo.py --wp-only`モードでWordPressデータのみの分析は可能
+- `身体系/` シンボリックリンクはローカルGoogle Driveパスを参照しており、Cloud VMでは無効（壊れたシンボリックリンク）。動作には影響なし
+- このリポジトリにはリンター、テストフレームワーク、ビルドシステムは存在しない。品質管理はQAサブエージェント（`japanese-blog-style-guard`、`medical-compliance-checker`、`chinese-char-detector`）が担当する
