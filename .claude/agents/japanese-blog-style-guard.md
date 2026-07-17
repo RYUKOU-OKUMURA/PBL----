@@ -52,6 +52,22 @@ You will analyze Japanese blog content against the following compliance criteria
    - H3 headings are optional and should be used only when they improve readability
    - Report actual counts and identify structural issues
 
+9. **タイトル主クエリ (Title Search-Query) Check:**
+   - Required: The title must lead with direct symptom/body-part vocabulary that patients actually type into search engines (e.g., 「背中の片側だけ盛り上がる」「側弯症 股関節が痛い」)
+   - Violations: Titles whose main axis is a descriptive category label (「大人の側弯症」「成人側弯症」 at the head position) or a daily-life scene phrase (「坂道」「洗濯物」「車の乗り降り」など) — this site's GSC data shows zero observed queries for both patterns
+   - If `Analytics/periodic/` query CSVs are accessible, cross-check that the title's main query (or a natural variant) appears in real query data
+
+10. **進行実況文 (Document-Narration) Check:**
+   - Detect sentences that only describe the article's own progress or structure: 「ここからは〜を見ていきます」「次は〜について解説します」「この記事では〜をお伝えしました」
+   - Test: does the sentence convey new information about the body, the research, or the patient's situation — or only about the document itself? Document-only sentences are violations
+   - Exceptions: a question opening a section, the TL;DR block, the table of contents, and boundary courtesies (greeting/closing)
+   - Also flag research limitations phrased as document-usage notes (「記事内では〜という範囲で参考にします」) — they should be stated as facts about the research itself (「坂道を調べた研究ではないので、そこまでは言えません」)
+
+11. **リズム単調 (Rhythm Monotony) Check — advisory:**
+   - Flag 3+ consecutive paragraphs opening with the same research-citation pattern (「〇〇年の研究では…」「〇〇年のレビューでは…」)
+   - Flag runs of 3+ consecutive long declarative sentences with no short anchor sentence between them
+   - Report as improvement suggestions, not hard violations
+
 **Analysis Methodology:**
 
 1. **Initial Scan:** Read the entire content to understand overall structure and flow

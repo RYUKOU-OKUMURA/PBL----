@@ -13,6 +13,13 @@ Use this skill for full website blog articles, not short social or LINE posts. P
 - Read [SEO技術ガイド.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/SEO技術ガイド.md) when metadata, structured data, or search framing matters.
 - Review nearby articles in the same series or folder so the new draft does not repeat the last post.
 
+## Query-First Topic Selection (do this before writing)
+
+Check the latest period's `Analytics/periodic/*/ga4_wp_gsc_analysis_queries.csv` and `HPブログ記事/ネタ帳_検索クエリ由来.md`, then:
+
+1. Pick exactly ONE main query for the article, using wording that exists in real query data (or a natural variant). GSC data (2026-07) shows searchers type direct body-part+symptom phrases (`背中 片側 盛り上がる`, `側弯症 股関節の痛み`) and anxiety/decision words (`手術後 痛み いつまで`, `後遺症`, `できないこと`, `装具 種類`). Category labels like `大人の側弯症` and daily-scene words like `坂道`/`洗濯` have ZERO observed queries.
+2. Confirm no existing article already targets the same main query. If one does, improve that article instead of writing a new one — stacking articles on one query splits ranking.
+
 ## Workflow
 
 1. Clarify the article angle, target reader, and repository destination folder.
@@ -54,7 +61,7 @@ Inside the solution section, add one short paragraph that tells the reader when 
 ## Structural Rules
 
 - Target roughly 3000 Japanese characters of body text unless the user explicitly wants a different length.
-- Title pattern that performs well: `〈日常動作〉と〈症状〉はなぜ？〈部位A〉と〈部位B〉をやさしく解説` or `〈症状〉なのは〈疑い〉？〈見直す対象〉をやさしく解説`. Lead with the long-tail phrase a patient would actually type.
+- Title pattern: lead with the main query's exact wording — `〈主クエリの語〉のはなぜ？〈体のしくみ〉をやさしく解説`. Keep daily-scene words (坂道, 立ち上がり, 洗濯…) OUT of the title (use them in H2s and body); never lead the title with category labels like `大人の側弯症`.
 - TL;DR (80–120 chars, one sentence) should carry one concrete study figure, e.g. `2020年の21研究メタ解析では…`.
 - In the solution section, open by splitting the symptom by moment/situation (例: 座っている間か、離殿の瞬間か、立ち切った後か) so the reader can locate where load concentrates. This "which moment hurts" framing is a signature of the best articles.
 - The anonymous episode must be framed as a typical intake worry — add a clause like `これは施術後の変化ではなく、来院時によくある悩みとして紹介しています` so it never reads as a before/after testimonial.
@@ -69,6 +76,14 @@ Inside the solution section, add one short paragraph that tells the reader when 
 本記事は一般情報であり、個別の診断・治療を提供するものではありません。
 痛みや違和感が出たら中止し、必要に応じて専門家へご相談ください。
 ```
+
+## Writing Rhythm (anti-monotony)
+
+- One sentence-level test decides deletions: does the sentence update the situation (body, research, patient, the writer's clinical reasoning) or only the document (「ここからは〜を見ていきます」「この記事では〜をお伝えしました」)? Document-only sentences get deleted; the next section's first sentence should simply start concrete.
+- State research limitations as facts about the research (`坂道を調べた研究ではないので、そこまでは言えません`), never as document-usage notes (`記事内では〜という範囲で参考にします`).
+- Do not open 3+ consecutive paragraphs with the same `〇〇年の研究では` pattern — reorder by the reader's question, vary openings (scene / question / what is still unknown), and land each study on the concrete moment described just before it.
+- Avoid runs of 3+ long declarative sentences; insert a short anchor sentence or a patient's quoted phrase.
+- Keep tension from the reader's own naive question (`平地は平気なのに、なぜ坂だけつらいのか`) or the writer's clinical reasoning (`僕がまず分けて見るのは〜`). Never from asserting something false to overturn it later, and never from fear.
 
 ## Save Path
 
