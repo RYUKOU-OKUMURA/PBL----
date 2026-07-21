@@ -40,6 +40,13 @@ HEADING_RE = re.compile(
 PARAGRAPH_RE = re.compile(
     r"<p(?P<attrs>\s[^>]*)?>(?P<inner>.*?)</p>", re.IGNORECASE | re.DOTALL
 )
+LIST_ITEM_RE = re.compile(
+    r"<li(?P<attrs>\s[^>]*)?>(?P<inner>.*?)</li>", re.IGNORECASE | re.DOTALL
+)
+JSONLD_SCRIPT_RE = re.compile(
+    r'<script\b(?=[^>]*type=["\']application/ld\+json["\'])[^>]*>.*?</script>',
+    re.IGNORECASE | re.DOTALL,
+)
 QUOTE_RE = re.compile(r"「[^「」]{8,100}」")
 
 
@@ -101,6 +108,10 @@ def raw_title(post: dict[str, Any]) -> str:
 
 def raw_content(post: dict[str, Any]) -> str:
     return post.get("content", {}).get("raw") or post.get("content", {}).get("rendered", "")
+
+
+def raw_excerpt(post: dict[str, Any]) -> str:
+    return post.get("excerpt", {}).get("raw") or ""
 
 
 def content_hash(html: str) -> str:
@@ -424,9 +435,39 @@ def add_breaks_to_inner(inner: str) -> tuple[str, int]:
     return paragraph.decode_contents(formatter="minimal"), added
 
 
+def add_breaks_to_list_inner(inner: str) -> tuple[str, int]:
+    if "<p" in inner.lower():
+        return inner, 0
+    soup = BeautifulSoup(f"<li>{inner}</li>", "html.parser")
+    item = soup.find("li")
+    if item is None:
+        return inner, 0
+    added = 0
+    for node in list(item.descendants):
+        if not isinstance(node, NavigableString) or "。" not in str(node):
+            continue
+        if node.parent and node.parent.name in {"a", "strong", "span", "em", "script", "style"}:
+            continue
+        parts = str(node).split("。")
+        replacements: list[Any] = []
+        for index, part in enumerate(parts):
+            if index < len(parts) - 1:
+                replacements.append(NavigableString(part + "。"))
+                if "".join(parts[index + 1 :]).strip():
+                    replacements.extend((soup.new_tag("br"), NavigableString("\n")))
+                    added += 1
+            elif part:
+                replacements.append(NavigableString(part.lstrip()))
+        if replacements:
+            node.replace_with(*replacements)
+    return item.decode_contents(formatter="minimal"), added
+
+
 def add_body_breaks(html: str) -> tuple[str, int]:
     start, end = body_bounds(html)
     body = html[start:end]
+    if BeautifulSoup(body, "html.parser").select("li li"):
+        raise PipelineError("nested list items require manual formatting")
     total = 0
 
     def replace(match: re.Match[str]) -> str:
@@ -439,6 +480,16 @@ def add_body_breaks(html: str) -> tuple[str, int]:
         return f"<p{attrs}>{inner}</p>"
 
     formatted = PARAGRAPH_RE.sub(replace, body)
+    def replace_list_item(match: re.Match[str]) -> str:
+        nonlocal total
+        attrs = match.group("attrs") or ""
+        inner, added = add_breaks_to_list_inner(match.group("inner"))
+        if added == 0:
+            return match.group(0)
+        total += added
+        return f"<li{attrs}>{inner}</li>"
+
+    formatted = LIST_ITEM_RE.sub(replace_list_item, formatted)
     return html[:start] + formatted + html[end:], total
 
 
@@ -563,6 +614,131 @@ def schedule_dates(count: int, now: datetime) -> list[datetime]:
     return dates
 
 
+def parse_jst_datetime(value: str) -> datetime:
+    parsed = datetime.fromisoformat(value)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=JST)
+    return parsed.astimezone(JST).replace(microsecond=0)
+
+
+def remove_visible_metadata(html: str) -> tuple[str, str | None]:
+    pattern = re.compile(
+        r"(?P<meta>\s*<h2\b[^>]*>\s*メタ(?:ディスクリプション|ティスクリフション)\s*</h2>.*?)(?=<script\b[^>]*type=[\"']application/ld\+json[\"'])",
+        re.IGNORECASE | re.DOTALL,
+    )
+    match = pattern.search(html)
+    if not match:
+        return html, None
+    soup = BeautifulSoup(match.group("meta"), "html.parser")
+    first_paragraph = soup.find("p")
+    excerpt = first_paragraph.get_text(" ", strip=True) if first_paragraph else None
+    return html[: match.start()] + "\n\n" + html[match.end() :], excerpt
+
+
+def update_jsonld_dates(html: str, local_date: datetime) -> str:
+    matches = list(JSONLD_SCRIPT_RE.finditer(html))
+    if len(matches) != 1:
+        raise PipelineError(f"expected one raw JSON-LD script, found {len(matches)}")
+    match = matches[0]
+    script_soup = BeautifulSoup(match.group(0), "html.parser")
+    script = script_soup.find("script")
+    if script is None:
+        raise PipelineError("JSON-LD script could not be parsed")
+    data = json.loads(script.string or script.get_text())
+    article_nodes = [node for node in data.get("@graph", []) if node.get("@type") == "Article"]
+    if len(article_nodes) != 1:
+        raise PipelineError(f"expected one Article JSON-LD node, found {len(article_nodes)}")
+    iso_date = local_date.isoformat()
+    article_nodes[0]["datePublished"] = iso_date
+    article_nodes[0]["dateModified"] = iso_date
+    replacement = (
+        '<script type="application/ld+json">\n'
+        + json.dumps(data, ensure_ascii=False, indent=2)
+        + "\n</script>"
+    )
+    updated = html[: match.start()] + replacement + html[match.end() :]
+    verified_soup = BeautifulSoup(updated, "html.parser")
+    verified_scripts = verified_soup.select(FIXED_SELECTORS["jsonld"])
+    if len(verified_scripts) != 1:
+        raise PipelineError("JSON-LD script count changed during date update")
+    verified_data = json.loads(verified_scripts[0].string or verified_scripts[0].get_text())
+    verified_articles = [
+        node for node in verified_data.get("@graph", []) if node.get("@type") == "Article"
+    ]
+    if len(verified_articles) != 1 or any(
+        verified_articles[0].get(key) != iso_date for key in ("datePublished", "dateModified")
+    ):
+        raise PipelineError("JSON-LD dates were not updated exactly")
+    return updated
+
+
+def command_prepare(
+    config: dict[str, str],
+    ids: set[int] | None,
+    first_at: datetime,
+    apply: bool,
+    backup_dir: Path,
+) -> int:
+    posts = selected_drafts(config, ids)
+    dates = schedule_dates(len(posts), first_at)
+    prepared: list[tuple[dict[str, Any], str, str, datetime]] = []
+    for post, date in zip(posts, dates):
+        original = raw_content(post)
+        cleaned, excerpt = remove_visible_metadata(original)
+        updated = update_jsonld_dates(cleaned, date)
+        validate_jsonld(updated)
+        validate_toc(updated)
+        if fixed_counts(updated) != fixed_counts(original):
+            raise PipelineError(f"post {post['id']} fixed elements changed during prepare")
+        expected_excerpt = excerpt if excerpt is not None else raw_excerpt(post)
+        prepared.append((post, updated, expected_excerpt, date))
+        print(
+            f"PREPARE={post['id']} DATE={date.isoformat()} "
+            f"METADATA_REMOVED={cleaned != original} EXCERPT={bool(excerpt)}"
+        )
+    if not apply:
+        print(f"DRY_RUN=1 COUNT={len(prepared)}")
+        return 0
+    backup = backup_posts((post for post, _, _, _ in prepared), backup_dir, "before-prepare")
+    print(f"BACKUP={backup}")
+    for original, updated_html, expected_excerpt, date in prepared:
+        current = fetch_post(config, original["id"])
+        if (
+            current.get("status") != "draft"
+            or raw_content(current) != raw_content(original)
+            or raw_excerpt(current) != raw_excerpt(original)
+        ):
+            raise PipelineError(f"post {original['id']} changed after prepare preview")
+        payload: dict[str, Any] = {"content": updated_html, "excerpt": expected_excerpt}
+        try:
+            api_post(config, original["id"], payload)
+            verified = fetch_post(config, original["id"])
+            if (
+                raw_content(verified) != updated_html
+                or raw_excerpt(verified) != expected_excerpt
+                or verified.get("status") != "draft"
+            ):
+                raise PipelineError(f"post {original['id']} prepare verification failed")
+        except Exception:
+            restore_payload = {
+                "content": raw_content(original),
+                "excerpt": raw_excerpt(original),
+                "status": "draft",
+            }
+            api_post(config, original["id"], restore_payload)
+            restored = fetch_post(config, original["id"])
+            if (
+                raw_content(restored) != raw_content(original)
+                or raw_excerpt(restored) != raw_excerpt(original)
+                or restored.get("status") != "draft"
+            ):
+                raise PipelineError(f"post {original['id']} prepare rollback failed")
+            print(f"ROLLED_BACK={original['id']}")
+            raise
+        print(f"PREPARED={original['id']} DATE={date.isoformat()}")
+    return 0
+
+
 def load_plan(path: Path) -> dict[str, Any]:
     plan = json.loads(path.read_text(encoding="utf-8"))
     if plan.get("version") != 1 or not isinstance(plan.get("items"), list):
@@ -585,13 +761,14 @@ def command_plan(
     config: dict[str, str],
     ids: set[int] | None,
     path: Path,
+    first_at: datetime,
 ) -> int:
     posts = selected_drafts(config, ids)
     now = datetime.now(JST).replace(microsecond=0)
-    dates = schedule_dates(len(posts), now)
+    dates = schedule_dates(len(posts), first_at)
     items = []
     for index, (post, date) in enumerate(zip(posts, dates)):
-        status = "publish" if index == 0 else "future"
+        status = "future" if date > now else ("publish" if index == 0 else "future")
         print(f"{post['id']}\t{status}\t{date.isoformat()}\t{raw_title(post)}")
         utc_date = date.astimezone(timezone.utc)
         items.append(
@@ -720,14 +897,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("inventory")
-    for command in ("format", "plan"):
+    for command in ("format", "prepare", "plan"):
         subparser = subparsers.add_parser(command)
         selection = subparser.add_mutually_exclusive_group(required=True)
         selection.add_argument("--ids", type=int, nargs="+")
         selection.add_argument("--all", action="store_true")
-        if command == "format":
+        if command in {"format", "prepare"}:
             subparser.add_argument("--apply", action="store_true")
-        else:
+        if command in {"prepare", "plan"}:
+            subparser.add_argument("--first-at", required=True)
+        if command == "plan":
             subparser.add_argument("--plan", type=Path, required=True)
     approve = subparsers.add_parser("approve")
     approve.add_argument("--plan", type=Path, required=True)
@@ -746,8 +925,21 @@ def main() -> int:
             return command_inventory(config)
         if args.command == "format":
             return command_format(config, selection_from_args(args), args.apply, args.backup_dir)
+        if args.command == "prepare":
+            return command_prepare(
+                config,
+                selection_from_args(args),
+                parse_jst_datetime(args.first_at),
+                args.apply,
+                args.backup_dir,
+            )
         if args.command == "plan":
-            return command_plan(config, selection_from_args(args), args.plan)
+            return command_plan(
+                config,
+                selection_from_args(args),
+                args.plan,
+                parse_jst_datetime(args.first_at),
+            )
         if args.command == "approve":
             return command_approve(config, args.plan, set(args.ids))
         if args.command == "schedule":
