@@ -827,6 +827,200 @@ def schedule_matches(post: dict[str, Any], item: dict[str, Any]) -> bool:
     )
 
 
+def replace_jsonld_headline(html: str, old_title: str, new_title: str) -> str:
+    """Replace exactly one JSON-LD headline without reformatting the script."""
+    old_json = json.dumps(old_title, ensure_ascii=False)
+    new_json = json.dumps(new_title, ensure_ascii=False)
+    pattern = re.compile(r'("headline"\s*:\s*)' + re.escape(old_json))
+    updated, count = pattern.subn(lambda match: match.group(1) + new_json, html)
+    if count != 1:
+        raise PipelineError(
+            f"expected one JSON-LD headline matching {old_title!r}, found {count}"
+        )
+    validate_jsonld(updated)
+    return updated
+
+
+def article_headlines(html: str) -> list[str]:
+    headlines: list[str] = []
+    soup = BeautifulSoup(html, "html.parser")
+    for script in soup.select(FIXED_SELECTORS["jsonld"]):
+        data = json.loads(script.string or script.get_text())
+        candidates = data.get("@graph", []) if isinstance(data, dict) else []
+        if isinstance(data, dict) and data.get("@type") == "Article":
+            candidates = [data]
+        for candidate in candidates:
+            article_type = candidate.get("@type") if isinstance(candidate, dict) else None
+            types = article_type if isinstance(article_type, list) else [article_type]
+            if "Article" in types and candidate.get("headline"):
+                headlines.append(str(candidate["headline"]))
+    return headlines
+
+
+def load_title_plan(path: Path) -> dict[str, Any]:
+    with path.open(encoding="utf-8") as handle:
+        data = json.load(handle)
+    if data.get("version") != 1 or not isinstance(data.get("items"), list):
+        raise PipelineError("unsupported title plan")
+    required = {"id", "main_query", "old_title", "new_title"}
+    for item in data["items"]:
+        if not required.issubset(item):
+            raise PipelineError(f"invalid title-plan item: {item!r}")
+    ids = [item["id"] for item in data["items"]]
+    if len(ids) != len(set(ids)):
+        raise PipelineError("title plan contains duplicate IDs")
+    for item in data["items"]:
+        for key in ("main_query", "old_title", "new_title"):
+            if not isinstance(item[key], str) or not item[key].strip():
+                raise PipelineError(f"title-plan item {item['id']} has an empty {key}")
+    main_queries = [item["main_query"] for item in data["items"]]
+    if len(main_queries) != len(set(main_queries)):
+        raise PipelineError("title plan contains duplicate main queries")
+    new_titles = [item["new_title"] for item in data["items"]]
+    if len(new_titles) != len(set(new_titles)):
+        raise PipelineError("title plan contains duplicate new titles")
+    return data
+
+
+def command_retitle_plan(
+    config: dict[str, str],
+    publication_plan_path: Path,
+    title_plan_path: Path,
+    apply: bool,
+    backup_dir: Path,
+) -> int:
+    publication_plan = load_plan(publication_plan_path)
+    title_plan = load_title_plan(title_plan_path)
+    if publication_plan.get("site_url") != config["WP_URL"]:
+        raise PipelineError("publication plan site does not match configured WordPress site")
+    actual_timezone = wordpress_timezone(config)
+    if actual_timezone != publication_plan.get("timezone") or actual_timezone != "Asia/Tokyo":
+        raise PipelineError(f"unexpected WordPress timezone: {actual_timezone!r}")
+    publication_items = {item["id"]: item for item in publication_plan["items"]}
+    title_items = {item["id"]: item for item in title_plan["items"]}
+    if set(publication_items) != set(title_items):
+        raise PipelineError("title-plan IDs do not exactly match publication-plan IDs")
+
+    current_by_id: dict[int, dict[str, Any]] = {}
+    updated_content: dict[int, str] = {}
+    changed_ids: list[int] = []
+    for item in title_plan["items"]:
+        post_id = item["id"]
+        current = fetch_post(config, post_id)
+        current_by_id[post_id] = current
+        publication_item = publication_items[post_id]
+        if not schedule_matches(current, publication_item):
+            raise PipelineError(f"post {post_id} no longer matches the publication plan")
+        if raw_title(current) != item["old_title"]:
+            raise PipelineError(f"post {post_id} title no longer matches the title plan")
+        if publication_item.get("title") != item["old_title"]:
+            raise PipelineError(f"post {post_id} publication-plan title mismatch")
+        headlines = article_headlines(raw_content(current))
+        if headlines != [item["old_title"]]:
+            raise PipelineError(
+                f"post {post_id} expected one matching Article headline, got {headlines!r}"
+            )
+        if item["old_title"] == item["new_title"]:
+            continue
+        updated_content[post_id] = replace_jsonld_headline(
+            raw_content(current), item["old_title"], item["new_title"]
+        )
+        changed_ids.append(post_id)
+        print(f"RETITLE_PENDING={post_id} TITLE={item['new_title']}")
+
+    if not apply:
+        print(f"DRY_RUN=1 RETITLE_PENDING={len(changed_ids)}")
+        return 0
+
+    backup = backup_posts(
+        (current_by_id[post_id] for post_id in changed_ids),
+        backup_dir,
+        "before-retitle",
+    )
+    print(f"BACKUP={backup}")
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now(JST).strftime("%Y%m%d-%H%M%S-%f")
+    plan_backup = backup_dir / f"publication-plan-before-retitle-{stamp}.json"
+    original_plan_text = publication_plan_path.read_text(encoding="utf-8")
+    plan_backup.write_text(original_plan_text, encoding="utf-8")
+    print(f"PLAN_BACKUP={plan_backup}")
+    applied: list[int] = []
+    stored_content: dict[int, str] = {}
+    try:
+        for post_id in changed_ids:
+            item = title_items[post_id]
+            before = current_by_id[post_id]
+            applied.append(post_id)
+            api_post(
+                config,
+                post_id,
+                {"title": item["new_title"], "content": updated_content[post_id]},
+            )
+            verified = fetch_post(config, post_id)
+            if (
+                raw_title(verified) != item["new_title"]
+                or verified.get("status") != before.get("status")
+                or verified.get("date") != before.get("date")
+                or verified.get("date_gmt") != before.get("date_gmt")
+                or article_headlines(raw_content(verified)) != [item["new_title"]]
+                or raw_content(verified) != updated_content[post_id]
+            ):
+                raise PipelineError(f"post {post_id} failed retitle verification")
+            stored_content[post_id] = raw_content(verified)
+            print(f"RETITLED={post_id} TITLE={item['new_title']}")
+        reviewed_at = datetime.now(JST).isoformat()
+        for post_id, publication_item in publication_items.items():
+            title_item = title_items[post_id]
+            publication_item["title"] = title_item["new_title"]
+            publication_item["main_query"] = title_item["main_query"]
+            publication_item["title_reviewed_at"] = reviewed_at
+            saved_html = stored_content.get(post_id, raw_content(current_by_id[post_id]))
+            publication_item["content_sha256"] = content_hash(saved_html)
+        save_plan(publication_plan, publication_plan_path)
+    except Exception as update_error:
+        rollback_errors: list[str] = []
+        for post_id in reversed(applied):
+            before = current_by_id[post_id]
+            try:
+                api_post(
+                    config,
+                    post_id,
+                    {
+                        "title": raw_title(before),
+                        "content": raw_content(before),
+                        "status": before["status"],
+                        "date": before["date"],
+                        "date_gmt": before["date_gmt"],
+                    },
+                )
+                restored = fetch_post(config, post_id)
+                if (
+                    raw_title(restored) != raw_title(before)
+                    or raw_content(restored) != raw_content(before)
+                    or restored.get("status") != before.get("status")
+                    or restored.get("date") != before.get("date")
+                    or restored.get("date_gmt") != before.get("date_gmt")
+                ):
+                    raise PipelineError("restored post does not match its backup")
+                print(f"ROLLED_BACK={post_id}")
+            except Exception as rollback_error:
+                rollback_errors.append(f"post {post_id}: {rollback_error}")
+        try:
+            temporary = publication_plan_path.with_name(publication_plan_path.name + ".restore")
+            temporary.write_text(original_plan_text, encoding="utf-8")
+            temporary.replace(publication_plan_path)
+        except Exception as plan_restore_error:
+            rollback_errors.append(f"publication plan: {plan_restore_error}")
+        if rollback_errors:
+            raise PipelineError(
+                "retitle failed and rollback was incomplete: " + "; ".join(rollback_errors)
+            ) from update_error
+        raise
+
+    print(f"PLAN_UPDATED={publication_plan_path} RETITLED={len(changed_ids)}")
+    return 0
+
+
 def command_schedule_plan(
     config: dict[str, str],
     path: Path,
@@ -914,6 +1108,10 @@ def build_parser() -> argparse.ArgumentParser:
     schedule = subparsers.add_parser("schedule")
     schedule.add_argument("--plan", type=Path, required=True)
     schedule.add_argument("--apply", action="store_true")
+    retitle = subparsers.add_parser("retitle")
+    retitle.add_argument("--plan", type=Path, required=True)
+    retitle.add_argument("--titles", type=Path, required=True)
+    retitle.add_argument("--apply", action="store_true")
     return parser
 
 
@@ -944,6 +1142,14 @@ def main() -> int:
             return command_approve(config, args.plan, set(args.ids))
         if args.command == "schedule":
             return command_schedule_plan(config, args.plan, args.apply, args.backup_dir)
+        if args.command == "retitle":
+            return command_retitle_plan(
+                config,
+                args.plan,
+                args.titles,
+                args.apply,
+                args.backup_dir,
+            )
     except (PipelineError, requests.RequestException) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
