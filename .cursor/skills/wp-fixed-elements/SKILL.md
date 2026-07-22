@@ -1,57 +1,54 @@
 ---
 name: wp-fixed-elements
-description: PBLのHPブログ記事をWordPressへ載せる前に、TL;DR、執筆者情報、目次、免責事項、CTA、フッター、JSON-LD などの固定要素を差し込むスキル。記事本文完成後の最終整形で使用する。
+description: Add, repair, and validate the repository's required WordPress fixed elements, including TL;DR, author block, TOC, references, disclaimer, LINE CTA, canonical footer, and JSON-LD. Use when preparing an HP blog for WordPress, checking a local draft before `post_to_wp.py`, or safely synchronizing fixed elements in WordPress draft or future posts.
 ---
 
-# WordPress固定要素挿入スキル
+# WP Fixed Elements
 
-PBLのHPブログ記事に、WordPress公開前の固定要素を一貫した形で挿入するためのガイド。
+Use this skill only for repository HP blog articles. Preserve the substantive article and change only required fixed elements.
 
-## 使うタイミング
+## Load This Resource
 
-- HPブログ記事の本文が完成したあと
-- QA修正が終わり、WordPress投稿前の最終整形をするとき
-- `post_to_wp.py` へ渡す前に要素漏れがないか確認したいとき
+- Load `reference.md` completely for canonical HTML and fixed URLs.
+- Load `../../../01_ガイドライン・プロンプト/WordPress投稿・予約投稿運用.md` before posting, scheduling, or modifying WordPress posts.
 
-## 基本ルール
+## Workflow
 
-- 元の本文内容はなるべく崩さない
-- 固定URL、画像URL、院名表記は reference の内容を優先する
-- 目次は記事の見出し構成に合わせて `href` と `id` を対応させる
-- 参考文献は研究引用がある場合のみ入れる
-- JSON-LD の `headline` `description` `HowTo` 各項目は記事内容に合わせて埋める
+1. Read the target markdown file completely.
+2. Count every fixed element independently. Never infer completeness from only TL;DR or TOC.
+3. Insert or repair blocks in this order: TL;DR → author → TOC → body → references when used → disclaimer → LINE invitation → LINE button → canonical footer → JSON-LD.
+4. Keep the LINE invitation only before the button. Never put invitation text inside the footer.
+5. Copy the footer from `reference.md` exactly. Keep the image centered and place the address block below it.
+6. Convert article `##` headings into anchored `<h2 id="...">` when required by the TOC.
+7. Preserve metadata sections and add or replace the required front matter `tags:`.
+8. Run `python3 post_to_wp.py "TARGET" --preflight-only`. Fix every reported error before any WordPress write.
+9. Run final style, medical-compliance, and character QA on the complete article after fixed elements are final. Any later fixed-element edit resets this QA gate.
 
-## 追加する固定要素
+## Generation Rules
 
-1. TL;DR
-2. 執筆者情報
-3. 目次
-4. 免責事項
-5. LINE案内とCTAボタン
-6. フッター
-7. 参考文献（任意）
-8. JSON-LD
+- Write TL;DR as 80-120 Japanese characters.
+- Include at least one concrete number or measurable detail in TL;DR.
+- Build the TOC from actual `##` headings except metadata sections.
+- Use Japanese heading text as anchor ids unless the target file already uses a different established pattern.
+- Replace a plain-text disclaimer with the canonical HTML disclaimer when present.
+- Keep any article-specific references section before the disclaimer block.
+- Keep exactly one LINE button, footer, and JSON-LD block.
+- Treat `wp_fixed_elements.py` as the executable source of truth for preflight and canonical-footer validation.
 
-## 作業手順
+## WordPress Safety
 
-1. 記事タイトル、TL;DR、見出し、セルフケア3項目を確認する
-2. `reference.md` を開き、固定要素テンプレートを取得する
-3. 記事見出しに合わせて目次リンクを調整する
-4. TL;DR と JSON-LD の説明文を一致させる
-5. 研究引用があれば参考文献を追加する
-6. 免責事項、CTA、フッターを記事末尾に入れる
-7. HTMLの閉じ忘れやリンク切れがないか確認する
+- Create a draft with `post_to_wp.py`; do not directly schedule with a future `date` and `--publish`.
+- Schedule only through `format_wp_drafts.py` plan → approve → schedule.
+- For WordPress fixed-element repair, run `fixed-elements` without `--apply`, review the report, apply, then rerun until `PENDING=0` and `errors=[]`.
+- Prefer `--ids`; use `--all` only when every post in the selected status is intentionally in scope.
+- Never use `post_to_wp.py --update-post-id` on future or published posts.
 
-## 出力チェック
+## Output Expectations
 
-- [ ] TL;DR が 80〜120 字程度で入っている
-- [ ] 執筆者情報が入っている
-- [ ] 見出しに対応した目次がある
-- [ ] 免責事項が入っている
-- [ ] CTA とフッターが入っている
-- [ ] 参考文献は必要時のみ挿入している
-- [ ] JSON-LD が記事内容に合っている
+After editing, report:
 
-## 参照
-
-詳細なHTMLスニペットは [reference.md](reference.md) を参照。
+- which file was modified
+- which elements were inserted, repaired, or already canonical
+- the preflight result
+- that the full article, including fixed elements, still needs final style/compliance/character QA before posting
+- any sections that need human confirmation, such as an unusual heading structure or missing numbered self-care steps for JSON-LD `HowTo`

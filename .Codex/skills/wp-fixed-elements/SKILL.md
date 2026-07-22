@@ -1,26 +1,28 @@
 ---
 name: wp-fixed-elements
-description: Add the repository's required WordPress fixed elements to a blog draft before posting, including TL;DR, author block, table of contents, disclaimer, LINE CTA, footer, and JSON-LD. Use when Codex is asked to prepare a blog article for WordPress, insert fixed HTML snippets, add front matter tags, or check whether a repository blog draft is ready for `post_to_wp.py`.
+description: Add, repair, and validate the repository's required WordPress fixed elements, including TL;DR, author block, TOC, references, disclaimer, LINE CTA, canonical footer, and JSON-LD. Use when preparing an HP blog for WordPress, checking a local draft before `post_to_wp.py`, or safely synchronizing fixed elements in WordPress draft or future posts.
 ---
 
 # WP Fixed Elements
 
-Use this skill only for repository HP blog articles. Edit the article in place and preserve the writer's substantive content.
+Use this skill only for repository HP blog articles. Preserve the substantive article and change only required fixed elements.
 
 ## Load This Resource
 
-- Load `reference.md` for the canonical HTML snippets and fixed URLs.
+- Load `reference.md` completely for canonical HTML and fixed URLs.
+- Load `../../../01_ガイドライン・プロンプト/WordPress投稿・予約投稿運用.md` before posting, scheduling, or modifying WordPress posts.
 
 ## Workflow
 
 1. Read the target markdown file completely.
-2. Detect whether fixed elements already exist. If `class="tldr"` or `<nav class="toc">` is present, avoid duplicating those blocks.
-3. Insert the fixed blocks in this order: TL;DR, author block, TOC near the top; disclaimer, LINE CTA, footer, and JSON-LD near the end.
-4. Convert article `##` headings into anchored `<h2 id="...">` form when needed for the TOC.
-5. Preserve `## メタディスクリプション` and `## サジェストキーワード` sections.
-6. Add or replace front matter `tags:` with the repository's required tag set.
-7. Verify the result is still readable markdown-plus-HTML and that no block was duplicated.
-8. Treat the inserted fixed elements as part of the article's final QA scope. Publication-bound drafts must be checked by `$medical-ad-compliance` after this step.
+2. Count every fixed element independently. Never infer completeness from only TL;DR or TOC.
+3. Insert or repair blocks in this order: TL;DR → author → TOC → body → references when used → disclaimer → LINE invitation → LINE button → canonical footer → JSON-LD.
+4. Keep the LINE invitation only before the button. Never put invitation text inside the footer.
+5. Copy the footer from `reference.md` exactly. Keep the image centered and place the address block below it.
+6. Convert article `##` headings into anchored `<h2 id="...">` when required by the TOC.
+7. Preserve metadata sections and add or replace the required front matter `tags:`.
+8. Run `python3 post_to_wp.py "TARGET" --preflight-only`. Fix every reported error before any WordPress write.
+9. Run final style, medical-compliance, and character QA on the complete article after fixed elements are final. Any later fixed-element edit resets this QA gate.
 
 ## Generation Rules
 
@@ -30,12 +32,23 @@ Use this skill only for repository HP blog articles. Edit the article in place a
 - Use Japanese heading text as anchor ids unless the target file already uses a different established pattern.
 - Replace a plain-text disclaimer with the canonical HTML disclaimer when present.
 - Keep any article-specific references section before the disclaimer block.
+- Keep exactly one LINE button, footer, and JSON-LD block.
+- Treat `wp_fixed_elements.py` as the executable source of truth for preflight and canonical-footer validation.
+
+## WordPress Safety
+
+- Create a draft with `post_to_wp.py`; do not directly schedule with a future `date` and `--publish`.
+- Schedule only through `format_wp_drafts.py` plan → approve → schedule.
+- For WordPress fixed-element repair, run `fixed-elements` without `--apply`, review the report, apply, then rerun until `PENDING=0` and `errors=[]`.
+- Prefer `--ids`; use `--all` only when every post in the selected status is intentionally in scope.
+- Never use `post_to_wp.py --update-post-id` on future or published posts.
 
 ## Output Expectations
 
 After editing, report:
 
 - which file was modified
-- whether elements were newly inserted or already present
+- which elements were inserted, repaired, or already canonical
+- the preflight result
 - that the full article, including fixed elements, still needs final style/compliance/character QA before posting
 - any sections that need human confirmation, such as an unusual heading structure or missing numbered self-care steps for JSON-LD `HowTo`

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import re
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -78,6 +79,22 @@ class FixedElementsTests(unittest.TestCase):
         for path in paths:
             matches = re.findall(r"<footer>.*?</footer>", path.read_text(), re.DOTALL)
             self.assertEqual(matches, [CANONICAL_FOOTER], str(path))
+
+    def test_tracked_publication_ready_drafts_use_canonical_elements(self) -> None:
+        raw_paths = subprocess.check_output(
+            ["git", "ls-files", "-z", "--", "HPブログ記事/投稿前/*.md"]
+        )
+        checked = 0
+        for raw_path in raw_paths.split(b"\0"):
+            if not raw_path:
+                continue
+            path = Path(raw_path.decode())
+            html = path.read_text()
+            if "<footer" not in html:
+                continue
+            checked += 1
+            self.assertEqual(publication_html_errors(html), [], str(path))
+        self.assertGreater(checked, 0)
 
     def test_failed_current_post_is_included_in_rollback(self) -> None:
         original = {

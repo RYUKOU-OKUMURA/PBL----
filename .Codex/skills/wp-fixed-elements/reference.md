@@ -86,6 +86,8 @@
 
 ## 6. フッター
 
+LINEボタンの直後、JSON-LDの前に配置する。LINE案内文はCTA前の1回だけとし、フッター内には入れない。
+
 ```html
 <footer>
 <p style="text-align: center;"><img class="size-full wp-image-629 aligncenter"

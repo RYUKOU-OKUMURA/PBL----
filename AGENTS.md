@@ -10,6 +10,7 @@ PBL（フィジカルバランスラボ整体院）の情報発信コンテン�
 PBL情報発信/
 ├── 01_ガイドライン・プロンプト/   # 執筆ガイド・SEOガイド・年間スケジュール
 │   ├── ブログ記事執筆マスターガイド.md   # HPブログの全ルール
+│   ├── WordPress投稿・予約投稿運用.md     # 投稿・予約・一括修正の正規手順
 │   ├── SEO技術ガイド.md                  # SEO・構造化データ
 │   └── 年間スケジュール.md               # LINEコラム年間テーマ
 ├── HPブログ記事/                  # HPブログ記事の保管先
@@ -17,6 +18,8 @@ PBL情報発信/
 ├── 03_研究資料・レビュー/         # PubMedリサーチ結果等
 ├── 身体系/                        # Obsidian Clippings（身体系）へのシンボリックリンク
 ├── post_to_wp.py                  # WordPress投稿スクリプト
+├── format_wp_drafts.py            # WordPress下書き整形・承認・予約・固定要素同期
+├── wp_fixed_elements.py           # 固定要素の共通検査・正規フッター
 ├── .Codex/
 │   └── skills/                    # Codex用スキル定義
 └── .claude/
@@ -48,6 +51,8 @@ PBL情報発信/
 
 `wp-fixed-elements` スキルを使用し、`01_ガイドライン・プロンプト/ブログ記事執筆マスターガイド.md` のセクション11〜13に従って固定要素を挿入する:
 - TL;DR、執筆者情報、目次、免責事項、LINE CTA、フッター、JSON-LD
+- 記事末尾は「参考文献（任意）→免責→LINE案内→CTA→中央画像→院情報→JSON-LD」の順にする
+- LINE案内はCTA前だけに置き、フッター内へ重複させない
 - 固定要素を含めた全体を次のQA対象にする
 
 **ステップ4: 全体QA（1記事なら3つを並列実行）**
@@ -76,7 +81,10 @@ Task(chinese-char-detector, "記事ファイルパスを渡してチェック依
 
 **ステップ6: 投稿準備完了**
 - 修正後、固定要素を含む全体に未レビュー箇所が残っていないことを確認
-- `post_to_wp.py` で投稿（下書き or 予約投稿）
+- `01_ガイドライン・プロンプト/WordPress投稿・予約投稿運用.md` に従う
+- `post_to_wp.py --preflight-only` 合格後、WordPressへはまず下書き投稿する
+- 予約は `format_wp_drafts.py` の `plan → approve → schedule` のみを使う
+- 予約後は `fixed-elements --status future --ids ...` で `PENDING=0` と `errors=[]` を確認する
 
 ---
 
@@ -144,6 +152,13 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 - QA対象は本文だけでなく、TL;DR、執筆者情報、CTA、フッター、JSON-LDを含む記事全体
 - 特に medical-compliance-checker は薬機法リスクがあるため省略厳禁
 
+### WordPress投稿・予約
+- `post_to_wp.py --publish` に未来日を渡して直接予約しない
+- 予約・公開記事を `post_to_wp.py --update-post-id` で更新しない
+- `format_wp_drafts.py fixed-elements` は必ずdry-run→apply→再dry-runの順で使う
+- `--all` は全件が対象だと確認できた場合だけ使い、通常は `--ids` を使う
+- 固定要素を変更した場合は本文を含む3種QAをすべてやり直す
+
 ### 既存ガイドを参照する
 - 執筆前に必ず該当するマスターガイドを読み込む
 - 前回の記事を確認し、内容・表現の重複を避ける
@@ -184,7 +199,9 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 
 | スクリプト | 用途 | 外部依存 |
 |-----------|------|---------|
-| `post_to_wp.py` | Markdown/HTML → WordPress下書き/公開投稿 | WordPress REST API（`.env`の`WP_URL`/`WP_USER`/`WP_APP_PASSWORD`） |
+| `post_to_wp.py` | 固定要素preflight＋WordPress下書き投稿 | WordPress REST API（`.env`の`WP_URL`/`WP_USER`/`WP_APP_PASSWORD`） |
+| `format_wp_drafts.py` | 下書き整形・QA承認・予約・固定要素同期 | WordPress REST API |
+| `wp_fixed_elements.py` | 投稿前固定要素の共通検査 | なし |
 | `analyze_content_seo.py` | GA4 × WordPress × Search Console 統合分析 | WordPress REST API + Google APIs（サービスアカウントJSON必要） |
 | `Analytics/*.py` | 各種トラフィック分析スクリプト | Google APIs |
 
@@ -195,7 +212,9 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 
 ### スクリプト実行
 
-- **WordPress投稿**: `python3 post_to_wp.py <markdown_file> [--draft|--publish] [-v]`
+- **接続なしpreflight**: `python3 post_to_wp.py <markdown_file> --preflight-only`
+- **WordPress下書き投稿**: `python3 post_to_wp.py <markdown_file> --draft [-v]`
+- **予約記事の固定要素確認**: `python3 format_wp_drafts.py fixed-elements --status future --ids <ID...>`
 - **SEO分析（WPのみ）**: `python3 analyze_content_seo.py --wp-only`（GA4/GSCはサービスアカウントJSONが必要で、Cloud VMでは利用不可）
 
 ### 注意点
@@ -203,4 +222,5 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 - `.env` ファイルにWordPress認証情報が含まれている。`WP_URL`、`WP_USER`、`WP_APP_PASSWORD`が正しく設定されていればWordPress APIは使用可能
 - `GOOGLE_APPLICATION_CREDENTIALS` はローカルmacOSパスを参照しており、Cloud VMでは無効。GA4/GSC関連機能はスキップされるが、`analyze_content_seo.py --wp-only`モードでWordPressデータのみの分析は可能
 - `身体系/` シンボリックリンクはローカルGoogle Driveパスを参照しており、Cloud VMでは無効（壊れたシンボリックリンク）。動作には影響なし
-- このリポジトリにはリンター、テストフレームワーク、ビルドシステムは存在しない。品質管理はQAサブエージェント（`japanese-blog-style-guard`、`medical-compliance-checker`、`chinese-char-detector`）が担当する
+- 固定要素の自動テストは `python3 -m unittest discover -s tests -v` で実行する
+- 記事内容の品質管理はQAサブエージェント（`japanese-blog-style-guard`、`medical-compliance-checker`、`chinese-char-detector`）が担当する
