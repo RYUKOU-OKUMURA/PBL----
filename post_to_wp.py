@@ -1461,7 +1461,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
         epilog='''
 使用例:
   python post_to_wp.py articles/sample.md           # 下書きとして投稿
-  python post_to_wp.py articles/sample.md --publish # 公開として投稿
+  python post_to_wp.py articles/sample.md --publish # QA済み記事を即時公開（予約には使わない）
   python post_to_wp.py articles/sample.md -v        # 詳細ログ付きで投稿
   python post_to_wp.py articles/page.html           # HTMLファイルを投稿
   python post_to_wp.py articles/sample.md --create-terms  # カテゴリ/タグを自動作成
