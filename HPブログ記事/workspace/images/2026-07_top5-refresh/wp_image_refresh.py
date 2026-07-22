@@ -321,8 +321,12 @@ def upload_asset(
     path = FINAL_DIR / f"{key}.webp"
     if not path.exists():
         raise RolloutError(f"Missing final image: {path}")
+    upload_index = list_asset_keys().index(key) + 1
     headers = {
-        "Content-Disposition": f'attachment; filename="pbl-{key}-202607.webp"',
+        "Content-Disposition": (
+            f'attachment; filename="pbl-{int(asset["post_id"])}-'
+            f'{upload_index:02d}-202607.webp"'
+        ),
         "Content-Type": "image/webp",
     }
     response = requests.post(

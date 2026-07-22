@@ -1,0 +1,107 @@
+{
+  "media": {
+    "976-featured": {
+      "id": 2054,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-976-featured-202607.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "976-research": {
+      "id": 2055,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-976-02-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "976-daily-life": {
+      "id": 2056,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-976-03-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "976-consultation": {
+      "id": 2057,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-976-04-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "965-featured": {
+      "id": 2058,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-965-05-202607.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "441-featured": {
+      "id": 2059,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-441-06-202607.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "441-device": {
+      "id": 2060,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-441-07-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "441-cell": {
+      "id": 2061,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-441-08-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "441-session": {
+      "id": 2062,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-441-09-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1176-featured": {
+      "id": 2063,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1176-10-202607.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "1176-connection": {
+      "id": 2064,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1176-11-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1176-daily-impact": {
+      "id": 2065,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1176-12-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1182-featured": {
+      "id": 2066,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1182-13-202607.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "1182-gait": {
+      "id": 2067,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1182-14-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1182-muscles": {
+      "id": 2068,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1182-15-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1182-exercise": {
+      "id": 2069,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1182-16-202607.webp",
+      "width": 1200,
+      "height": 900
+    }
+  },
+  "updated_posts": [
+    976,
+    965,
+    441,
+    1176,
+    1182
+  ]
+}
