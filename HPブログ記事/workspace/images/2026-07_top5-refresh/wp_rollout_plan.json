@@ -1,0 +1,223 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "03a6d45cd0d6c5ffb38c17d2577fc2dc9e7acaf35a059810511c6e91588b1ba5",
+  "image_files": {
+    "976-featured": {
+      "sha256": "3e594af4ec75d5de8c325461eb32a6f65973963a6bbbbcf176819a980f6b245a",
+      "bytes": 23500,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "976-research": {
+      "sha256": "76d4b108f4f406a5d51f0c9b80816eb0e55ad4cd9dd50f9d1c6080693e246684",
+      "bytes": 51592,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "976-daily-life": {
+      "sha256": "0441ee37627cd9c3a2f71df248b0caa51d1d6e852ebd50a3c494943f106f9e2e",
+      "bytes": 32846,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "976-consultation": {
+      "sha256": "484c1d4af23f7385da28c4e624b5fac0a40370a9e844029c9aaf1efda7185266",
+      "bytes": 34770,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "965-featured": {
+      "sha256": "63490708895f6b02fcb1831d36eb8fada0323583eff5ddbdc7bfba856247f00b",
+      "bytes": 32842,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "441-featured": {
+      "sha256": "dbf65c854b773e60b267e40d14e56cbcb53af49921a679aa86597638afff9523",
+      "bytes": 29684,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "441-device": {
+      "sha256": "1b682e919f6eb66aef5c0519ef917684be8eed1b4fa21c8795aeb07ccba620cc",
+      "bytes": 32368,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "441-cell": {
+      "sha256": "99d0318d0c085ef36e203b43684c274ccc129ad7a66bb50ff86e7e9a1b6ebdfa",
+      "bytes": 31656,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "441-session": {
+      "sha256": "f6affefca2294b32b044e731f56f858aee594d382d718462b56e0400dc68eb4c",
+      "bytes": 34456,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1176-featured": {
+      "sha256": "4e1611016df149c50e8d8bc2e5f7f743c0ce8e1052e2a6705a25a0b2677e8d8a",
+      "bytes": 28766,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1176-connection": {
+      "sha256": "07c04f19f34171a802ecea73878db99896a3ceb211605e8e86a4e18fd3a44fa9",
+      "bytes": 22746,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1176-daily-impact": {
+      "sha256": "58fe23a2979d76400d53a035d8d0db568e295deece57417dcacca28cfc7c35a4",
+      "bytes": 28212,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1182-featured": {
+      "sha256": "74253ab6adabd4130b07ee4d96e8068f443492d41c7fefbefed3d3472c8d137f",
+      "bytes": 28368,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1182-gait": {
+      "sha256": "e7acd706a81fd15e5620d5254ee30f2aeae82f4ca85f78589514835a48f47931",
+      "bytes": 24894,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1182-muscles": {
+      "sha256": "352e5e52f20bad60725001ef2818cbfe11d7b7fa75f8fb7cd96a8f7385c935d8",
+      "bytes": 15454,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1182-exercise": {
+      "sha256": "44b7bab96ec0559c2e562fde928338f64acb81516ede9e08805d08a8b81199d3",
+      "bytes": 29056,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "976": {
+      "id": 976,
+      "title": "【脊柱側弯症手術後の痛み - 半数以上が経験する長期的な苦痛への理解を深める】",
+      "status": "publish",
+      "date": "2024-09-24T11:34:25",
+      "date_gmt": "2024-09-24T02:34:25",
+      "modified": "2026-07-17T20:44:38",
+      "modified_gmt": "2026-07-17T11:44:38",
+      "featured_media": 314,
+      "content_sha256": "77f635fe6d1f99515b6bd52b85bc95e86e0d4c643d4c40e30cbcd537aaf5fab0",
+      "content_img_count": 2,
+      "fixed_element_errors": [
+        "tldr: expected 1, found 0",
+        "toc: expected 1, found 0",
+        "disclaimer: expected 1, found 0",
+        "footer: expected 1, found 0",
+        "jsonld: expected 1, found 0",
+        "author_copy: expected canonical author label once"
+      ],
+      "link": "https://physical-balance-lab.com/976/"
+    },
+    "965": {
+      "id": 965,
+      "title": "側弯症の装具4種類を解説！ミルウォーキー・ボストン・シュロスの違いと選び方",
+      "status": "publish",
+      "date": "2024-09-13T16:52:54",
+      "date_gmt": "2024-09-13T07:52:54",
+      "modified": "2026-07-17T20:44:40",
+      "modified_gmt": "2026-07-17T11:44:40",
+      "featured_media": 314,
+      "content_sha256": "2c476175527a40c8559fe31523fc9ac36f1bf36cef75444bd21d665b6f72e2c2",
+      "content_img_count": 6,
+      "fixed_element_errors": [
+        "tldr: expected 1, found 0",
+        "toc: expected 1, found 0",
+        "disclaimer: expected 1, found 0",
+        "footer: expected 1, found 0",
+        "jsonld: expected 1, found 0",
+        "author_copy: expected canonical author label once"
+      ],
+      "link": "https://physical-balance-lab.com/965/"
+    },
+    "441": {
+      "id": 441,
+      "title": "【パルス電磁場療法（PEMF）の概要と解説】",
+      "status": "publish",
+      "date": "2024-04-18T15:23:27",
+      "date_gmt": "2024-04-18T06:23:27",
+      "modified": "2024-11-09T16:52:47",
+      "modified_gmt": "2024-11-09T07:52:47",
+      "featured_media": 314,
+      "content_sha256": "85ff14bef051579106863573d689d3d23f90ae55d439e65fe7fc7bf1b7c8589b",
+      "content_img_count": 2,
+      "fixed_element_errors": [
+        "tldr: expected 1, found 0",
+        "toc: expected 1, found 0",
+        "disclaimer: expected 1, found 0",
+        "footer: expected 1, found 0",
+        "jsonld: expected 1, found 0",
+        "author_copy: expected canonical author label once"
+      ],
+      "link": "https://physical-balance-lab.com/441/"
+    },
+    "1176": {
+      "id": 1176,
+      "title": "【側弯症解説シリーズ】第5回：意外と知らない！脊柱側弯症と股関節・骨盤の密接な関係！",
+      "status": "publish",
+      "date": "2025-04-02T15:02:48",
+      "date_gmt": "2025-04-02T06:02:48",
+      "modified": "2025-04-02T15:03:20",
+      "modified_gmt": "2025-04-02T06:03:20",
+      "featured_media": 314,
+      "content_sha256": "f0f140f29e762e88f0ed9de42dd07cc3287810366157bcefe2d9ab1974e5b1c0",
+      "content_img_count": 3,
+      "fixed_element_errors": [
+        "tldr: expected 1, found 0",
+        "toc: expected 1, found 0",
+        "disclaimer: expected 1, found 0",
+        "footer: expected 1, found 0",
+        "jsonld: expected 1, found 0",
+        "author_copy: expected canonical author label once"
+      ],
+      "link": "https://physical-balance-lab.com/1176/"
+    },
+    "1182": {
+      "id": 1182,
+      "title": "【側弯症解説シリーズ】第7回：脊柱側弯症で変わる歩き方と背中の筋肉の働き〜気づかない身体の変化と簡単改善法〜",
+      "status": "publish",
+      "date": "2025-04-18T17:43:26",
+      "date_gmt": "2025-04-18T08:43:26",
+      "modified": "2025-05-02T13:41:14",
+      "modified_gmt": "2025-05-02T04:41:14",
+      "featured_media": 314,
+      "content_sha256": "bd321ee0127e56dacd0517cd4562483ee05e438e7d613c174cf4bf85afd0e6ad",
+      "content_img_count": 2,
+      "fixed_element_errors": [
+        "toc: expected 1, found 0",
+        "disclaimer: expected 1, found 0",
+        "footer: expected 1, found 0",
+        "author_copy: expected canonical author label once"
+      ],
+      "link": "https://physical-balance-lab.com/1182/"
+    }
+  }
+}
