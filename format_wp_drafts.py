@@ -626,6 +626,41 @@ def command_inventory(config: dict[str, str]) -> int:
     return 0
 
 
+def command_export(
+    config: dict[str, str],
+    status: str,
+    ids: set[int] | None,
+    output_dir: Path,
+) -> int:
+    """Export edit-context HTML and a manifest for read-only final QA."""
+    posts = selected_posts(config, status, ids)
+    stamp = datetime.now(JST).strftime("%Y%m%d-%H%M%S-%f")
+    export_dir = output_dir / f"wp-export-{status}-{stamp}"
+    export_dir.mkdir(parents=True, exist_ok=False)
+    manifest: list[dict[str, Any]] = []
+    for post in posts:
+        html = raw_content(post)
+        path = export_dir / f"{post['id']}.html"
+        path.write_text(html, encoding="utf-8")
+        manifest.append(
+            {
+                "id": post["id"],
+                "title": raw_title(post),
+                "status": post.get("status"),
+                "date": post.get("date"),
+                "date_gmt": post.get("date_gmt"),
+                "content_sha256": content_hash(html),
+                "file": path.name,
+            }
+        )
+        print(f"EXPORTED={post['id']} FILE={path}")
+    (export_dir / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"EXPORT_DIR={export_dir} COUNT={len(posts)}")
+    return 0
+
+
 def require_publication_html(html: str, label: str) -> None:
     errors = publication_html_errors(html)
     if errors:
@@ -706,6 +741,15 @@ def command_fixed_elements(
                 )
             require_publication_html(updated_content, f"post {original['id']}")
             print(f"UPDATED={updated['id']} STATUS={updated['status']} DATE={updated['date']}")
+        for original, updated_content in previews:
+            verified = fetch_post(config, original["id"])
+            if (
+                raw_content(verified) != updated_content
+                or verified.get("status") != original.get("status")
+                or verified.get("date") != original.get("date")
+                or verified.get("date_gmt") != original.get("date_gmt")
+            ):
+                raise PipelineError(f"post {original['id']} failed final batch verification")
     except Exception as update_error:
         rollback_errors: list[str] = []
         for original in reversed(attempted):
@@ -743,15 +787,6 @@ def command_fixed_elements(
                 f"footer update failed ({update_error}); rollback errors: {rollback_errors}"
             ) from update_error
         raise
-    for original, updated_content in previews:
-        verified = fetch_post(config, original["id"])
-        if (
-            raw_content(verified) != updated_content
-            or verified.get("status") != original.get("status")
-            or verified.get("date") != original.get("date")
-            or verified.get("date_gmt") != original.get("date_gmt")
-        ):
-            raise PipelineError(f"post {original['id']} failed final batch verification")
     print(f"VERIFIED={len(previews)} STATUS={status}")
     return 0
 
@@ -1352,6 +1387,12 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("inventory")
     subparsers.add_parser("next-slot")
+    export = subparsers.add_parser("export")
+    export.add_argument("--status", choices=("draft", "future"), required=True)
+    export_selection = export.add_mutually_exclusive_group(required=True)
+    export_selection.add_argument("--ids", type=int, nargs="+")
+    export_selection.add_argument("--all", action="store_true")
+    export.add_argument("--out-dir", type=Path, required=True)
     fixed_elements = subparsers.add_parser("fixed-elements")
     fixed_elements.add_argument("--status", choices=("draft", "future"), required=True)
     fixed_selection = fixed_elements.add_mutually_exclusive_group(required=True)
@@ -1392,6 +1433,13 @@ def main() -> int:
             return command_inventory(config)
         if args.command == "next-slot":
             return command_next_slot(config)
+        if args.command == "export":
+            return command_export(
+                config,
+                args.status,
+                selection_from_args(args),
+                args.out_dir,
+            )
         if args.command == "fixed-elements":
             return command_fixed_elements(
                 config,

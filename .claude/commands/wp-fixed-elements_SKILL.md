@@ -26,6 +26,7 @@ description: HPブログ記事のWordPress固定要素を追加・修復・検�
 ## WordPress運用
 
 - WordPressへはまず下書きとして投稿する。
+- 最終QAは `format_wp_drafts.py export` で取得したedit-context HTMLを対象にする。
 - 予約は `format_wp_drafts.py` の `plan → approve → schedule` だけを使う。
 - 予約記事の修正は `fixed-elements --status future --ids ...` をdry-run→apply→再dry-runの順で行う。
 - `post_to_wp.py --update-post-id` を予約・公開記事に使わない。

@@ -70,6 +70,25 @@ class FixedElementsTests(unittest.TestCase):
         errors = publication_html_errors(publication_html(OLD_FOOTER))
         self.assertTrue(any(error.startswith("line_invitation:") for error in errors))
 
+    def test_missing_line_invitation_block_is_reported(self) -> None:
+        button_only = '<div class="q_button_wrap"><a href="#">公式LINE</a></div>'
+        html = publication_html().replace(LINE_BLOCK, button_only)
+        errors = publication_html_errors(html)
+        self.assertTrue(
+            any(error.startswith("line_invitation_block:") for error in errors)
+        )
+
+    def test_unrelated_paragraph_is_not_accepted_as_line_invitation(self) -> None:
+        unrelated = (
+            '<div><p>別の案内文です。</p></div>'
+            '<div class="q_button_wrap"><a href="#">公式LINE</a></div>'
+        )
+        html = publication_html().replace(LINE_BLOCK, unrelated)
+        errors = publication_html_errors(html)
+        self.assertTrue(
+            any(error.startswith("line_invitation_block:") for error in errors)
+        )
+
     def test_documented_footer_templates_match_the_code(self) -> None:
         paths = (
             Path(".Codex/skills/wp-fixed-elements/reference.md"),
@@ -143,6 +162,75 @@ class FixedElementsTests(unittest.TestCase):
         self.assertEqual(
             set(rollback_payloads[0]), {"content", "status", "date", "date_gmt"}
         )
+
+    def test_export_creates_qa_html_and_manifest(self) -> None:
+        post = {
+            "id": 20,
+            "status": "draft",
+            "date": "2026-08-01T13:00:00",
+            "date_gmt": "2026-08-01T04:00:00",
+            "title": {"raw": "QAテスト"},
+            "content": {"raw": publication_html()},
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch.object(format_wp_drafts, "selected_posts", return_value=[post]):
+                result = format_wp_drafts.command_export({}, "draft", {20}, root)
+            self.assertEqual(result, 0)
+            export_dirs = list(root.iterdir())
+            self.assertEqual(len(export_dirs), 1)
+            self.assertEqual((export_dirs[0] / "20.html").read_text(), publication_html())
+            manifest = (export_dirs[0] / "manifest.json").read_text()
+            self.assertIn('"id": 20', manifest)
+            self.assertIn('"content_sha256"', manifest)
+
+    def test_final_batch_verification_failure_rolls_back(self) -> None:
+        original = {
+            "id": 30,
+            "status": "future",
+            "date": "2026-08-03T13:00:00",
+            "date_gmt": "2026-08-03T04:00:00",
+            "title": {"raw": "最終検証テスト"},
+            "content": {"raw": publication_html(OLD_FOOTER)},
+        }
+        state = copy.deepcopy(original)
+        fetch_count = 0
+        rollback_payloads: list[dict] = []
+
+        def fake_fetch(_config: dict, _post_id: int) -> dict:
+            nonlocal fetch_count
+            fetch_count += 1
+            if fetch_count == 3:
+                state["content"]["raw"] += "<!-- final verification mismatch -->"
+            return copy.deepcopy(state)
+
+        def fake_post(_config: dict, _post_id: int, payload: dict) -> dict:
+            state["content"]["raw"] = payload["content"]
+            if "status" in payload:
+                rollback_payloads.append(payload)
+                state["status"] = payload["status"]
+                state["date"] = payload["date"]
+                state["date_gmt"] = payload["date_gmt"]
+            return copy.deepcopy(state)
+
+        with tempfile.TemporaryDirectory() as directory:
+            with (
+                patch.object(format_wp_drafts, "selected_posts", return_value=[original]),
+                patch.object(format_wp_drafts, "fetch_post", side_effect=fake_fetch),
+                patch.object(format_wp_drafts, "api_post", side_effect=fake_post),
+                patch.object(
+                    format_wp_drafts,
+                    "backup_posts",
+                    return_value=Path(directory) / "backup.json",
+                ),
+            ):
+                with self.assertRaises(format_wp_drafts.PipelineError):
+                    format_wp_drafts.command_fixed_elements(
+                        {}, "future", {30}, True, Path(directory)
+                    )
+
+        self.assertEqual(state, original)
+        self.assertEqual(len(rollback_payloads), 1)
 
 
 if __name__ == "__main__":

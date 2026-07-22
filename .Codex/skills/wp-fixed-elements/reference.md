@@ -123,7 +123,7 @@ LINEボタンの直後、JSON-LDの前に配置する。LINE案内文はCTA前�
 
 ## 8. JSON-LD テンプレート
 
-記事タイトル・TL;DR・「今日からできること」の内容に応じて埋める。
+Articleは必須。HowToは、記事に番号付きセルフケア手順がある場合だけ含める。手順がない記事ではHowToノードを削除する。
 
 ```html
 <script type="application/ld+json">

@@ -19,6 +19,8 @@ HPブログをWordPressへ安全に投稿・予約するための正規手順。
 
 フッターは `wp_fixed_elements.py` の `CANONICAL_FOOTER` と完全一致させる。画像には `text-align: center` と `aligncenter` を指定する。
 
+自動preflightは、固定要素の個数・順序、LINE案内ブロック、正規フッター、JSON構文を検査する。TL;DRの内容、TOCリンクの意味的一致、免責・CTAの文章品質、JSON-LDノードの妥当性までは代替しないため、最終3種QAと人による確認を省略しない。
+
 ## 標準フロー
 
 ### 1. ローカル原稿の固定要素チェック
@@ -67,6 +69,14 @@ python3 format_wp_drafts.py plan --ids POST_ID --first-at NEXT_SLOT --plan PLAN.
 `NEXT_SLOT` には `next-slot` が返したISO 8601日時をそのまま使う。既存の予約日時は動かさず、最新予約の2日後13:00（JST）へ追加する。
 
 ### 5. WordPress上の完成稿を全体QA
+
+WordPressのedit-context本文をQA用ファイルへ読み取り出力する。
+
+```bash
+python3 format_wp_drafts.py export --status draft --ids POST_ID --out-dir QA_EXPORT_DIR
+```
+
+コマンドが表示した `EXPORT_DIR` 内の `POST_ID.html` をQA対象にする。`manifest.json` の本文ハッシュ・status・日時も保存し、承認対象との取り違えを防ぐ。
 
 固定要素を含む完成稿に対して、次の3チェックを実行する。
 

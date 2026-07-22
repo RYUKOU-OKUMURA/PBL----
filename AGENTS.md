@@ -83,6 +83,7 @@ Task(chinese-char-detector, "記事ファイルパスを渡してチェック依
 - 修正後、固定要素を含む全体に未レビュー箇所が残っていないことを確認
 - `01_ガイドライン・プロンプト/WordPress投稿・予約投稿運用.md` に従う
 - `post_to_wp.py --preflight-only` 合格後、WordPressへはまず下書き投稿する
+- WordPress整形後は `format_wp_drafts.py export` で完成HTMLを取得し、同じ3種QAを再実行する
 - 予約は `format_wp_drafts.py` の `plan → approve → schedule` のみを使う
 - 予約後は `fixed-elements --status future --ids ...` で `PENDING=0` と `errors=[]` を確認する
 

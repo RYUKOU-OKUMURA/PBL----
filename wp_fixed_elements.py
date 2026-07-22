@@ -14,7 +14,9 @@ JSONLD_SCRIPT_RE = re.compile(
     r'<script\b(?=[^>]*type=["\']application/ld\+json["\'])[^>]*>.*?</script>',
     re.IGNORECASE | re.DOTALL,
 )
+DIV_RE = re.compile(r"<div\b[^>]*>.*?</div>", re.IGNORECASE | re.DOTALL)
 LINE_INVITATION = "公式LINEから24時間受け付けてます！"
+LINE_INVITATION_TERMS = ("公式LINE", "ご予約", "お問い合わせ", "ご相談")
 REQUIRED_SELECTORS = {
     "tldr": ".tldr",
     "author": ".wp-image-361",
@@ -77,6 +79,19 @@ def publication_html_errors(html: str) -> list[str]:
     jsonld_position = jsonld_matches[0].start() if len(jsonld_matches) == 1 else -1
     footer_position = footer_match.start() if footer_match is not None else -1
     if min(disclaimer_position, button_position, footer_position, jsonld_position) >= 0:
+        invitation_blocks = []
+        for match in DIV_RE.finditer(html, disclaimer_position, button_position):
+            block = BeautifulSoup(match.group(0), "html.parser")
+            paragraph = block.find("p")
+            paragraph_text = paragraph.get_text(" ", strip=True) if paragraph else ""
+            if paragraph_text and any(
+                term in paragraph_text for term in LINE_INVITATION_TERMS
+            ):
+                invitation_blocks.append(match.group(0))
+        if len(invitation_blocks) != 1:
+            errors.append(
+                f"line_invitation_block: expected 1 before the button, found {len(invitation_blocks)}"
+            )
         if not disclaimer_position < button_position < footer_position < jsonld_position:
             errors.append(
                 "order: expected disclaimer < LINE button < footer < JSON-LD"

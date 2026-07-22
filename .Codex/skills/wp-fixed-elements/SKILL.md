@@ -39,6 +39,7 @@ Use this skill only for repository HP blog articles. Preserve the substantive ar
 
 - Create a draft with `post_to_wp.py`; do not directly schedule with a future `date` and `--publish`.
 - Schedule only through `format_wp_drafts.py` plan → approve → schedule.
+- Export the WordPress edit-context HTML with `format_wp_drafts.py export` and use that file for final QA before approval.
 - For WordPress fixed-element repair, run `fixed-elements` without `--apply`, review the report, apply, then rerun until `PENDING=0` and `errors=[]`.
 - Prefer `--ids`; use `--all` only when every post in the selected status is intentionally in scope.
 - Never use `post_to_wp.py --update-post-id` on future or published posts.
