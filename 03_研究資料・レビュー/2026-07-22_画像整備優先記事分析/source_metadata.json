@@ -1,0 +1,55 @@
+{
+  "ga4_12m": {
+    "start_date": "2025-07-20",
+    "end_date": "2026-07-19",
+    "api_row_count": 411,
+    "returned_rows": 411,
+    "metric_names": [
+      "screenPageViews",
+      "activeUsers",
+      "sessions",
+      "engagedSessions"
+    ]
+  },
+  "ga4_90d": {
+    "start_date": "2026-04-21",
+    "end_date": "2026-07-19",
+    "api_row_count": 224,
+    "returned_rows": 224,
+    "metric_names": [
+      "screenPageViews",
+      "activeUsers",
+      "sessions",
+      "engagedSessions"
+    ]
+  },
+  "gsc_pages_12m": {
+    "start_date": "2025-07-20",
+    "end_date": "2026-07-19",
+    "dimensions": [
+      "page"
+    ],
+    "returned_rows": 140,
+    "hit_safety_cap": false
+  },
+  "gsc_pages_90d": {
+    "start_date": "2026-04-21",
+    "end_date": "2026-07-19",
+    "dimensions": [
+      "page"
+    ],
+    "returned_rows": 89,
+    "hit_safety_cap": false
+  },
+  "gsc_query_pages_12m": {
+    "start_date": "2025-07-20",
+    "end_date": "2026-07-19",
+    "dimensions": [
+      "query",
+      "page"
+    ],
+    "returned_rows": 1496,
+    "hit_safety_cap": false
+  },
+  "wp_public_posts": 218
+}

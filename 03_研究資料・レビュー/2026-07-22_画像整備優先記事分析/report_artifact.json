@@ -1,0 +1,726 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "アクセス上位記事の画像整備候補",
+    "description": "公開記事のアクセスと現在の画像実装を突合した、画像整備の優先順位。",
+    "generatedAt": "2026-07-22T00:00:00+09:00",
+    "sources": [
+      {
+        "id": "joined_priority_analysis",
+        "label": "GA4×Search Console×WordPress 統合分析",
+        "path": "03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/画像整備優先20記事.csv",
+        "query": {
+          "engine": "duckdb",
+          "language": "sql",
+          "sql": "SELECT * FROM read_csv_auto('03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/画像整備優先20記事.csv') ORDER BY screenPageViews_12m DESC LIMIT 20",
+          "description": "検証済みの統合CSVから12か月PV順の上位20記事を読み込む。",
+          "filters": [
+            "WordPress status=publish",
+            "2025-07-20 through 2026-07-19",
+            "Top 20 by screenPageViews_12m"
+          ],
+          "metric_definitions": [
+            "12か月PV = GA4 screenPageViewsの投稿ID別合計",
+            "本文追加目安 = max(0, 3 - 記事固有本文画像数)"
+          ],
+          "tables_used": [
+            "画像整備優先20記事.csv"
+          ]
+        }
+      },
+      {
+        "id": "wp_image_audit",
+        "label": "WordPress公開記事・画像監査",
+        "path": "03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/raw/wp_published_image_audit.csv",
+        "query": {
+          "engine": "duckdb",
+          "language": "sql",
+          "sql": "SELECT * FROM read_csv_auto('03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/raw/wp_published_image_audit.csv')",
+          "description": "WordPress公開記事の検証済み画像監査CSVを読み込む。",
+          "filters": [
+            "WordPress status=publish",
+            "固定画像361/487/629を記事固有画像から除外"
+          ],
+          "metric_definitions": [
+            "共通アイキャッチ記事 = featured_reuse_countが20以上の記事数"
+          ],
+          "tables_used": [
+            "wp_published_image_audit.csv"
+          ]
+        }
+      }
+    ],
+    "cards": [
+      {
+        "id": "traffic_concentration",
+        "dataset": "summary_metrics",
+        "sourceId": "joined_priority_analysis",
+        "description": "現在公開中の記事PVに占める割合。",
+        "metrics": [
+          {
+            "label": "上位20記事のPV占有率",
+            "field": "top20_share",
+            "format": "percent"
+          },
+          {
+            "label": "上位5記事",
+            "field": "top5_share",
+            "format": "percent"
+          }
+        ]
+      },
+      {
+        "id": "generic_featured",
+        "dataset": "summary_metrics",
+        "sourceId": "wp_image_audit",
+        "description": "同じアイキャッチID 314を使う公開記事数。",
+        "metrics": [
+          {
+            "label": "共通アイキャッチ記事",
+            "field": "generic_featured_posts",
+            "format": "number"
+          },
+          {
+            "label": "公開記事総数",
+            "field": "public_posts",
+            "format": "number"
+          }
+        ]
+      },
+      {
+        "id": "zero_body_images",
+        "dataset": "summary_metrics",
+        "sourceId": "joined_priority_analysis",
+        "description": "固定要素を除く記事固有の本文画像がない記事。",
+        "metrics": [
+          {
+            "label": "本文固有画像ゼロ（上位20）",
+            "field": "zero_body_top20",
+            "format": "number"
+          },
+          {
+            "label": "全公開記事",
+            "field": "zero_body_all",
+            "format": "number"
+          }
+        ]
+      },
+      {
+        "id": "minimum_workload",
+        "dataset": "summary_metrics",
+        "sourceId": "joined_priority_analysis",
+        "description": "有用な既存本文画像を残し、各記事の本文画像を合計3枚にする場合の最低目安。",
+        "metrics": [
+          {
+            "label": "最低限の新規画像",
+            "field": "minimum_new_assets",
+            "format": "number"
+          },
+          {
+            "label": "アイキャッチ",
+            "field": "new_featured_assets",
+            "format": "number"
+          },
+          {
+            "label": "本文",
+            "field": "new_body_assets",
+            "format": "number"
+          }
+        ]
+      }
+    ],
+    "charts": [
+      {
+        "id": "top20_views_chart",
+        "title": "公開記事の12か月ページビュー",
+        "subtitle": "2025年7月20日〜2026年7月19日、上位20記事",
+        "type": "horizontalBar",
+        "dataset": "priority_articles",
+        "sourceId": "joined_priority_analysis",
+        "encodings": {
+          "x": {
+            "field": "article_label",
+            "type": "nominal",
+            "label": "記事"
+          },
+          "y": {
+            "field": "views_12m",
+            "type": "quantitative",
+            "label": "12か月PV",
+            "format": "number"
+          },
+          "tooltip": [
+            {
+              "field": "title",
+              "type": "text",
+              "label": "記事タイトル"
+            },
+            {
+              "field": "views_90d",
+              "type": "quantitative",
+              "label": "90日PV",
+              "format": "number"
+            },
+            {
+              "field": "gsc_clicks_12m",
+              "type": "quantitative",
+              "label": "GSCクリック",
+              "format": "number"
+            },
+            {
+              "field": "current_body_images",
+              "type": "quantitative",
+              "label": "本文固有画像",
+              "format": "number"
+            },
+            {
+              "field": "recommended_action",
+              "type": "text",
+              "label": "推奨作業"
+            }
+          ]
+        },
+        "xAxisTitle": "記事",
+        "yAxisTitle": "ページビュー",
+        "valueFormat": "number",
+        "unit": "PV",
+        "layout": "full",
+        "maxRows": 20,
+        "intent": "comparison",
+        "question": "どの公開記事にアクセスが集中しているか",
+        "rationale": "長い記事名を持つ順位比較なので横棒を使用。"
+      }
+    ],
+    "tables": [
+      {
+        "id": "priority_table",
+        "title": "画像整備の優先20記事",
+        "subtitle": "12か月PV順。本文追加数は記事固有画像を合計3枚にする最低目安。",
+        "dataset": "priority_articles",
+        "sourceId": "joined_priority_analysis",
+        "density": "compact",
+        "layout": "full",
+        "defaultSort": {
+          "field": "rank",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "rank",
+            "label": "順位",
+            "type": "number",
+            "align": "right"
+          },
+          {
+            "field": "title",
+            "label": "記事",
+            "type": "text"
+          },
+          {
+            "field": "views_12m",
+            "label": "12か月PV",
+            "type": "number",
+            "format": "number",
+            "align": "right"
+          },
+          {
+            "field": "views_90d",
+            "label": "90日PV",
+            "type": "number",
+            "format": "number",
+            "align": "right"
+          },
+          {
+            "field": "gsc_clicks_12m",
+            "label": "GSCクリック",
+            "type": "number",
+            "format": "number",
+            "align": "right"
+          },
+          {
+            "field": "current_body_images",
+            "label": "本文画像",
+            "type": "number",
+            "format": "number",
+            "align": "right"
+          },
+          {
+            "field": "body_images_to_add",
+            "label": "追加目安",
+            "type": "number",
+            "format": "number",
+            "align": "right"
+          },
+          {
+            "field": "recommended_action",
+            "label": "推奨作業",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "id": "report_title",
+        "type": "markdown",
+        "body": "# アクセス上位記事の画像整備候補"
+      },
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "sourceId": "joined_priority_analysis",
+        "body": "## Executive Summary\n\n- **上位20記事から始める判断は妥当です。** 直近12か月で、現在公開中の記事PVの77.9%が上位20記事に集中しています。\n- **上位20件はすべて記事別アイキャッチへ差し替える価値があります。** 公開218記事中217記事が同じアイキャッチを使っており、上位記事でも内容の違いを視覚で伝えられていません。\n- **本文画像は最低41枚の追加が目安です。** 記事固有画像を合計3枚にする前提で、アイキャッチ20枚と合わせると最低61枚の新規画像になります。\n- **最初は上位5記事をパイロットにするのが現実的です。** 上位5件だけで公開記事PVの47.8%をカバーできます。"
+      },
+      {
+        "id": "summary_metrics_block",
+        "type": "metric-strip",
+        "cardIds": [
+          "traffic_concentration",
+          "generic_featured",
+          "zero_body_images",
+          "minimum_workload"
+        ]
+      },
+      {
+        "id": "traffic_finding",
+        "type": "markdown",
+        "sourceId": "joined_priority_analysis",
+        "body": "## アクセスは少数の記事へ集中しています\n\n上位1位の「脊柱側弯症手術後の痛み」は1,570PVで、2位の約1.8倍です。上位20件のうち14件は側弯症関連で、画像制作もまず側弯症シリーズの共通デザインルールを固めると効率が上がります。下の棒グラフは形の比較用、正確な記事名と作業内容は続く一覧表で確認できます。"
+      },
+      {
+        "id": "top20_views_block",
+        "type": "chart",
+        "chartId": "top20_views_chart",
+        "layout": "full"
+      },
+      {
+        "id": "image_status_finding",
+        "type": "markdown",
+        "sourceId": "joined_priority_analysis",
+        "body": "## アイキャッチは全20件、本文は記事ごとに作業量が違います\n\n上位20件はすべて共通アイキャッチから記事別画像へ差し替え対象です。本文では9件に記事固有画像がなく、一方で装具解説や体育座りなど既に3枚以上ある記事もあります。既存の装具写真や臨床的に有用な図は残し、概念説明だけを柔らかいフラットデザインで補うのが自然です。"
+      },
+      {
+        "id": "priority_table_intro",
+        "type": "markdown",
+        "sourceId": "joined_priority_analysis",
+        "body": "## 上位20件と最低作業量\n\n「追加目安」は既存の有用な画像を残し、本文の固有画像を合計3枚にする前提です。検索クリックは優先順位の合成には使わず、記事の検索需要を確認する補助指標として掲載しています。"
+      },
+      {
+        "id": "priority_table_block",
+        "type": "table",
+        "tableId": "priority_table",
+        "layout": "full"
+      },
+      {
+        "id": "recommendations",
+        "type": "markdown",
+        "sourceId": "joined_priority_analysis",
+        "body": "## 実施は5記事ずつの4回に分けるのがおすすめです\n\n1. **第1波は順位1〜5。** 記事別アイキャッチを5枚作り、本文は装具記事の既存4画像を生かしつつ、残り4記事へ必要分を追加します。\n2. **第2波以降は順位6〜10、11〜15、16〜20。** 各回でデザイン・alt・表示サイズ・読み込み速度を確認してから次へ進みます。\n3. **側弯症14記事は同じ色・線・人物表現で統一。** ただし脊柱の曲線、装具、歩行、睡眠など記事ごとの主題は明確に変えます。\n4. **公開前後でPVと検索クリックを記録。** 画像変更の効果を断定せず、まずCTR、スクロール、表示速度の悪化がないかを確認します。"
+      },
+      {
+        "id": "open_questions",
+        "type": "markdown",
+        "body": "## 次の作業前に決めたいこと\n\n- 既存の写真・装具画像・図解は基本的に残し、フラットイラストを補助として加えるか。\n- 「本文3枚」は新規3枚ではなく、既存を含めた合計3枚でよいか。今回の最低作業量は合計3枚で計算しています。\n- 新しいアイキャッチの比率を、現行830×480に合わせるか、OGP向け1200×630を基準にするか。最初の5記事でテーマ表示を確認して決めます。"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "sourceId": "joined_priority_analysis",
+        "body": "## 前提と注意点\n\n- GA4とSearch Consoleの共通確定日に合わせ、2026年7月19日までを集計しました。\n- GA4は公開218記事中194記事と結合しました。記事数では89.0%ですが、数値投稿URLのPVでは96.9%をカバーしており、上位順位への影響は小さいと判断しています。\n- Search Consoleに0と表示される記事は、必ずしも検索流入が完全にゼロとは限りません。検索語の匿名化やデータ閾値の影響があります。\n- 本文画像の判定は固定要素と空タグを除外した機械集計です。WordPress反映前に上位20件を個別に目視します。\n- 直近90日の勢いには、テレビ放映など一時的な流入が含まれる可能性があります。主順位は12か月PVで固定しました。"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-22T00:00:00+09:00",
+    "status": "ready",
+    "datasets": {
+      "summary_metrics": [
+        {
+          "top20_share": 0.7792750443956963,
+          "top5_share": 0.4776976914237961,
+          "top20_views": 7460,
+          "all_public_views": 9573,
+          "generic_featured_posts": 217,
+          "public_posts": 218,
+          "zero_body_top20": 9,
+          "zero_body_all": 134,
+          "minimum_new_assets": 61,
+          "new_featured_assets": 20,
+          "new_body_assets": 41,
+          "scoliosis_articles_top20": 14
+        }
+      ],
+      "priority_articles": [
+        {
+          "rank": 1,
+          "post_id": 976,
+          "article_label": "1. 脊柱側弯症手術後の痛み – 半数以上が経験する長期的…",
+          "title": "【脊柱側弯症手術後の痛み – 半数以上が経験する長期的な苦痛への理解を深める】",
+          "url": "https://physical-balance-lab.com/976/",
+          "views_12m": 1570,
+          "views_90d": 495,
+          "gsc_clicks_12m": 876,
+          "recent_pace_index": 1.28,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "側 弯症 手術後 痛み いつまで（29クリック） / 側 弯症 手術後 できない こと（25クリック） / 側弯症 術後 痛み（21クリック） / 側弯症 手術 痛み（11クリック） / 側弯症 手術後 痛み いつまで（8クリック）"
+        },
+        {
+          "rank": 2,
+          "post_id": 965,
+          "article_label": "2. 側弯症の装具4種類を解説！ミルウォーキー・ボストン・…",
+          "title": "側弯症の装具4種類を解説！ミルウォーキー・ボストン・シュロスの違いと選び方",
+          "url": "https://physical-balance-lab.com/965/",
+          "views_12m": 889,
+          "views_90d": 210,
+          "gsc_clicks_12m": 109,
+          "recent_pace_index": 0.96,
+          "current_body_images": 4,
+          "body_images_to_add": 0,
+          "recommended_action": "記事別アイキャッチへ差し替え + 既存本文画像を目視確認",
+          "topic_group": "側弯症",
+          "top_search_queries": "ミルウォーキー装具（7クリック） / 側弯症 装具 種類（5クリック） / ボストンブレース（3クリック） / ミルウォーキー 装具（3クリック） / 側 弯症 装具 種類（3クリック）"
+        },
+        {
+          "rank": 3,
+          "post_id": 441,
+          "article_label": "3. パルス電磁場療法（PEMF）の概要と解説",
+          "title": "【パルス電磁場療法（PEMF）の概要と解説】",
+          "url": "https://physical-balance-lab.com/441/",
+          "views_12m": 838,
+          "views_90d": 123,
+          "gsc_clicks_12m": 274,
+          "recent_pace_index": 0.6,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "その他",
+          "top_search_queries": "pemfとは（34クリック） / パルス電磁場とは（29クリック） / pemf（20クリック） / pemf 治療（16クリック） / pemf療法（12クリック）"
+        },
+        {
+          "rank": 4,
+          "post_id": 1176,
+          "article_label": "4. 側弯症解説シリーズ】第5回：意外と知らない！脊柱側弯…",
+          "title": "【側弯症解説シリーズ】第5回：意外と知らない！脊柱側弯症と股関節・骨盤の密接な関係！",
+          "url": "https://physical-balance-lab.com/1176/",
+          "views_12m": 733,
+          "views_90d": 319,
+          "gsc_clicks_12m": 297,
+          "recent_pace_index": 1.76,
+          "current_body_images": 1,
+          "body_images_to_add": 2,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を2枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "側弯症 股関節の痛み（13クリック） / 側弯症 股関節痛（2クリック） / 側弯症 骨盤（1クリック） / 大腿筋膜張筋（0クリック） / 名古屋 名東区 整体 側弯症（0クリック）"
+        },
+        {
+          "rank": 5,
+          "post_id": 1182,
+          "article_label": "5. 側弯症解説シリーズ】第7回：脊柱側弯症で変わる歩き方…",
+          "title": "【側弯症解説シリーズ】第7回：脊柱側弯症で変わる歩き方と背中の筋肉の働き〜気づかない身体の変化と簡単改善法〜",
+          "url": "https://physical-balance-lab.com/1182/",
+          "views_12m": 543,
+          "views_90d": 288,
+          "gsc_clicks_12m": 201,
+          "recent_pace_index": 2.15,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "側 弯症 歩行 特徴（18クリック） / 側弯症 歩き方（12クリック） / 側弯症 歩きにくい（2クリック） / 側弯症 ウォーキング（1クリック） / 側 弯症 歩行障害（1クリック）"
+        },
+        {
+          "rank": 6,
+          "post_id": 1092,
+          "article_label": "6. 大人の脊柱側弯症、手術が必要なときって？―分かりやす…",
+          "title": "大人の脊柱側弯症、手術が必要なときって？―分かりやすく解説します",
+          "url": "https://physical-balance-lab.com/1092/",
+          "views_12m": 534,
+          "views_90d": 57,
+          "gsc_clicks_12m": 0,
+          "recent_pace_index": 0.43,
+          "current_body_images": 2,
+          "body_images_to_add": 1,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を1枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": ""
+        },
+        {
+          "rank": 7,
+          "post_id": 1171,
+          "article_label": "7. 側弯症解説シリーズ】第3回：脊柱を支える筋肉の秘密！…",
+          "title": "【側弯症解説シリーズ】第3回：脊柱を支える筋肉の秘密！側弯症で起こる筋肉の拘縮メカニズムとセルフケア！",
+          "url": "https://physical-balance-lab.com/1171/",
+          "views_12m": 335,
+          "views_90d": 81,
+          "gsc_clicks_12m": 151,
+          "recent_pace_index": 0.98,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "側弯症 筋肉 バランス（4クリック） / 脊柱起立筋 左右差（1クリック） / 側弯症 筋肉（1クリック） / 側湾症 筋肉（1クリック） / 小胸筋（0クリック）"
+        },
+        {
+          "rank": 8,
+          "post_id": 923,
+          "article_label": "8. 腰痛：骨盤ベルトって本当に効果あるの？ 筋肉への影響…",
+          "title": "【腰痛：骨盤ベルトって本当に効果あるの？ 筋肉への影響とバランス能力向上について解説！】",
+          "url": "https://physical-balance-lab.com/923/",
+          "views_12m": 267,
+          "views_90d": 39,
+          "gsc_clicks_12m": 0,
+          "recent_pace_index": 0.59,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "その他",
+          "top_search_queries": ""
+        },
+        {
+          "rank": 9,
+          "post_id": 1145,
+          "article_label": "9. 背中や腰の痛み…大人の脊柱側弯症ってどうすればいいの…",
+          "title": "背中や腰の痛み…大人の脊柱側弯症ってどうすればいいの？楽になるケアと整体施術のヒミツ",
+          "url": "https://physical-balance-lab.com/1145/",
+          "views_12m": 192,
+          "views_90d": 11,
+          "gsc_clicks_12m": 0,
+          "recent_pace_index": 0.23,
+          "current_body_images": 1,
+          "body_images_to_add": 2,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を2枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": ""
+        },
+        {
+          "rank": 10,
+          "post_id": 469,
+          "article_label": "10. 脊柱側弯症の中学生のための治療法と注意点",
+          "title": "【脊柱側弯症の中学生のための治療法と注意点】",
+          "url": "https://physical-balance-lab.com/469/",
+          "views_12m": 191,
+          "views_90d": 72,
+          "gsc_clicks_12m": 0,
+          "recent_pace_index": 1.53,
+          "current_body_images": 1,
+          "body_images_to_add": 2,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を2枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": ""
+        },
+        {
+          "rank": 11,
+          "post_id": 980,
+          "article_label": "11. 最新研究でわかった！】脊柱側弯症のタイプ別 筋肉の硬…",
+          "title": "【最新研究でわかった！】脊柱側弯症のタイプ別 筋肉の硬さの違いと治療への影響",
+          "url": "https://physical-balance-lab.com/980/",
+          "views_12m": 178,
+          "views_90d": 52,
+          "gsc_clicks_12m": 70,
+          "recent_pace_index": 1.18,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "側湾症ラボ（0クリック） / 名古屋 名東区 整体 側弯症（0クリック） / 側弯症 筋肉（0クリック） / 名古屋 整体 側湾症（0クリック） / 筋肉 タイプ別（0クリック）"
+        },
+        {
+          "rank": 12,
+          "post_id": 612,
+          "article_label": "12. 頚椎症で「首が詰まる」「上を向くと痛みを感じる」人は…",
+          "title": "【頚椎症で「首が詰まる」「上を向くと痛みを感じる」人はココを緩めて！】",
+          "url": "https://physical-balance-lab.com/612/",
+          "views_12m": 171,
+          "views_90d": 24,
+          "gsc_clicks_12m": 37,
+          "recent_pace_index": 0.57,
+          "current_body_images": 2,
+          "body_images_to_add": 1,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を1枚追加",
+          "topic_group": "その他",
+          "top_search_queries": "上を向くと首が詰まる（3クリック） / 上を向く 首が詰まる（2クリック） / 頚椎の詰まり（1クリック） / 首の詰まり（0クリック） / 首のつまり（0クリック）"
+        },
+        {
+          "rank": 13,
+          "post_id": 1063,
+          "article_label": "13. 腰痛】意外と知らない！体育座りの光と影 〜治療家が解…",
+          "title": "【腰痛】意外と知らない！体育座りの光と影 〜治療家が解説する正しい使い方〜",
+          "url": "https://physical-balance-lab.com/1063/",
+          "views_12m": 170,
+          "views_90d": 53,
+          "gsc_clicks_12m": 77,
+          "recent_pace_index": 1.26,
+          "current_body_images": 3,
+          "body_images_to_add": 0,
+          "recommended_action": "記事別アイキャッチへ差し替え + 既存本文画像を目視確認",
+          "topic_group": "その他",
+          "top_search_queries": "反り腰 体育座り（19クリック） / 体育座り 反り腰（10クリック） / 体育座り 腰が痛い（2クリック） / 体育座り 腰痛 改善（2クリック） / 腰椎分離症 体育座り（2クリック）"
+        },
+        {
+          "rank": 14,
+          "post_id": 1173,
+          "article_label": "14. 側弯症解説シリーズ】第4回：脊柱の動きを取り戻そう！…",
+          "title": "【側弯症解説シリーズ】第4回：脊柱の動きを取り戻そう！脊柱側弯症があると硬くなる胸椎・腰椎の可動域制限について！",
+          "url": "https://physical-balance-lab.com/1173/",
+          "views_12m": 148,
+          "views_90d": 54,
+          "gsc_clicks_12m": 62,
+          "recent_pace_index": 1.48,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "胸 腰椎 移行部 ストレッチ（1クリック） / 胸腰椎移行部 ストレッチ（1クリック） / 腰椎 可動域評価 方法 自分で（0クリック） / 脊柱側屈（0クリック） / 胸椎 腰椎 可動域（0クリック）"
+        },
+        {
+          "rank": 15,
+          "post_id": 584,
+          "article_label": "15. アキレス腱が固いその意外な原因とは？",
+          "title": "【アキレス腱が固いその意外な原因とは？】",
+          "url": "https://physical-balance-lab.com/584/",
+          "views_12m": 134,
+          "views_90d": 53,
+          "gsc_clicks_12m": 30,
+          "recent_pace_index": 1.6,
+          "current_body_images": 1,
+          "body_images_to_add": 2,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を2枚追加",
+          "topic_group": "その他",
+          "top_search_queries": "アキレス腱 硬い 生まれつき（3クリック） / アキレス腱が硬い（2クリック） / アキレス腱硬い（1クリック） / アキレス腱 硬い（1クリック） / アキレス腱 硬い 原因（1クリック）"
+        },
+        {
+          "rank": 16,
+          "post_id": 317,
+          "article_label": "16. 側弯症：脊柱側弯症とタバコの意外な関係",
+          "title": "【側弯症：脊柱側弯症とタバコの意外な関係】",
+          "url": "https://physical-balance-lab.com/317/",
+          "views_12m": 132,
+          "views_90d": 29,
+          "gsc_clicks_12m": 80,
+          "recent_pace_index": 0.89,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "タバコ 背中痛い（4クリック） / タバコ吸うと背中が痛い（3クリック） / 喫煙 背中の痛み（2クリック） / 禁煙 背中の痛み（1クリック） / タバコ吸ったら背中が痛い（1クリック）"
+        },
+        {
+          "rank": 17,
+          "post_id": 1157,
+          "article_label": "17. 脊柱側弯症があっても快眠できる！最適な寝姿勢ガイドと…",
+          "title": "脊柱側弯症があっても快眠できる！最適な寝姿勢ガイドと注意点を解説！",
+          "url": "https://physical-balance-lab.com/1157/",
+          "views_12m": 125,
+          "views_90d": 22,
+          "gsc_clicks_12m": 0,
+          "recent_pace_index": 0.71,
+          "current_body_images": 1,
+          "body_images_to_add": 2,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を2枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": ""
+        },
+        {
+          "rank": 18,
+          "post_id": 1191,
+          "article_label": "18. 側弯症解説シリーズ】第9回：側弯症を楽にする！専門家…",
+          "title": "【側弯症解説シリーズ】第9回：側弯症を楽にする！専門家推奨のリハビリテーションプログラム",
+          "url": "https://physical-balance-lab.com/1191/",
+          "views_12m": 107,
+          "views_90d": 47,
+          "gsc_clicks_12m": 30,
+          "recent_pace_index": 1.78,
+          "current_body_images": 0,
+          "body_images_to_add": 3,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を3枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "側弯症ラボ（0クリック） / 名古屋 名東区 整体 側弯症（0クリック） / 側弯症 ウォーキング（0クリック） / 側弯症 筋肉 バランス（0クリック） / 側弯症 ぶら下がり 効果（0クリック）"
+        },
+        {
+          "rank": 19,
+          "post_id": 1169,
+          "article_label": "19. 側弯症解説シリーズ】第2回：側弯症と動きの制限の関係…",
+          "title": "【側弯症解説シリーズ】第2回：側弯症と動きの制限の関係って？知っておきたい関節可動域のお話",
+          "url": "https://physical-balance-lab.com/1169/",
+          "views_12m": 105,
+          "views_90d": 37,
+          "gsc_clicks_12m": 12,
+          "recent_pace_index": 1.43,
+          "current_body_images": 1,
+          "body_images_to_add": 2,
+          "recommended_action": "記事別アイキャッチへ差し替え + 本文画像を2枚追加",
+          "topic_group": "側弯症",
+          "top_search_queries": "脊柱側弯症（0クリック）"
+        },
+        {
+          "rank": 20,
+          "post_id": 620,
+          "article_label": "20. 腰痛予備軍：つま先重心で身体に起こること",
+          "title": "【腰痛予備軍：つま先重心で身体に起こること】",
+          "url": "https://physical-balance-lab.com/620/",
+          "views_12m": 98,
+          "views_90d": 21,
+          "gsc_clicks_12m": 57,
+          "recent_pace_index": 0.87,
+          "current_body_images": 3,
+          "body_images_to_add": 0,
+          "recommended_action": "記事別アイキャッチへ差し替え + 既存本文画像を目視確認",
+          "topic_group": "その他",
+          "top_search_queries": "つま先重心 治し 方（4クリック） / つま先重心（2クリック） / つま先重心 治し方（1クリック） / つま先に重心（1クリック） / つま先 重心（0クリック）"
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "joined_priority_analysis",
+      "label": "GA4×Search Console×WordPress 統合分析",
+      "path": "03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/画像整備優先20記事.csv",
+      "query": {
+        "engine": "duckdb",
+        "language": "sql",
+        "sql": "SELECT * FROM read_csv_auto('03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/画像整備優先20記事.csv') ORDER BY screenPageViews_12m DESC LIMIT 20",
+        "description": "検証済みの統合CSVから12か月PV順の上位20記事を読み込む。",
+        "filters": [
+          "WordPress status=publish",
+          "2025-07-20 through 2026-07-19",
+          "Top 20 by screenPageViews_12m"
+        ],
+        "metric_definitions": [
+          "12か月PV = GA4 screenPageViewsの投稿ID別合計",
+          "本文追加目安 = max(0, 3 - 記事固有本文画像数)"
+        ],
+        "tables_used": [
+          "画像整備優先20記事.csv"
+        ]
+      }
+    },
+    {
+      "id": "wp_image_audit",
+      "label": "WordPress公開記事・画像監査",
+      "path": "03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/raw/wp_published_image_audit.csv",
+      "query": {
+        "engine": "duckdb",
+        "language": "sql",
+        "sql": "SELECT * FROM read_csv_auto('03_研究資料・レビュー/2026-07-22_画像整備優先記事分析/raw/wp_published_image_audit.csv')",
+        "description": "WordPress公開記事の検証済み画像監査CSVを読み込む。",
+        "filters": [
+          "WordPress status=publish",
+          "固定画像361/487/629を記事固有画像から除外"
+        ],
+        "metric_definitions": [
+          "共通アイキャッチ記事 = featured_reuse_countが20以上の記事数"
+        ],
+        "tables_used": [
+          "wp_published_image_audit.csv"
+        ]
+      }
+    }
+  ]
+}
