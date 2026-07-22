@@ -1,0 +1,150 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft flat editorial illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, or exaggerated medical findings.",
+  "assets": [
+    {
+      "post_id": 976,
+      "key": "976-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "脊柱側弯症の手術後の痛みについて考える女性のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A calm Japanese adult woman thinking about persistent back discomfort after scoliosis surgery in a bright quiet home interior, one hand resting gently near her mid-back, calm thoughtful expression, subtle abstract curved line motif suggesting the spine, chair and small plant, wide landscape composition with generous safe margins. No visible surgical scar, metal hardware, X-ray, hospital bed, or acute distress."
+    },
+    {
+      "post_id": 976,
+      "key": "976-research",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "脊柱側弯症の術後経過を調査する研究を表したイラスト",
+      "insert_after_heading": "研究の概要と対象者",
+      "prompt": "A text-free editorial illustration representing a follow-up research survey after scoliosis surgery: a small diverse group of adolescents and adults seated comfortably, each holding a blank questionnaire card, with a clinician-researcher reviewing blank papers on a clipboard. Warm respectful atmosphere, no charts, labels, numbers, medical claims, or hospital drama."
+    },
+    {
+      "post_id": 976,
+      "key": "976-daily-life",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "日常生活で背中の痛みを感じる場面のイラスト",
+      "insert_after_heading": "痛みを感じやすい部位と日常生活での影響",
+      "prompt": "A Japanese woman in a calm home setting pausing during an ordinary daily task, gently supporting her mid-back while standing beside a chair and a light shopping bag. Show mild discomfort without suffering, red marks, or exaggerated posture. Full upper body and key surroundings visible, clear single focal point."
+    },
+    {
+      "post_id": 976,
+      "key": "976-consultation",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "術後の痛みについて医療者へ相談する場面のイラスト",
+      "insert_after_heading": "持続的な痛みの予防と改善に向けて",
+      "prompt": "A Japanese adult patient calmly discussing persistent post-surgical back discomfort with a healthcare professional across a small consultation table. The professional listens and gestures toward a blank notebook while the patient sits comfortably. Reassuring shared-decision atmosphere, no visible diagnosis, charts, medication, procedures, or promises of recovery."
+    },
+    {
+      "post_id": 965,
+      "key": "965-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "側弯症の装具について医療者と相談する場面のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A Japanese adolescent and a parent calmly consulting a healthcare professional about scoliosis bracing. A simple modern white underarm torso brace is displayed on a neutral stand between them, with realistic smooth contours and straps but no brand-specific design. Wide landscape featured-image composition, dignified and supportive, no exposed body, no dramatic spinal curve, no text or labels."
+    },
+    {
+      "post_id": 441,
+      "key": "441-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "パルス電磁場療法の仕組みを表したイラスト",
+      "insert_after_heading": null,
+      "prompt": "A clean conceptual featured illustration of pulsed electromagnetic field therapy: a relaxed Japanese adult seated beside a simple unbranded therapy device with a flat applicator pad, while soft evenly spaced wave arcs surround the pad. Wide landscape composition with generous safe margins. Keep the technology plausible and understated; no sparks, lightning, glowing cure effects, claims, text, or labels."
+    },
+    {
+      "post_id": 441,
+      "key": "441-device",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "パルス電磁場を発生する機器と身体のイラスト",
+      "insert_after_heading": "概要",
+      "prompt": "A text-free educational flat illustration showing a simple unbranded PEMF control unit connected by one cable to a circular or flat applicator positioned near a person's clothed knee. Gentle repeated wave arcs indicate a pulsed field without lightning or heat. Anatomically normal, non-invasive, calm clinical setting, no labels or screen text."
+    },
+    {
+      "post_id": 441,
+      "key": "441-cell",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "電磁場の刺激と細胞膜を模式的に表したイラスト",
+      "insert_after_heading": "パルス電磁場療法の仕組み",
+      "prompt": "A simplified text-free scientific educational illustration: one large stylized cell membrane cross-section with a few channel-like openings, small neutral colored ion dots on both sides, and soft rhythmic field waves approaching from outside. Clean and plausible but clearly conceptual, generous whitespace, no arrows, labels, equations, microscopic realism, or implied guaranteed effect."
+    },
+    {
+      "post_id": 441,
+      "key": "441-session",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "パルス電磁場療法の施術を受ける場面のイラスト",
+      "insert_after_heading": "使用方法",
+      "prompt": "A Japanese adult comfortably receiving a non-invasive PEMF session in a calm clinic, seated or reclined fully clothed with a simple flat applicator resting near the lower back and a small unbranded control unit nearby. A clinician checks comfort from a respectful distance. No screen text, needles, surgery, dramatic glow, or promise of benefit."
+    },
+    {
+      "post_id": 1176,
+      "key": "1176-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "側弯症と骨盤・股関節の関係を表したイラスト",
+      "insert_after_heading": null,
+      "prompt": "A Japanese adult woman standing comfortably with one hand near her hip, accompanied by a subtle abstract line connecting the lower spine, pelvis, and hip area. Bright home or studio backdrop, calm expression, natural posture with only mild asymmetry. Wide landscape featured-image composition, no anatomical distortion, pain glow, labels, or claim that posture is corrected."
+    },
+    {
+      "post_id": 1176,
+      "key": "1176-connection",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "背骨から骨盤・股関節へ動きがつながる様子のイラスト",
+      "insert_after_heading": "骨盤と股関節はカラダの「中継地点」",
+      "prompt": "A text-free educational flat illustration of a clothed human torso from the back and side, with a simplified pale line for the lower spine flowing into a softly outlined pelvis and both hip joints. Use balanced paired shapes and gentle motion curves to communicate connection, not diagnosis. Anatomically plausible proportions, no labels, arrows, red highlights, X-ray style, or severe curve."
+    },
+    {
+      "post_id": 1176,
+      "key": "1176-daily-impact",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "歩行と座位で骨盤・股関節の左右差を感じる場面のイラスト",
+      "insert_after_heading": "日常生活でどんな影響が出るの？",
+      "prompt": "A clean text-free two-scene editorial illustration on one canvas: the same Japanese woman walking calmly in one scene and sitting on a chair in the other, with subtle muted curved guides near the pelvis suggesting that movement and weight distribution can differ. No good-versus-bad symbols, check marks, red pain marks, labels, or exaggerated imbalance."
+    },
+    {
+      "post_id": 1182,
+      "key": "1182-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "側弯症がある人の歩き方を表したイラスト",
+      "insert_after_heading": null,
+      "prompt": "A Japanese adult woman walking at a comfortable pace along a bright quiet indoor walkway, arms swinging naturally, calm expression. Subtle soft motion lines near the pelvis and shoulders suggest coordinated movement without judging it as normal or abnormal. Wide landscape featured-image composition, generous margins, no visible deformity, pain marks, labels, or promise of improvement."
+    },
+    {
+      "post_id": 1182,
+      "key": "1182-gait",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "歩幅と骨盤の動きの左右差を表した歩行イラスト",
+      "insert_after_heading": "脊柱側弯症の方の歩き方、どう変わる？",
+      "prompt": "A text-free educational flat illustration showing two sequential walking poses of the same clothed Japanese adult, with restrained motion arcs at the hips and feet suggesting variation in step length and pelvic movement. Present observation rather than correct-versus-incorrect comparison. No labels, rulers, numbers, arrows, red marks, or distorted anatomy."
+    },
+    {
+      "post_id": 1182,
+      "key": "1182-muscles",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "背骨周囲とお尻の筋肉を模式的に表したイラスト",
+      "insert_after_heading": "背骨周りの筋肉の異常な活動パターン",
+      "prompt": "A simplified text-free educational back view of a human torso and upper legs, mostly clothed or softly outlined, with four anatomically plausible muted color regions along the lower back, beside the spine, outer hip, and back of thigh. Symmetrical clean layout, no labels, exposed anatomy, glowing pain, exaggerated muscle bulk, or diagnostic claims."
+    },
+    {
+      "post_id": 1182,
+      "key": "1182-exercise",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "椅子で体側を伸ばすセルフケアのイラスト",
+      "insert_after_heading": "お家でできる！歩き方改善エクササイズ",
+      "prompt": "A Japanese adult performing a gentle seated side stretch on a stable chair at home: sitting upright, one arm raised overhead, torso leaning slightly to the opposite side, both feet supported. Show a comfortable range and calm breathing, not a maximal stretch. Clear full-body instructional composition without arrows, labels, numbers, text, pain marks, or unstable posture."
+    }
+  ]
+}
