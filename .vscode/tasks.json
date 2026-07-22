@@ -4,7 +4,7 @@
     {
       "label": "WP: 下書き投稿",
       "type": "shell",
-      "command": "python",
+      "command": "python3",
       "args": [
         "${workspaceFolder}/post_to_wp.py",
         "${file}"
@@ -18,13 +18,13 @@
       }
     },
     {
-      "label": "WP: 公開投稿",
+      "label": "WP: 固定要素チェック（接続なし）",
       "type": "shell",
-      "command": "python",
+      "command": "python3",
       "args": [
         "${workspaceFolder}/post_to_wp.py",
         "${file}",
-        "--publish"
+        "--preflight-only"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -37,7 +37,7 @@
     {
       "label": "WP: 下書き投稿 (詳細ログ)",
       "type": "shell",
-      "command": "python",
+      "command": "python3",
       "args": [
         "${workspaceFolder}/post_to_wp.py",
         "${file}",

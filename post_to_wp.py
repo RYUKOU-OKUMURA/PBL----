@@ -22,6 +22,8 @@ import yaml
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 
+from wp_fixed_elements import publication_html_errors
+
 
 # MIMEタイプの初期化
 mimetypes.init()
@@ -677,6 +679,31 @@ def move_jsonld_to_end(html_content: str) -> str:
     logger.debug(f"{len(jsonld_scripts)}個のJSON-LDスクリプトを末尾に移動しました")
     
     return result
+
+
+def run_fixed_elements_preflight(html_content: str) -> None:
+    """Abort before WordPress writes when required publication HTML is invalid."""
+    errors = publication_html_errors(html_content)
+    if not errors:
+        logger.info("固定要素チェック: OK")
+        return
+    logger.error("固定要素チェックに失敗しました。WordPressへの書き込みは行いません。")
+    for error in errors:
+        logger.error(f"  - {error}")
+    logger.error("wp-fixed-elementsで原稿を修正し、全体QA後に再実行してください。")
+    raise SystemExit(1)
+
+
+def fetch_post_for_safe_update(config: dict, post_id: int) -> dict:
+    """Fetch an edit-context post before allowing an in-place draft update."""
+    response = requests.get(
+        f"{config['WP_URL']}/wp-json/wp/v2/posts/{post_id}",
+        params={"context": "edit"},
+        auth=HTTPBasicAuth(config["WP_USER"], config["WP_APP_PASSWORD"]),
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.json()
 
 
 # =============================================================================
@@ -1496,7 +1523,13 @@ Front Matter対応:
     parser.add_argument(
         '--update-post-id',
         type=int,
-        help='指定した投稿IDの既存下書き/投稿を更新する'
+        help='指定した投稿IDの既存下書きを更新する（future/publishは拒否）'
+    )
+
+    parser.add_argument(
+        '--preflight-only',
+        action='store_true',
+        help='固定要素を検査し、WordPressへ接続せず終了する'
     )
     
     # アイキャッチ画像オプション
@@ -1532,9 +1565,6 @@ def main():
     
     logger.info(f"Cursor → WordPress 自動投稿ツール")
     logger.info("-" * 40)
-    
-    # 設定を読み込み
-    config = load_config()
     
     # ファイルを読み込み
     file_path = args.input_file
@@ -1580,6 +1610,33 @@ def main():
     
     # JSON-LDを末尾に移動
     html_content = move_jsonld_to_end(html_content)
+
+    # WordPressへの接続・用語作成・画像アップロードより先に検査する
+    run_fixed_elements_preflight(html_content)
+    if args.preflight_only:
+        logger.info("PRECHECK_ONLY=1 RESULT=OK")
+        return
+
+    if args.publish and metadata.get('date'):
+        logger.error("未来日を指定した直接予約投稿は廃止しました。")
+        logger.error("下書き作成後、format_wp_drafts.py の plan/approve/schedule を使用してください。")
+        raise SystemExit(1)
+
+    # 事前検査に合格してからWordPress設定を読み込む
+    config = load_config()
+
+    if args.update_post_id is not None:
+        try:
+            current_post = fetch_post_for_safe_update(config, args.update_post_id)
+        except requests.RequestException as exc:
+            logger.error(f"更新対象投稿の事前確認に失敗しました: {exc}")
+            raise SystemExit(1) from exc
+        if current_post.get('status') != 'draft':
+            logger.error(
+                f"投稿ID {args.update_post_id} は {current_post.get('status')} のため更新を拒否しました。"
+            )
+            logger.error("予約投稿は format_wp_drafts.py fixed-elements で安全に修正してください。")
+            raise SystemExit(1)
     
     # カテゴリ/タグのID解決
     category_ids = None
@@ -1660,6 +1717,9 @@ def main():
             logger.info(f"アイキャッチ画像を設定: {uploaded_images[0]['filename']} (ID: {featured_media_id})")
     elif args.no_featured:
         logger.info("アイキャッチ画像は設定しません (--no-featured オプション)")
+
+    # 画像パス置換後の最終HTMLも同じ品質ゲートを通す
+    run_fixed_elements_preflight(html_content)
     
     # WordPressに投稿
     status_label = "公開" if status == 'publish' else "下書き"

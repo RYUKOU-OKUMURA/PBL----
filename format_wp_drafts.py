@@ -23,17 +23,17 @@ from bs4 import BeautifulSoup, Comment, NavigableString
 from requests.auth import HTTPBasicAuth
 
 from post_to_wp import load_config
+from wp_fixed_elements import (
+    FixedElementsError,
+    REQUIRED_SELECTORS,
+    publication_html_errors,
+    replace_footer,
+)
 
 
 JST = timezone(timedelta(hours=9))
 RED_STYLE = "color: #ff0000;"
-FIXED_SELECTORS = {
-    "tldr": ".tldr",
-    "toc": ".toc",
-    "disclaimer": ".disclaimer",
-    "footer": "footer",
-    "jsonld": 'script[type="application/ld+json"]',
-}
+FIXED_SELECTORS = dict(REQUIRED_SELECTORS)
 HEADING_RE = re.compile(
     r"<h2\b[^>]*>(?P<title>.*?)</h2>", re.IGNORECASE | re.DOTALL
 )
@@ -48,20 +48,6 @@ JSONLD_SCRIPT_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 QUOTE_RE = re.compile(r"「[^「」]{8,100}」")
-FOOTER_RE = re.compile(r"<footer\b[^>]*>.*?</footer>", re.IGNORECASE | re.DOTALL)
-CANONICAL_FOOTER = """<footer>
-<p style="text-align: center;"><img class="size-full wp-image-629 aligncenter"
-    src="https://physical-balance-lab.com/wp/wp-content/uploads/2024/05/ogp.jpg"
-    alt="レッドコード整体" width="1200" height="630" /></p>
-
-<p>ーーーーーーーーーーーーーーーーーーーーーーーーーーーー<br />
-〒464-0026<br />
-愛知県名古屋市千種区井上町117 井上協栄ビル2階<br />
-名古屋市営地下鉄東山線「星ヶ丘駅」2番口徒歩2分<br />
-愛知、名古屋で姿勢や動作の不調でお悩みの方へ、体の使い方を整える整体<br />
-フィジカルバランスラボ整体院<br />
-ーーーーーーーーーーーーーーーーーーーーーーーーーーーー</p>
-</footer>"""
 
 
 class PipelineError(RuntimeError):
@@ -600,13 +586,24 @@ def backup_posts(posts: Iterable[dict[str, Any]], directory: Path, label: str) -
 
 
 def selected_drafts(config: dict[str, str], ids: set[int] | None) -> list[dict[str, Any]]:
-    posts = fetch_drafts(config)
+    return selected_posts(config, "draft", ids)
+
+
+def selected_posts(
+    config: dict[str, str], status: str, ids: set[int] | None
+) -> list[dict[str, Any]]:
+    if status == "draft":
+        posts = fetch_drafts(config)
+    elif status == "future":
+        posts = fetch_future_posts(config)
+    else:
+        raise PipelineError(f"unsupported post status: {status}")
     posts = [post for post in posts if normalized_text(raw_content(post))]
     if ids is not None:
         posts = [post for post in posts if post["id"] in ids]
         missing = ids - {post["id"] for post in posts}
         if missing:
-            raise PipelineError(f"draft IDs not found: {sorted(missing)}")
+            raise PipelineError(f"{status} post IDs not found: {sorted(missing)}")
     return sorted(posts, key=lambda post: post["id"], reverse=True)
 
 
@@ -629,40 +626,34 @@ def command_inventory(config: dict[str, str]) -> int:
     return 0
 
 
-def replace_footer(html: str) -> str:
-    """Replace one fixed footer without changing the surrounding article HTML."""
-    matches = list(FOOTER_RE.finditer(html))
-    if len(matches) != 1:
-        raise PipelineError(f"expected one footer, found {len(matches)}")
-    match = matches[0]
-    before = html[: match.start()]
-    after = html[match.end() :]
-    if 'class="q_button_wrap"' not in before:
-        raise PipelineError("official LINE button was not found before the footer")
-    updated = before + CANONICAL_FOOTER + after
-    if updated.count("<footer>") != 1:
-        raise PipelineError("canonical footer replacement did not produce exactly one footer")
-    if "公式LINEから24時間受け付けてます！" in CANONICAL_FOOTER:
-        raise PipelineError("canonical footer still contains the duplicated LINE invitation")
-    return updated
+def require_publication_html(html: str, label: str) -> None:
+    errors = publication_html_errors(html)
+    if errors:
+        raise PipelineError(f"{label} failed fixed-element preflight: {'; '.join(errors)}")
 
 
-def command_fix_future_footers(
-    config: dict[str, str], apply: bool, backup_dir: Path
+def command_fixed_elements(
+    config: dict[str, str],
+    status: str,
+    ids: set[int] | None,
+    apply: bool,
+    backup_dir: Path,
 ) -> int:
-    posts = sorted(fetch_future_posts(config), key=lambda post: post.get("date", ""))
+    posts = selected_posts(config, status, ids)
     previews: list[tuple[dict[str, Any], str]] = []
+    invalid: list[int] = []
     for post in posts:
         original = raw_content(post)
-        updated = replace_footer(original)
-        if normalized_text(updated).replace(
-            normalized_text(CANONICAL_FOOTER), ""
-        ) != normalized_text(original).replace(
-            normalized_text(FOOTER_RE.search(original).group(0)), ""
-        ):
-            raise PipelineError(f"post {post['id']} changed outside the footer")
+        try:
+            updated = replace_footer(original)
+            errors = publication_html_errors(updated)
+        except FixedElementsError as exc:
+            updated = original
+            errors = [str(exc)]
         changed = updated != original
-        if changed:
+        if errors:
+            invalid.append(post["id"])
+        elif changed:
             previews.append((post, updated))
         print(
             json.dumps(
@@ -671,10 +662,13 @@ def command_fix_future_footers(
                     "date": post.get("date"),
                     "title": raw_title(post),
                     "changed": changed,
+                    "errors": errors,
                 },
                 ensure_ascii=False,
             )
         )
+    if invalid:
+        raise PipelineError(f"fixed-element preflight failed for post IDs: {invalid}")
     if not apply:
         print(f"DRY_RUN=1 PENDING={len(previews)} TOTAL={len(posts)}")
         return 0
@@ -682,37 +676,61 @@ def command_fix_future_footers(
         print(f"UPDATED=0 TOTAL={len(posts)}")
         return 0
 
-    backup = backup_posts((post for post, _ in previews), backup_dir, "before-footer-fix")
+    backup = backup_posts(
+        (post for post, _ in previews), backup_dir, f"before-{status}-fixed-elements"
+    )
     print(f"BACKUP={backup}")
-    changed: list[dict[str, Any]] = []
+    attempted: list[dict[str, Any]] = []
     try:
         for original, updated_content in previews:
             current = fetch_post(config, original["id"])
-            if current.get("status") != "future":
-                raise PipelineError(f"post {original['id']} is no longer scheduled")
-            if raw_content(current) != raw_content(original):
+            if (
+                current.get("status") != original.get("status")
+                or current.get("date") != original.get("date")
+                or current.get("date_gmt") != original.get("date_gmt")
+                or raw_content(current) != raw_content(original)
+            ):
                 raise PipelineError(f"post {original['id']} changed after preview")
+            attempted.append(original)
             updated = api_post(config, original["id"], {"content": updated_content})
             verified = fetch_post(config, original["id"])
             if raw_content(verified) != updated_content:
                 raise PipelineError(f"post {original['id']} failed content verification")
             if (
-                verified.get("status") != "future"
+                verified.get("status") != original.get("status")
                 or verified.get("date") != original.get("date")
                 or verified.get("date_gmt") != original.get("date_gmt")
             ):
-                raise PipelineError(f"post {original['id']} schedule changed during footer update")
-            changed.append(original)
+                raise PipelineError(
+                    f"post {original['id']} status or schedule changed during update"
+                )
+            require_publication_html(updated_content, f"post {original['id']}")
             print(f"UPDATED={updated['id']} STATUS={updated['status']} DATE={updated['date']}")
     except Exception as update_error:
         rollback_errors: list[str] = []
-        for original in reversed(changed):
+        for original in reversed(attempted):
             try:
-                api_post(config, original["id"], {"content": raw_content(original)})
+                current = fetch_post(config, original["id"])
+                if (
+                    raw_content(current) != raw_content(original)
+                    or current.get("status") != original.get("status")
+                    or current.get("date") != original.get("date")
+                    or current.get("date_gmt") != original.get("date_gmt")
+                ):
+                    api_post(
+                        config,
+                        original["id"],
+                        {
+                            "content": raw_content(original),
+                            "status": original["status"],
+                            "date": original["date"],
+                            "date_gmt": original["date_gmt"],
+                        },
+                    )
                 restored = fetch_post(config, original["id"])
                 if (
                     raw_content(restored) != raw_content(original)
-                    or restored.get("status") != "future"
+                    or restored.get("status") != original.get("status")
                     or restored.get("date") != original.get("date")
                     or restored.get("date_gmt") != original.get("date_gmt")
                 ):
@@ -725,6 +743,16 @@ def command_fix_future_footers(
                 f"footer update failed ({update_error}); rollback errors: {rollback_errors}"
             ) from update_error
         raise
+    for original, updated_content in previews:
+        verified = fetch_post(config, original["id"])
+        if (
+            raw_content(verified) != updated_content
+            or verified.get("status") != original.get("status")
+            or verified.get("date") != original.get("date")
+            or verified.get("date_gmt") != original.get("date_gmt")
+        ):
+            raise PipelineError(f"post {original['id']} failed final batch verification")
+    print(f"VERIFIED={len(previews)} STATUS={status}")
     return 0
 
 
@@ -978,6 +1006,7 @@ def command_plan(
     dates = schedule_dates(len(posts), first_at)
     items = []
     for index, (post, date) in enumerate(zip(posts, dates)):
+        require_publication_html(raw_content(post), f"post {post['id']}")
         status = "future" if date > now else ("publish" if index == 0 else "future")
         print(f"{post['id']}\t{status}\t{date.isoformat()}\t{raw_title(post)}")
         utc_date = date.astimezone(timezone.utc)
@@ -1017,6 +1046,7 @@ def command_approve(config: dict[str, str], path: Path, ids: set[int]) -> int:
             raise PipelineError(f"post {post_id} is not a draft during QA approval")
         if content_hash(raw_content(post)) != plan_items[post_id]["content_sha256"]:
             raise PipelineError(f"post {post_id} content changed after plan creation")
+        require_publication_html(raw_content(post), f"post {post_id}")
         plan_items[post_id]["qa_approved"] = True
         plan_items[post_id]["qa_approved_at"] = datetime.now(JST).isoformat()
         print(f"QA_APPROVED={post_id}")
@@ -1251,6 +1281,7 @@ def command_schedule_plan(
     for item in plan["items"]:
         current = fetch_post(config, item["id"])
         current_by_id[item["id"]] = current
+        require_publication_html(raw_content(current), f"post {item['id']}")
         if schedule_matches(current, item):
             print(f"ALREADY_MATCHES={item['id']}")
             continue
@@ -1297,6 +1328,7 @@ def command_schedule_plan(
         verified = fetch_post(config, item["id"])
         if not schedule_matches(verified, item):
             raise PipelineError(f"post {item['id']} failed schedule verification")
+        require_publication_html(raw_content(verified), f"post {item['id']}")
         print(f"SCHEDULED={item['id']} STATUS={item['status']} DATE={item['date']}")
     return 0
 
@@ -1320,7 +1352,13 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("inventory")
     subparsers.add_parser("next-slot")
-    fix_footers = subparsers.add_parser("fix-future-footers")
+    fixed_elements = subparsers.add_parser("fixed-elements")
+    fixed_elements.add_argument("--status", choices=("draft", "future"), required=True)
+    fixed_selection = fixed_elements.add_mutually_exclusive_group(required=True)
+    fixed_selection.add_argument("--ids", type=int, nargs="+")
+    fixed_selection.add_argument("--all", action="store_true")
+    fixed_elements.add_argument("--apply", action="store_true")
+    fix_footers = subparsers.add_parser("fix-future-footers", help=argparse.SUPPRESS)
     fix_footers.add_argument("--apply", action="store_true")
     for command in ("format", "prepare", "plan"):
         subparser = subparsers.add_parser(command)
@@ -1354,8 +1392,21 @@ def main() -> int:
             return command_inventory(config)
         if args.command == "next-slot":
             return command_next_slot(config)
+        if args.command == "fixed-elements":
+            return command_fixed_elements(
+                config,
+                args.status,
+                selection_from_args(args),
+                args.apply,
+                args.backup_dir,
+            )
         if args.command == "fix-future-footers":
-            return command_fix_future_footers(config, args.apply, args.backup_dir)
+            print(
+                "WARNING: fix-future-footers is deprecated; use "
+                "fixed-elements --status future --all",
+                file=sys.stderr,
+            )
+            return command_fixed_elements(config, "future", None, args.apply, args.backup_dir)
         if args.command == "format":
             return command_format(config, selection_from_args(args), args.apply, args.backup_dir)
         if args.command == "prepare":
