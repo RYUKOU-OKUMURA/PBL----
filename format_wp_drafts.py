@@ -69,6 +69,26 @@ def api_get(config: dict[str, str], path: str, **params: Any) -> Any:
     return response.json()
 
 
+def api_get_page(
+    config: dict[str, str], path: str, **params: Any
+) -> tuple[list[dict[str, Any]], int]:
+    response = requests.get(
+        f"{config['WP_URL']}/wp-json/wp/v2/{path}",
+        params=params,
+        auth=auth(config),
+        timeout=30,
+    )
+    response.raise_for_status()
+    try:
+        total_pages = int(response.headers["X-WP-TotalPages"])
+    except (KeyError, ValueError) as exc:
+        raise PipelineError("WordPress collection response has no valid total-page count") from exc
+    payload = response.json()
+    if not isinstance(payload, list):
+        raise PipelineError("WordPress collection response is not a list")
+    return payload, total_pages
+
+
 def api_post(config: dict[str, str], post_id: int, payload: dict[str, Any]) -> Any:
     response = requests.post(
         f"{config['WP_URL']}/wp-json/wp/v2/posts/{post_id}",
@@ -88,7 +108,7 @@ def fetch_drafts(config: dict[str, str]) -> list[dict[str, Any]]:
     posts: list[dict[str, Any]] = []
     page = 1
     while True:
-        batch = api_get(
+        batch, total_pages = api_get_page(
             config,
             "posts",
             context="edit",
@@ -97,9 +117,45 @@ def fetch_drafts(config: dict[str, str]) -> list[dict[str, Any]]:
             page=page,
         )
         posts.extend(batch)
-        if len(batch) < 100:
+        if page >= total_pages:
             return posts
         page += 1
+
+
+def fetch_future_posts(config: dict[str, str]) -> list[dict[str, Any]]:
+    posts: list[dict[str, Any]] = []
+    page = 1
+    while True:
+        batch, total_pages = api_get_page(
+            config,
+            "posts",
+            context="edit",
+            status="future",
+            per_page=100,
+            page=page,
+        )
+        posts.extend(batch)
+        if page >= total_pages:
+            return posts
+        page += 1
+
+
+def future_queue_snapshot(
+    posts: Iterable[dict[str, Any]], excluded_ids: set[int] | None = None
+) -> list[dict[str, Any]]:
+    excluded_ids = excluded_ids or set()
+    return sorted(
+        (
+            {
+                "id": int(post["id"]),
+                "date": post.get("date"),
+                "date_gmt": post.get("date_gmt"),
+            }
+            for post in posts
+            if int(post["id"]) not in excluded_ids
+        ),
+        key=lambda item: item["id"],
+    )
 
 
 def raw_title(post: dict[str, Any]) -> str:
@@ -621,6 +677,36 @@ def parse_jst_datetime(value: str) -> datetime:
     return parsed.astimezone(JST).replace(microsecond=0)
 
 
+def next_slot_for_future_posts(
+    future_posts: Iterable[dict[str, Any]], now: datetime
+) -> datetime:
+    posts = list(future_posts)
+    if posts:
+        latest = max(parse_jst_datetime(post["date"]) for post in posts)
+        day = latest.date() + timedelta(days=2)
+    else:
+        day = now.date()
+    next_slot = datetime(day.year, day.month, day.day, 13, 0, tzinfo=JST)
+    while next_slot <= now:
+        next_slot += timedelta(days=2)
+    return next_slot
+
+
+def command_next_slot(config: dict[str, str]) -> int:
+    actual_timezone = wordpress_timezone(config)
+    if actual_timezone != "Asia/Tokyo":
+        raise PipelineError(f"unexpected WordPress timezone: {actual_timezone!r}")
+    future_posts = fetch_future_posts(config)
+    now = datetime.now(JST).replace(microsecond=0)
+    next_slot = next_slot_for_future_posts(future_posts, now)
+    print(f"NEXT_SLOT={next_slot.isoformat()}")
+    print(f"FUTURE_COUNT={len(future_posts)}")
+    if future_posts:
+        latest = max(parse_jst_datetime(post["date"]) for post in future_posts)
+        print(f"LATEST_FUTURE={latest.isoformat()}")
+    return 0
+
+
 def remove_visible_metadata(html: str) -> tuple[str, str | None]:
     pattern = re.compile(
         r"(?P<meta>\s*<h2\b[^>]*>\s*メタ(?:ディスクリプション|ティスクリフション)\s*</h2>.*?)(?=<script\b[^>]*type=[\"']application/ld\+json[\"'])",
@@ -765,6 +851,17 @@ def command_plan(
 ) -> int:
     posts = selected_drafts(config, ids)
     now = datetime.now(JST).replace(microsecond=0)
+    future_posts = fetch_future_posts(config)
+    if first_at <= now:
+        raise PipelineError(
+            f"requested first slot is no longer in the future: {first_at.isoformat()}"
+        )
+    expected_first_at = next_slot_for_future_posts(future_posts, now)
+    if first_at != expected_first_at:
+        raise PipelineError(
+            "requested first slot is stale: "
+            f"expected {expected_first_at.isoformat()}, got {first_at.isoformat()}"
+        )
     dates = schedule_dates(len(posts), first_at)
     items = []
     for index, (post, date) in enumerate(zip(posts, dates)):
@@ -787,6 +884,7 @@ def command_plan(
         "site_url": config["WP_URL"],
         "timezone": "Asia/Tokyo",
         "created_at": now.isoformat(),
+        "future_queue_snapshot": future_queue_snapshot(future_posts),
         "items": items,
     }
     save_plan(plan, path, exclusive=True)
@@ -1051,6 +1149,22 @@ def command_schedule_plan(
             raise PipelineError(f"post {item['id']} content does not match approved hash")
         pending.append(item)
         print(f"PENDING={item['id']} STATUS={item['status']} DATE={item['date']}")
+    if pending and "future_queue_snapshot" not in plan:
+        raise PipelineError("publication plan has no future-queue safety snapshot")
+
+    planned_ids = {int(item["id"]) for item in plan["items"]}
+
+    def verify_future_queue_unchanged() -> None:
+        current_snapshot = future_queue_snapshot(
+            fetch_future_posts(config), excluded_ids=planned_ids
+        )
+        if current_snapshot != plan.get("future_queue_snapshot"):
+            raise PipelineError(
+                "future queue changed after plan creation; recompute the slot and rerun QA"
+            )
+
+    if pending:
+        verify_future_queue_unchanged()
     if not apply:
         print(f"DRY_RUN=1 PENDING={len(pending)}")
         return 0
@@ -1060,6 +1174,7 @@ def command_schedule_plan(
         item for item in pending if item["status"] == "publish"
     ]
     for item in ordered:
+        verify_future_queue_unchanged()
         payload = {
             "status": item["status"],
             "date": item["date"],
@@ -1091,6 +1206,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("inventory")
+    subparsers.add_parser("next-slot")
     for command in ("format", "prepare", "plan"):
         subparser = subparsers.add_parser(command)
         selection = subparser.add_mutually_exclusive_group(required=True)
@@ -1121,6 +1237,8 @@ def main() -> int:
     try:
         if args.command == "inventory":
             return command_inventory(config)
+        if args.command == "next-slot":
+            return command_next_slot(config)
         if args.command == "format":
             return command_format(config, selection_from_args(args), args.apply, args.backup_dir)
         if args.command == "prepare":

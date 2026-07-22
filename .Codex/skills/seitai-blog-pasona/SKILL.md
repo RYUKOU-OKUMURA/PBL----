@@ -30,6 +30,20 @@ Check the latest period's `Analytics/periodic/*/ga4_wp_gsc_analysis_queries.csv`
 6. Add the required disclaimer at the end, and a `参考文献` list with working PubMed links for every study you cite.
 7. If the article is publication-bound, insert WordPress fixed elements before final QA, then run `$medical-ad-compliance` on the full article including TL;DR, author block, CTA, footer, and JSON-LD.
 
+## Publication Quality Gate (automation and manual publishing)
+
+Article quality is the primary condition. Formatting and scheduling never compensate for a weak article. Stop at draft status unless every gate below passes.
+
+1. **Search intent**: record exactly one `main_query`, its GSC source query or clearly labeled natural variant, and the existing owner URL/ID. If another article already owns the same intent, improve or link to that article instead of creating a competing title.
+2. **Title**: lead with the reader's symptom, question, or observed query wording. Keep category labels and incidental daily scenes out of the lead. The WordPress title, front matter title, and JSON-LD `headline` must be identical.
+3. **Editorial quality**: the article must have a coherent PASONA flow, a concrete reader problem, plain-language explanations, useful clinical reasoning, and exactly three realistic actions. Do not pad to reach the target length; remove repetition and document-only sentences.
+4. **Evidence quality**: verify every study and PMID. Match body citations, the reference list, and JSON-LD `citation`. State study design and limitation next to each material claim. If the central claim lacks adequate evidence, do not post.
+5. **Safety and compliance**: include relevant red flags and stop conditions. The full article must receive `$medical-ad-compliance` verdict `公開可`; any `要修正`, `法務確認`, or `公開不可` stops publication.
+6. **Mobile presentation**: use short paragraphs and sentence-level visual breaks; follow published article 1773 for emphasis. Use red text sparingly for two core concepts and red+bold for the reader's representative worry and the final takeaway. Never decorate references, disclaimers, author information, CTA, footer, or JSON-LD.
+7. **Fixed elements**: TL;DR, author information, TOC, references, disclaimer, LINE CTA, footer, and JSON-LD must each be present once and remain internally consistent.
+8. **Final QA**: after WordPress formatting, re-check the complete raw post for Japanese style, medical compliance, Chinese/variant character contamination, title/headline equality, JSON-LD validity, and schedule date. Any required correction resets the gate and all final checks must run again.
+9. **Scheduling**: only a fully approved post may move from `draft` to `future`. Append it to the current queue at 13:00 JST, two days after the latest scheduled post. Preserve all existing scheduled dates.
+
 ## Voice Rules
 
 - Use first-person `僕`.
