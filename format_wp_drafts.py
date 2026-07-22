@@ -661,20 +661,25 @@ def command_fix_future_footers(
             normalized_text(FOOTER_RE.search(original).group(0)), ""
         ):
             raise PipelineError(f"post {post['id']} changed outside the footer")
-        previews.append((post, updated))
+        changed = updated != original
+        if changed:
+            previews.append((post, updated))
         print(
             json.dumps(
                 {
                     "id": post["id"],
                     "date": post.get("date"),
                     "title": raw_title(post),
-                    "changed": updated != original,
+                    "changed": changed,
                 },
                 ensure_ascii=False,
             )
         )
     if not apply:
-        print(f"DRY_RUN=1 COUNT={len(previews)}")
+        print(f"DRY_RUN=1 PENDING={len(previews)} TOTAL={len(posts)}")
+        return 0
+    if not previews:
+        print(f"UPDATED=0 TOTAL={len(posts)}")
         return 0
 
     backup = backup_posts((post for post, _ in previews), backup_dir, "before-footer-fix")
@@ -691,7 +696,11 @@ def command_fix_future_footers(
             verified = fetch_post(config, original["id"])
             if raw_content(verified) != updated_content:
                 raise PipelineError(f"post {original['id']} failed content verification")
-            if verified.get("status") != "future" or verified.get("date") != original.get("date"):
+            if (
+                verified.get("status") != "future"
+                or verified.get("date") != original.get("date")
+                or verified.get("date_gmt") != original.get("date_gmt")
+            ):
                 raise PipelineError(f"post {original['id']} schedule changed during footer update")
             changed.append(original)
             print(f"UPDATED={updated['id']} STATUS={updated['status']} DATE={updated['date']}")
@@ -705,6 +714,7 @@ def command_fix_future_footers(
                     raw_content(restored) != raw_content(original)
                     or restored.get("status") != "future"
                     or restored.get("date") != original.get("date")
+                    or restored.get("date_gmt") != original.get("date_gmt")
                 ):
                     raise PipelineError("rollback verification failed")
                 print(f"ROLLED_BACK={original['id']}")
