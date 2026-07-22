@@ -123,6 +123,22 @@ python3 format_wp_drafts.py fixed-elements --status future --all
 - 途中失敗時は、失敗した当該記事を含む試行済み記事をバックアップ内容へ戻す。
 - 正規状態で再実行した場合は、バックアップもPOSTも行わない。
 
+## 予約投稿を監査のため下書きへ戻す場合
+
+品質監査や公開停止のため予約投稿を下書きへ戻すときは、`unschedule` を使う。対象を確認できるよう、通常は `--ids` で明示する。
+
+```bash
+python3 format_wp_drafts.py unschedule --ids POST_ID ...
+python3 format_wp_drafts.py unschedule --ids POST_ID ... --apply
+```
+
+- 1回目はdry-runで、対象ID・タイトル・予約日時・本文ハッシュ・件数を確認する。
+- `--apply` は更新前の全投稿をJSONへバックアップする。
+- 各投稿を `future` から `draft` へ変更し、本文とタイトルが不変であることを再取得して確認する。
+- 途中失敗時は、試行済み投稿を元の本文・タイトル・予約日時・`future` 状態へ戻す。
+- 適用後は予約一覧が空または意図した残数であることと、対象IDがすべて `draft` であることを確認する。
+- 下書きへ戻した記事を再予約するときは、標準フローの `prepare → plan → export → 3種QA → approve → schedule` を最初から行う。
+
 ## 禁止事項
 
 - 予約投稿に `post_to_wp.py --publish` を使わない。

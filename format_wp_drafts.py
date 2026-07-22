@@ -626,6 +626,107 @@ def command_inventory(config: dict[str, str]) -> int:
     return 0
 
 
+def command_unschedule(
+    config: dict[str, str],
+    ids: set[int] | None,
+    apply: bool,
+    backup_dir: Path,
+) -> int:
+    """Move selected future posts back to draft without changing their content."""
+    posts = selected_posts(config, "future", ids)
+    for post in posts:
+        print(
+            json.dumps(
+                {
+                    "id": post["id"],
+                    "date": post.get("date"),
+                    "date_gmt": post.get("date_gmt"),
+                    "title": raw_title(post),
+                    "content_sha256": content_hash(raw_content(post)),
+                },
+                ensure_ascii=False,
+            )
+        )
+    if not apply:
+        print(f"DRY_RUN=1 UNSCHEDULE_PENDING={len(posts)}")
+        return 0
+
+    backup = backup_posts(posts, backup_dir, "before-unschedule")
+    print(f"BACKUP={backup}")
+    attempted: list[dict[str, Any]] = []
+    try:
+        for original in posts:
+            current = fetch_post(config, original["id"])
+            if (
+                current.get("status") != "future"
+                or current.get("date") != original.get("date")
+                or current.get("date_gmt") != original.get("date_gmt")
+                or raw_content(current) != raw_content(original)
+                or raw_title(current) != raw_title(original)
+            ):
+                raise PipelineError(
+                    f"post {original['id']} changed after unschedule preview"
+                )
+            attempted.append(original)
+            api_post(config, original["id"], {"status": "draft"})
+            verified = fetch_post(config, original["id"])
+            if (
+                verified.get("status") != "draft"
+                or raw_content(verified) != raw_content(original)
+                or raw_title(verified) != raw_title(original)
+            ):
+                raise PipelineError(
+                    f"post {original['id']} failed unschedule verification"
+                )
+            print(f"UNSCHEDULED={original['id']} STATUS=draft")
+
+        for original in posts:
+            verified = fetch_post(config, original["id"])
+            if (
+                verified.get("status") != "draft"
+                or raw_content(verified) != raw_content(original)
+                or raw_title(verified) != raw_title(original)
+            ):
+                raise PipelineError(
+                    f"post {original['id']} failed final unschedule verification"
+                )
+    except Exception:
+        rollback_errors: list[str] = []
+        for original in reversed(attempted):
+            try:
+                api_post(
+                    config,
+                    original["id"],
+                    {
+                        "title": raw_title(original),
+                        "content": raw_content(original),
+                        "status": "future",
+                        "date": original.get("date"),
+                        "date_gmt": original.get("date_gmt"),
+                    },
+                )
+                restored = fetch_post(config, original["id"])
+                if (
+                    restored.get("status") != "future"
+                    or restored.get("date") != original.get("date")
+                    or restored.get("date_gmt") != original.get("date_gmt")
+                    or raw_content(restored) != raw_content(original)
+                    or raw_title(restored) != raw_title(original)
+                ):
+                    raise PipelineError("restored post does not match its backup")
+            except Exception as rollback_exc:
+                rollback_errors.append(f"{original['id']}: {rollback_exc}")
+        if rollback_errors:
+            raise PipelineError(
+                "unschedule failed and rollback was incomplete: "
+                + "; ".join(rollback_errors)
+            )
+        raise
+
+    print(f"UNSCHEDULED_TOTAL={len(posts)}")
+    return 0
+
+
 def command_export(
     config: dict[str, str],
     status: str,
@@ -1387,6 +1488,11 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("inventory")
     subparsers.add_parser("next-slot")
+    unschedule = subparsers.add_parser("unschedule")
+    unschedule_selection = unschedule.add_mutually_exclusive_group(required=True)
+    unschedule_selection.add_argument("--ids", type=int, nargs="+")
+    unschedule_selection.add_argument("--all", action="store_true")
+    unschedule.add_argument("--apply", action="store_true")
     export = subparsers.add_parser("export")
     export.add_argument("--status", choices=("draft", "future"), required=True)
     export_selection = export.add_mutually_exclusive_group(required=True)
@@ -1433,6 +1539,13 @@ def main() -> int:
             return command_inventory(config)
         if args.command == "next-slot":
             return command_next_slot(config)
+        if args.command == "unschedule":
+            return command_unschedule(
+                config,
+                selection_from_args(args),
+                args.apply,
+                args.backup_dir,
+            )
         if args.command == "export":
             return command_export(
                 config,

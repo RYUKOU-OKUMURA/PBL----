@@ -184,6 +184,77 @@ class FixedElementsTests(unittest.TestCase):
             self.assertIn('"id": 20', manifest)
             self.assertIn('"content_sha256"', manifest)
 
+    def test_unschedule_dry_run_does_not_write(self) -> None:
+        post = {
+            "id": 25,
+            "status": "future",
+            "date": "2026-08-02T13:00:00",
+            "date_gmt": "2026-08-02T04:00:00",
+            "title": {"raw": "停止テスト"},
+            "content": {"raw": publication_html()},
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            with (
+                patch.object(format_wp_drafts, "selected_posts", return_value=[post]),
+                patch.object(format_wp_drafts, "api_post") as api_post_mock,
+                patch.object(format_wp_drafts, "backup_posts") as backup_mock,
+            ):
+                result = format_wp_drafts.command_unschedule(
+                    {}, {25}, False, Path(directory)
+                )
+        self.assertEqual(result, 0)
+        api_post_mock.assert_not_called()
+        backup_mock.assert_not_called()
+
+    def test_unschedule_failure_rolls_back_attempted_post(self) -> None:
+        original = {
+            "id": 26,
+            "status": "future",
+            "date": "2026-08-04T13:00:00",
+            "date_gmt": "2026-08-04T04:00:00",
+            "title": {"raw": "停止復元テスト"},
+            "content": {"raw": publication_html()},
+        }
+        state = copy.deepcopy(original)
+        update_count = 0
+
+        def fake_fetch(_config: dict, _post_id: int) -> dict:
+            return copy.deepcopy(state)
+
+        def fake_post(_config: dict, _post_id: int, payload: dict) -> dict:
+            nonlocal update_count
+            update_count += 1
+            if payload == {"status": "draft"}:
+                state["status"] = "draft"
+                state["content"]["raw"] += "<!-- unexpected -->"
+                state["title"]["raw"] = "意図しないタイトル変更"
+                return copy.deepcopy(state)
+            state["status"] = payload["status"]
+            state["date"] = payload["date"]
+            state["date_gmt"] = payload["date_gmt"]
+            state["content"]["raw"] = payload["content"]
+            state["title"]["raw"] = payload["title"]
+            return copy.deepcopy(state)
+
+        with tempfile.TemporaryDirectory() as directory:
+            with (
+                patch.object(format_wp_drafts, "selected_posts", return_value=[original]),
+                patch.object(format_wp_drafts, "fetch_post", side_effect=fake_fetch),
+                patch.object(format_wp_drafts, "api_post", side_effect=fake_post),
+                patch.object(
+                    format_wp_drafts,
+                    "backup_posts",
+                    return_value=Path(directory) / "backup.json",
+                ),
+            ):
+                with self.assertRaises(format_wp_drafts.PipelineError):
+                    format_wp_drafts.command_unschedule(
+                        {}, {26}, True, Path(directory)
+                    )
+
+        self.assertEqual(state, original)
+        self.assertEqual(update_count, 2)
+
     def test_final_batch_verification_failure_rolls_back(self) -> None:
         original = {
             "id": 30,
