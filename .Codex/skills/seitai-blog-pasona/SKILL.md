@@ -81,14 +81,14 @@ Inside the solution section, add one short paragraph that tells the reader when 
 - The anonymous episode must be framed as a typical intake worry — add a clause like `これは施術後の変化ではなく、来院時によくある悩みとして紹介しています` so it never reads as a before/after testimonial.
 - Use `##` and `###` headings.
 - Keep paragraph flow natural. Do not turn the whole article into bullets.
-- Keep the reader-facing wording softer than the internal outline. For example, describe the solution flow as `今の状態を確認する → 無理のない調整を進める → 変化を確かめる`, not bare clinician shorthand like `評価→介入→再評価`.
+- Describe the solution flow as information gathering and safe role-sharing, for example `症状と困る場面を整理する → 必要に応じて医療機関へ相談する → 安全な対応を検討する`. Do not use `調整→変化を確かめる`, which can imply that the clinic improves bodily function and verifies a treatment effect.
 - Make `今日からできること` a numbered list with exactly three actions.
-- Include `痛みが出たら中止` in the self-care section.
+- Include `痛みが出たら中止` in the self-care section. Give a precise dose only when a cited study or authoritative guideline supports that exact instruction; otherwise use a situational or safety boundary instead of inventing seconds, repetitions, or sets.
 - End with this disclaimer or a meaning-preserving equivalent:
 
 ```md
 本記事は一般情報であり、個別の診断・治療を提供するものではありません。
-痛みや違和感が出たら中止し、必要に応じて専門家へご相談ください。
+痛みや違和感が出たら中止してください。症状が続く、強くなる、または日常生活に支障がある場合は、期間にかかわらず医療機関にご相談ください。
 ```
 
 ## Writing Rhythm (anti-monotony)

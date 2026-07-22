@@ -15,8 +15,15 @@ JSONLD_SCRIPT_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 DIV_RE = re.compile(r"<div\b[^>]*>.*?</div>", re.IGNORECASE | re.DOTALL)
-LINE_INVITATION = "公式LINEから24時間受け付けてます！"
+LINE_INVITATION = "公式LINEから24時間お問い合わせを受け付けています。"
+LEGACY_LINE_INVITATION = "公式LINEから24時間受け付けてます！"
+LINE_INVITATION_MARKERS = (LINE_INVITATION, LEGACY_LINE_INVITATION)
 LINE_INVITATION_TERMS = ("公式LINE", "ご予約", "お問い合わせ", "ご相談")
+AUTHOR_LABEL = "この記事の執筆・監修：奥村龍晃（柔道整復師）"
+CANONICAL_LINE_TEXT = (
+    "公式LINEから24時間お問い合わせを受け付けています。 "
+    "ご予約や当院についてのご質問がありましたら、お問い合わせください。"
+)
 REQUIRED_SELECTORS = {
     "tldr": ".tldr",
     "author": ".wp-image-361",
@@ -35,7 +42,7 @@ CANONICAL_FOOTER = """<footer>
 〒464-0026<br />
 愛知県名古屋市千種区井上町117 井上協栄ビル2階<br />
 名古屋市営地下鉄東山線「星ヶ丘駅」2番口徒歩2分<br />
-愛知、名古屋で姿勢や動作の不調でお悩みの方へ、体の使い方を整える整体<br />
+愛知県名古屋市で、姿勢や日常動作についてのご相談を受け付ける整体院<br />
 フィジカルバランスラボ整体院<br />
 ーーーーーーーーーーーーーーーーーーーーーーーーーーーー</p>
 </footer>"""
@@ -59,6 +66,18 @@ def publication_html_errors(html: str) -> list[str]:
         if count != 1:
             errors.append(f"{name}: expected 1, found {count}")
 
+    if html.count(AUTHOR_LABEL) != 1:
+        errors.append("author_copy: expected canonical author label once")
+
+    soup = BeautifulSoup(html, "html.parser")
+    disclaimer = soup.select_one(".disclaimer")
+    if disclaimer is not None:
+        disclaimer_text = disclaimer.get_text(" ", strip=True)
+        if "医療機関" not in disclaimer_text:
+            errors.append("disclaimer_copy: medical consultation wording is missing")
+        if "2週間以上" in disclaimer_text or "専門家への受診" in disclaimer_text:
+            errors.append("disclaimer_copy: legacy consultation threshold remains")
+
     footer_matches = list(FOOTER_RE.finditer(html))
     if len(footer_matches) == 1:
         footer_match = footer_matches[0]
@@ -67,7 +86,11 @@ def publication_html_errors(html: str) -> list[str]:
     else:
         footer_match = None
 
-    invitation_positions = [match.start() for match in re.finditer(re.escape(LINE_INVITATION), html)]
+    invitation_positions = sorted(
+        match.start()
+        for marker in LINE_INVITATION_MARKERS
+        for match in re.finditer(re.escape(marker), html)
+    )
     if len(invitation_positions) > 1:
         errors.append(
             f"line_invitation: expected at most 1 paragraph, found {len(invitation_positions)}"
@@ -92,6 +115,11 @@ def publication_html_errors(html: str) -> list[str]:
             errors.append(
                 f"line_invitation_block: expected 1 before the button, found {len(invitation_blocks)}"
             )
+        elif (
+            BeautifulSoup(invitation_blocks[0], "html.parser").get_text(" ", strip=True)
+            != CANONICAL_LINE_TEXT
+        ):
+            errors.append("line_invitation_copy: canonical invitation text does not match")
         if not disclaimer_position < button_position < footer_position < jsonld_position:
             errors.append(
                 "order: expected disclaimer < LINE button < footer < JSON-LD"

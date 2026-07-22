@@ -20,9 +20,8 @@ from wp_fixed_elements import (
 
 
 LINE_BLOCK = """<div>
-<p>公式LINEから24時間受け付けてます！<br />
-お困りのことがありましたら、<br />
-いつでもお問い合わせください(^^)/</p>
+<p>公式LINEから24時間お問い合わせを受け付けています。<br />
+ご予約や当院についてのご質問がありましたら、お問い合わせください。</p>
 </div>
 <div class="q_button_wrap"><a href="https://lin.ee/cZKMhZ6">公式LINE</a></div>"""
 
@@ -30,9 +29,10 @@ LINE_BLOCK = """<div>
 def publication_html(footer: str = CANONICAL_FOOTER) -> str:
     return f"""<p class="tldr">要約です。</p>
 <img class="wp-image-361" src="profile.jpg" />
+<p>この記事の執筆・監修：奥村龍晃（柔道整復師）</p>
 <nav class="toc"><ol><li>目次</li></ol></nav>
 <h2>本文</h2><p>本文です。</p>
-<div class="disclaimer">免責事項</div>
+<div class="disclaimer">本記事は一般情報です。症状が続く場合は医療機関にご相談ください。</div>
 {LINE_BLOCK}
 {footer}
 <script type="application/ld+json">{{"@context":"https://schema.org"}}</script>"""
@@ -69,6 +69,18 @@ class FixedElementsTests(unittest.TestCase):
     def test_duplicate_line_invitation_is_reported(self) -> None:
         errors = publication_html_errors(publication_html(OLD_FOOTER))
         self.assertTrue(any(error.startswith("line_invitation:") for error in errors))
+
+    def test_legacy_fixed_copy_is_rejected(self) -> None:
+        html = publication_html().replace(
+            "この記事の執筆・監修：奥村龍晃（柔道整復師）",
+            "この記事を監修している人：奥村龍晃（柔道整復師資格保有）",
+        ).replace(
+            "症状が続く場合は医療機関にご相談ください。",
+            "2週間以上症状が続く場合は、専門家への受診をおすすめします。",
+        )
+        errors = publication_html_errors(html)
+        self.assertTrue(any(error.startswith("author_copy:") for error in errors))
+        self.assertTrue(any(error.startswith("disclaimer_copy:") for error in errors))
 
     def test_missing_line_invitation_block_is_reported(self) -> None:
         button_only = '<div class="q_button_wrap"><a href="#">公式LINE</a></div>'
