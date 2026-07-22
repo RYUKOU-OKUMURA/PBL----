@@ -247,6 +247,47 @@ def convert_markdown_to_html(markdown_content: str) -> str:
     return html
 
 
+NON_ARTICLE_MARKDOWN_HEADINGS = {
+    'メタディスクリプション',
+    'サジェストキーワード',
+}
+
+
+def strip_non_article_markdown_sections(markdown_content: str) -> str:
+    """WordPress本文に含めない編集用Markdownセクションを除去する。"""
+    kept_lines: List[str] = []
+    skipping = False
+
+    for line in markdown_content.splitlines(keepends=True):
+        heading_match = re.match(
+            r'^\s{0,3}#{1,2}\s+(.+?)\s*#*\s*$',
+            line.rstrip('\r\n'),
+        )
+        heading = heading_match.group(1).strip() if heading_match else None
+
+        if heading in NON_ARTICLE_MARKDOWN_HEADINGS:
+            skipping = True
+            continue
+
+        if skipping and (
+            heading_match
+            or re.match(
+                r'^\s*<script\b[^>]*\btype=["\']application/ld\+json["\']',
+                line,
+                re.IGNORECASE,
+            )
+        ):
+            skipping = False
+
+        if not skipping:
+            kept_lines.append(line)
+
+    cleaned = ''.join(kept_lines)
+    if cleaned != markdown_content:
+        logger.debug('編集用のメタディスクリプション／サジェスト欄を本文から除外しました')
+    return cleaned
+
+
 # =============================================================================
 # Phase 2-1: Front Matter対応
 # =============================================================================
@@ -1603,6 +1644,8 @@ def main():
             # 本文からタイトルを抽出
             title, body = extract_title(body, file_path)
             logger.info(f"タイトル: {title}")
+
+        body = strip_non_article_markdown_sections(body)
         
         # Markdown→HTML変換
         logger.info("Markdown→HTML変換中...")

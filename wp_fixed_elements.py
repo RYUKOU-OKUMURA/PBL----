@@ -15,14 +15,20 @@ JSONLD_SCRIPT_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 DIV_RE = re.compile(r"<div\b[^>]*>.*?</div>", re.IGNORECASE | re.DOTALL)
-LINE_INVITATION = "公式LINEから24時間お問い合わせを受け付けています。"
+LINE_INVITATION = "公式LINEへのメッセージ送信は24時間可能です。返信は営業時間内です。"
+PREVIOUS_LINE_INVITATION = "公式LINEから24時間お問い合わせを受け付けています。"
 LEGACY_LINE_INVITATION = "公式LINEから24時間受け付けてます！"
-LINE_INVITATION_MARKERS = (LINE_INVITATION, LEGACY_LINE_INVITATION)
+LINE_INVITATION_MARKERS = (
+    LINE_INVITATION,
+    PREVIOUS_LINE_INVITATION,
+    LEGACY_LINE_INVITATION,
+)
 LINE_INVITATION_TERMS = ("公式LINE", "ご予約", "お問い合わせ", "ご相談")
 AUTHOR_LABEL = "この記事の執筆・監修：奥村龍晃（柔道整復師）"
 CANONICAL_LINE_TEXT = (
-    "公式LINEから24時間お問い合わせを受け付けています。 "
-    "ご予約や当院についてのご質問がありましたら、お問い合わせください。"
+    "公式LINEへのメッセージ送信は24時間可能です。返信は営業時間内です。 "
+    "ご予約や当院の一般的なご案内についてお問い合わせいただけます。"
+    "診断・治療方針などの医療上の判断は医療機関へご相談ください。"
 )
 REQUIRED_SELECTORS = {
     "tldr": ".tldr",
