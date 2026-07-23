@@ -1,0 +1,41 @@
+{
+  "post_id": 1813,
+  "selected_sources": {
+    "1813-featured": "source/1813-featured.png",
+    "1813-body1": "source/1813-body1.png",
+    "1813-body2": "source/1813-body2.png",
+    "1813-body3": "source/1813-body3.png"
+  },
+  "webp_options": {
+    "1813-featured": {
+      "quality": 70,
+      "method": 6
+    },
+    "1813-body1": {
+      "quality": 70,
+      "method": 6
+    },
+    "1813-body2": {
+      "quality": 70,
+      "method": 6
+    },
+    "1813-body3": {
+      "quality": 70,
+      "method": 6
+    }
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "4画像をそれぞれ別のbuilt-in imagegen呼び出しで生成",
+      "文字・数字・ロゴ・透かしなし",
+      "人物・手指・脚・手すり・ベンチ・椅子・電話に重大な破綻なし",
+      "赤い痛み表現・異常側の断定・診断断定・治療保証・ビフォーアフターなし",
+      "不安定な片脚立ち・危険な家具・無理な関節角度・危険動作なし",
+      "柔らかい完全寄りフラットデザインと共通配色に一致し、薄い陰影はあるが過多ではない",
+      "手すりそばでの安全確認・左右脚の等しい重み・安定椅子での靴下着用・家族による医療相談が各仕様に一致",
+      "全4点が正常デコード可能なRGB WebPで、指定寸法・quality 70・method 6に一致し、目立つ圧縮劣化なし",
+      "独立画像QAでCritical 0・Major 0・Minor 0、公開可"
+    ]
+  }
+}
