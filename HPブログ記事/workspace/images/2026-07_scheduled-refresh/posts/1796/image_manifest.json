@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1796,
+      "key": "1796-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "一足の靴底を左右に並べて状態を確認するイラスト",
+      "insert_after_heading": null,
+      "prompt": "Soft Japanese editorial flat vector illustration of an adult calmly comparing the soles of a matching pair of everyday shoes placed side by side on a table, focusing on wear and shoe safety rather than diagnosing the body. Warm cream background, muted sage green, dusty blue and pale peach, rounded simple shapes, solid colors, generous negative space, clean thumbnail-friendly composition. No text, letters, numbers, logos, gradients, shadows, photorealism, body alignment diagram, red warning marks, before-and-after correction, or walking diagnosis claim. 16:9."
+    },
+    {
+      "post_id": 1796,
+      "key": "1796-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "靴底の摩耗に路面や使用場面など複数の条件が関わるイラスト",
+      "insert_after_heading": "靴底の減り方だけで原因を決められない理由",
+      "prompt": "Soft flat vector editorial illustration of a pair of shoes surrounded by simple non-text symbols for pavement, commuting, driving and rainy weather, showing that outsole wear reflects multiple use conditions rather than one body cause. Warm cream background, muted sage, dusty blue and pale peach, rounded geometry, solid colors, calm educational style. No text, letters, numbers, logos, gradients, shadows, photorealism, skeletal alignment, red pain marks, diagnosis, or correction arrows. 4:3."
+    },
+    {
+      "post_id": 1796,
+      "key": "1796-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "靴底の減り方と安全性を観察する研究のイラスト",
+      "insert_after_heading": "研究で分かることと限界",
+      "prompt": "Soft flat vector illustration of several shoe soles being observed with a simple measuring frame and a magnifying glass, presenting footwear research and wear assessment without claiming that wear reveals posture or disease. Warm cream background, muted sage green, dusty blue and pale peach, clean rounded forms, solid color blocks. No text, letters, numbers, logos, gradients, shadows, photorealism, medical diagnosis, red warning marks, ranking, or before-and-after comparison. 4:3."
+    },
+    {
+      "post_id": 1796,
+      "key": "1796-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "靴底の左右差と使用状況を写真やメモで記録するイラスト",
+      "insert_after_heading": "まず記録したい3つのこと",
+      "prompt": "Soft flat vector editorial illustration of an adult placing a matching pair of shoes in the same direction, taking a simple reference photo and making notes in a blank notebook, with the shoe tread clearly visible. Warm cream background, muted sage, dusty blue and pale peach, rounded simple shapes, solid colors, practical calm mood. No visible writing, letters, numbers, logos, gradients, shadows, photorealism, forced walking test, red pain marks, posture correction, or diagnostic claim. 4:3."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "3adcefa181cca85a7e21c7753e0cf26238cc6a2027cb2dce085a0ee37e82256d",
+  "image_files": {
+    "1796-featured": {
+      "sha256": "6bbd311d67eeca1e689359ba9ebaf474d892f5f02316c3c3741f343474633279",
+      "bytes": 33230,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1796-body1": {
+      "sha256": "f50be14aa2dd8d75ea59eb4b5aee16d9b831f520b03617ef8df4abb506b2ab4a",
+      "bytes": 62926,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1796-body2": {
+      "sha256": "213b90602a86f5b6695bdf2fa3c1ab30ef896a21fc7d8494e179d2109dc42712",
+      "bytes": 57360,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1796-body3": {
+      "sha256": "c9dc4d56b763c320377db9978b1cd5afddc377183c505d3c71e77ce8a5a49c3f",
+      "bytes": 58356,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1796": {
+      "id": 1796,
+      "title": "靴底の減り方が左右で違うときは？靴の条件と受診目安",
+      "status": "future",
+      "date": "2026-08-13T13:00:00",
+      "date_gmt": "2026-08-13T04:00:00",
+      "modified": "2026-07-23T09:56:58",
+      "modified_gmt": "2026-07-23T00:56:58",
+      "featured_media": 0,
+      "content_sha256": "c614aa5934486c01da65240ea2d9800ae26a790ac1294ef554e9a26fb4b9c5f8",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1796"
+    }
+  }
+}
