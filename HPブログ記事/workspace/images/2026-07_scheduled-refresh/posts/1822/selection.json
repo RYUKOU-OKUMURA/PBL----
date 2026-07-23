@@ -1,0 +1,26 @@
+{
+  "post_id": 1822,
+  "selected_sources": {
+    "1822-featured": "source/1822-featured.png",
+    "1822-body1": "source/1822-body1-v2.png",
+    "1822-body2": "source/1822-body2.png",
+    "1822-body3": "source/1822-body3.png"
+  },
+  "rejected_sources": {
+    "1822-body1": [
+      {
+        "file": "source/1822-body1.png",
+        "reason": "食事・睡眠・スポーツの要素が入り、成長・骨成熟・背骨という記事の説明範囲より広く見えるため"
+      }
+    ]
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "文字・ロゴ・透かしなし",
+      "装具・手指・身体表現に重大な破綻なし",
+      "赤い痛み表現・治療保証・ビフォーアフターなし",
+      "柔らかいフラットデザインと共通配色に一致"
+    ]
+  }
+}

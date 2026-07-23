@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1822,
+      "key": "1822-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "側弯症の装具終了時期を医療者へ相談する親子のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese adolescent and parent calmly consulting a clinician about when scoliosis brace treatment may end, with a torso brace on a stand and a simple spine model nearby. Balanced composition with generous negative space. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D, gentle trustworthy mood. Text-free. No text, letters, numbers, logos, watermark, medical guarantee, red pain glow, dramatic expression, deformed anatomy, exaggerated findings or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1822,
+      "key": "1822-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "成長・骨成熟・背骨の角度を総合して考えるイラスト",
+      "insert_after_heading": "なぜ起こるのか",
+      "prompt": "4:3 soft flat educational illustration showing a Japanese adolescent surrounded by neutral abstract visual symbols for physical growth, bone maturity and a gently curved spine, expressing that several factors are considered together. Do not show numerical measurements, diagnostic labels or a single decisive indicator. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, simple geometric shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, deformed anatomy, exaggerated curve or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1822,
+      "key": "1822-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "側弯症の経過と装具の続け方を医療者と確認するイラスト",
+      "insert_after_heading": "解決の方向性",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent and parent reviewing scoliosis follow-up and brace use with a clinician. Include a torso brace on a stand, a simple spine model and blank papers on the consultation table, with everyone calmly discussing options rather than announcing a decision. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, medical guarantee, red pain glow, dramatic expression, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1822,
+      "key": "1822-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "身長や受診予定、装具の困りごとを整理するイラスト",
+      "insert_after_heading": "今日からできること",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent and parent preparing for a medical visit by organizing blank note cards, a blank notebook and a simple calendar, with a brace nearby and gentle abstract symbols suggesting height history, appointments and daily difficulties. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, deformed anatomy or before-and-after comparison."
+    }
+  ]
+}

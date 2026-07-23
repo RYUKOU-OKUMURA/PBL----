@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "545dac17f719c934d6fb62ff5f894a1e9b258d186b8c624ac999100d17ba522f",
+  "image_files": {
+    "1822-featured": {
+      "sha256": "0ce4e0e7b165e4925916db2a4a60d45be80503bcd0337fc7c9c31f9a33915235",
+      "bytes": 37098,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1822-body1": {
+      "sha256": "7f79a1061f1d21bee801fb6f9c2a3b326bfd55c5d0fa5e737e83d0d61ce05e95",
+      "bytes": 21844,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1822-body2": {
+      "sha256": "aa20d5102860d66e3b032eb14fcb6f333f3ffcb05d1909e826cce19c04b58ea6",
+      "bytes": 44936,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1822-body3": {
+      "sha256": "672cdf518c99fedf8ee25c95d61b06c99a99cdec772e6a4186f6484bebb93e53",
+      "bytes": 49672,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1822": {
+      "id": 1822,
+      "title": "側弯症の装具はいつまで？初経後・成長終了前後に確認したいこと",
+      "status": "future",
+      "date": "2026-07-24T13:00:00",
+      "date_gmt": "2026-07-24T04:00:00",
+      "modified": "2026-07-22T19:28:23",
+      "modified_gmt": "2026-07-22T10:28:23",
+      "featured_media": 0,
+      "content_sha256": "bea4d6b748a3a870ec968136e7f329054f28c7ecf117f15f0632cbdfb906af66",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1822"
+    }
+  }
+}

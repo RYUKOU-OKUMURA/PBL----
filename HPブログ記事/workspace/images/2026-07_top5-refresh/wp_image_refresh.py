@@ -519,16 +519,26 @@ def command_verify(config: dict[str, str]) -> None:
                 media = media_by_key[asset["key"]]
                 if media["url"] not in rendered or html.escape(asset["alt"]) not in rendered:
                     raise RolloutError(f"Rendered body image missing for {asset['key']}")
-        public = requests.get(current["link"], timeout=45)
-        if public.status_code != 200:
-            raise RolloutError(f"Public page HTTP {public.status_code} for post {post_id}")
-        for asset in grouped[post_id]:
-            if asset["role"] == "body" and media_by_key[asset["key"]]["url"] not in public.text:
-                raise RolloutError(f"Public page body image missing for {asset['key']}")
+        public_result = "not_applicable"
+        if current["status"] == "publish":
+            public = requests.get(current["link"], timeout=45)
+            if public.status_code != 200:
+                raise RolloutError(f"Public page HTTP {public.status_code} for post {post_id}")
+            for asset in grouped[post_id]:
+                if (
+                    asset["role"] == "body"
+                    and media_by_key[asset["key"]]["url"] not in public.text
+                ):
+                    raise RolloutError(f"Public page body image missing for {asset['key']}")
+            public_result = "200"
+        elif current["status"] != "future":
+            raise RolloutError(
+                f"Unsupported post status for end-to-end verification: {current['status']}"
+            )
         print(
             f"VERIFIED post={post_id} status={current['status']} "
             f"body_images=+{sum(a['role'] == 'body' for a in grouped[post_id])} "
-            f"featured_media={featured_id} public_http=200"
+            f"featured_media={featured_id} public_http={public_result}"
         )
 
 

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = ROOT.parents[3]
 MASTER_MANIFEST = ROOT / "image_manifest.json"
 MASTER_FINAL_DIR = ROOT / "final"
+CONTENT_PATCH_DIR = ROOT / "content_patches"
 CORE_PATH = (
     PROJECT_ROOT
     / "HPブログ記事"
@@ -75,6 +76,25 @@ def configure_core(core: Any, post_id: int, manifest_path: Path) -> None:
     core.PLAN_PATH = post_root / "wp_rollout_plan.json"
     core.STATE_PATH = post_root / "wp_rollout_state.json"
     core.POST_IDS = (post_id,)
+    patch_path = CONTENT_PATCH_DIR / f"{post_id}.json"
+    if patch_path.exists():
+        patches = read_json(patch_path)
+        original_insert_body_images = core.insert_body_images
+
+        def insert_body_images_with_patches(
+            html: str, assets: list[dict[str, Any]], media_by_key: dict[str, Any]
+        ) -> str:
+            patched = html
+            for index, patch in enumerate(patches, start=1):
+                old = patch["old"]
+                if patched.count(old) != 1:
+                    raise ScheduledRefreshError(
+                        f"Content patch {index} for post {post_id} must match exactly once"
+                    )
+                patched = patched.replace(old, patch["new"], 1)
+            return original_insert_body_images(patched, assets, media_by_key)
+
+        core.insert_body_images = insert_body_images_with_patches
 
 
 def prepare(post_id: int) -> tuple[Any, dict[str, str]]:
