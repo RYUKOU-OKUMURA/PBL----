@@ -6,6 +6,12 @@
     "1801-body2": "source/1801-body2.png",
     "1801-body3": "source/1801-body3.png"
   },
+  "webp_options": {
+    "1801-featured": {
+      "quality": 76,
+      "method": 0
+    }
+  },
   "visual_qa": {
     "status": "passed",
     "checks": [
