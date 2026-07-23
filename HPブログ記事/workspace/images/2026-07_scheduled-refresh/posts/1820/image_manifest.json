@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1820,
+      "key": "1820-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "朝の首の違和感と枕を落ち着いて見直す人のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Soft Japanese editorial flat vector illustration of an adult sitting calmly on the edge of a bed after waking, gently noticing their neck while a pillow rests behind them, suggesting that morning neck discomfort has several possible factors rather than one simple cause. Warm cream background, muted sage green, dusty blue and pale peach, rounded simple shapes, clean solid color blocks, generous negative space, calm reassuring mood, readable at thumbnail size. No text, letters, numbers, logos, gradients, shadows, photorealism, anatomical cutaway, red pain marks, dramatic distress, before-and-after comparison, or corrective treatment claim. 16:9."
+    },
+    {
+      "post_id": 1820,
+      "key": "1820-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "首の違和感を枕以外の生活条件も含めて考えるイラスト",
+      "insert_after_heading": "朝起きると首が痛いとき、枕だけで決められない理由",
+      "prompt": "Soft flat vector editorial illustration showing an adult beside a bed with a pillow, sleeping-position symbol, desk-work symbol and a simple moon symbol arranged gently around them, communicating that morning neck discomfort may relate to multiple everyday conditions. Warm cream background, muted sage, dusty blue and pale peach, rounded shapes, solid colors, calm balanced composition. No text, letters, numbers, logos, gradients, shadows, photorealism, anatomical detail, red pain marks, diagnosis, or before-and-after imagery. 4:3."
+    },
+    {
+      "post_id": 1820,
+      "key": "1820-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "形や素材の異なる枕を一律に決められないことを示すイラスト",
+      "insert_after_heading": "枕の研究から分かること",
+      "prompt": "Soft flat vector illustration of several differently shaped pillows arranged on a clean surface while a thoughtful adult compares them without selecting a single universal winner, expressing that pillow research does not identify one option for everyone. Warm cream background, muted sage green, dusty blue and pale peach, simple rounded geometry, solid color blocks, quiet editorial style. No text, letters, numbers, logos, check marks, ranking symbols, gradients, shadows, photorealism, medical claims, or red pain indicators. 4:3."
+    },
+    {
+      "post_id": 1820,
+      "key": "1820-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "朝の首の状態や寝姿勢を無理なく記録するイラスト",
+      "insert_after_heading": "今日から整理したい3つのこと",
+      "prompt": "Soft flat vector editorial illustration of an adult calmly recording naturally noticed morning conditions in a blank notebook beside a bed, with simple non-text icons for waking, side sleeping and daily activity. Warm cream background, muted sage, dusty blue and pale peach, rounded forms, solid colors, gentle practical mood. No visible writing, letters, numbers, logos, gradients, shadows, photorealism, repeated neck testing, forceful stretching, red pain marks, or diagnostic imagery. 4:3."
+    }
+  ]
+}
