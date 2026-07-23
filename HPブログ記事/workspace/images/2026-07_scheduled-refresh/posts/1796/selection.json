@@ -6,6 +6,24 @@
     "1796-body2": "source/1796-body2.png",
     "1796-body3": "source/1796-body3.png"
   },
+  "webp_options": {
+    "1796-featured": {
+      "quality": 78,
+      "method": 0
+    },
+    "1796-body1": {
+      "quality": 78,
+      "method": 0
+    },
+    "1796-body2": {
+      "quality": 70,
+      "method": 6
+    },
+    "1796-body3": {
+      "quality": 70,
+      "method": 6
+    }
+  },
   "visual_qa": {
     "status": "passed",
     "checks": [
