@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "08b645e7c9c54022c55137ccf1b96544376161f67a2c905335bc65ab7391809c",
+  "image_files": {
+    "1821-featured": {
+      "sha256": "2ba39c98771b424a69ec5d48622659d8ab3a58bb9bb56268bf89fe792f81c8fa",
+      "bytes": 12914,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1821-body1": {
+      "sha256": "89de9d2410e49424d2cad6901b41feb335c836d3be1f0c3bee2df25589c7dbed",
+      "bytes": 13554,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1821-body2": {
+      "sha256": "93bc28855710dbb5a94da2aabaef9874e861bf9920a8c401e12965157a435593",
+      "bytes": 45276,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1821-body3": {
+      "sha256": "47d5dbd1bdc9fda0c360a5eec62b60f70e66048afbfaa5f76bde2c78a241360f",
+      "bytes": 34534,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1821": {
+      "id": 1821,
+      "title": "仰向けで背中の片側が浮く感じは？布団の当たり方と受診目安",
+      "status": "future",
+      "date": "2026-08-19T13:00:00",
+      "date_gmt": "2026-08-19T04:00:00",
+      "modified": "2026-07-23T11:33:44",
+      "modified_gmt": "2026-07-23T02:33:44",
+      "featured_media": 0,
+      "content_sha256": "f2f3ed2c07b9bf3b7106a2dd21b489dc2e63867a6842422a60dc137224f1fb59",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1821"
+    }
+  }
+}

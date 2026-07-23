@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1821,
+      "key": "1821-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "仰向けで寝具と背中の接触感を自然に確かめる人のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Soft Japanese editorial flat vector illustration of an adult resting calmly on their back on a simple mattress, with gentle neutral contact shapes beneath the shoulders, back and pelvis to suggest body-to-mattress sensation without diagnosing asymmetry. Warm cream background, muted sage green, dusty blue and pale peach, rounded shapes, solid colors, generous negative space, serene reassuring mood, readable at thumbnail size. No text, letters, numbers, logos, gradients, shadows, photorealism, anatomical cutaway, red pain marks, spinal deformity claim, corrective alignment, or before-and-after comparison. 16:9."
+    },
+    {
+      "post_id": 1821,
+      "key": "1821-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "体の形と寝具の沈み込みで接触する場所が変わることを示すイラスト",
+      "insert_after_heading": "仰向けの接触感だけで原因を決められない理由",
+      "prompt": "Soft flat vector educational illustration of a person lying comfortably on a mattress with several gentle neutral contact areas and subtle mattress compression, showing the interaction between body shape and bedding without labeling one side as abnormal. Warm cream background, muted sage, dusty blue and pale peach, simple rounded geometry, solid colors. No text, letters, numbers, logos, gradients, shadows, photorealism, anatomical detail, red pain marks, scoliosis diagnosis, correction arrows, or before-and-after imagery. 4:3."
+    },
+    {
+      "post_id": 1821,
+      "key": "1821-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "寝具上の圧分布を測る研究場面のイラスト",
+      "insert_after_heading": "寝具と背中の当たり方の研究から分かること",
+      "prompt": "Soft flat vector editorial illustration of a calm research setting where an adult lies on a simple pressure-sensing mat represented by a clean grid and soft muted circles while a researcher observes a blank monitor, communicating measurement limits and bedding effects. Warm cream background, muted sage green, dusty blue and pale peach, rounded shapes, solid colors. No visible data, text, letters, numbers, logos, gradients, shadows, photorealism, red heat map, diagnostic claim, treatment promise, or before-and-after comparison. 4:3."
+    },
+    {
+      "post_id": 1821,
+      "key": "1821-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "就寝時の姿勢や寝具と自然に感じた違和感を記録するイラスト",
+      "insert_after_heading": "自然に違和感を覚えた場面を記録する3つのポイント",
+      "prompt": "Soft flat vector illustration of an adult calmly recording naturally noticed bedtime conditions in a blank notebook beside a bed, with simple non-text symbols for lying on the back, side sleeping, bedding and nighttime. Warm cream background, muted sage, dusty blue and pale peach, rounded shapes, solid colors, gentle practical mood. No visible writing, letters, numbers, logos, gradients, shadows, photorealism, repeated rolling tests, forceful pressing into the mattress, red pain marks, self-diagnosis, or corrective treatment claim. 4:3."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "post_id": 1821,
+  "selected_sources": {
+    "1821-featured": "source/1821-featured.png",
+    "1821-body1": "source/1821-body1.png",
+    "1821-body2": "source/1821-body2.png",
+    "1821-body3": "source/1821-body3.png"
+  },
+  "webp_options": {
+    "1821-featured": {
+      "quality": 70,
+      "method": 6
+    },
+    "1821-body1": {
+      "quality": 70,
+      "method": 6
+    },
+    "1821-body2": {
+      "quality": 70,
+      "method": 6
+    },
+    "1821-body3": {
+      "quality": 70,
+      "method": 6
+    }
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "4画像をそれぞれ別のbuilt-in imagegen呼び出しで生成",
+      "文字・数字・ロゴ・透かしなし",
+      "人物・手指・脚・寝具・研究機器・記録用小物に重大な破綻なし",
+      "赤い痛み表現・解剖図・脊柱変形の断定・姿勢矯正・治療保証・ビフォーアフターなし",
+      "無理な寝返りテスト・寝具への強い圧迫・危険動作なし",
+      "柔らかいフラットデザインと共通配色に一致し、影・質感・グラデーションは最小限",
+      "仰向けの接触感・寝具との相互作用・圧分布研究・就寝条件の記録が各仕様に一致"
+    ]
+  }
+}
