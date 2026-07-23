@@ -6,6 +6,12 @@
     "1822-body2": "source/1822-body2.png",
     "1822-body3": "source/1822-body3.png"
   },
+  "webp_options": {
+    "1822-body3": {
+      "quality": 80,
+      "method": 4
+    }
+  },
   "rejected_sources": {
     "1822-body1": [
       {

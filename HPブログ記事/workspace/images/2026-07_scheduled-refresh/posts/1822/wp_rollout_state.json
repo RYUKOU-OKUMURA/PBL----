@@ -1,0 +1,31 @@
+{
+  "media": {
+    "1822-featured": {
+      "id": 2176,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1822-01-202607.webp",
+      "width": 1200,
+      "height": 675
+    },
+    "1822-body1": {
+      "id": 2177,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1822-02-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1822-body2": {
+      "id": 2178,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1822-03-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1822-body3": {
+      "id": 2179,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1822-04-202607.webp",
+      "width": 1200,
+      "height": 900
+    }
+  },
+  "updated_posts": [
+    1822
+  ]
+}

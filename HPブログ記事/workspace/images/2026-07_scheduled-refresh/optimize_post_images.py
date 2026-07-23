@@ -31,6 +31,7 @@ def main() -> int:
     if len(assets) != 4:
         raise ValueError(f"Expected four assets for post {args.post_id}")
     selected = selection["selected_sources"]
+    webp_options = selection.get("webp_options", {})
     if set(selected) != {asset["key"] for asset in assets}:
         raise ValueError("Selection keys do not match the post manifest")
 
@@ -49,10 +50,14 @@ def main() -> int:
             )
         image = image.resize(target, Image.Resampling.LANCZOS)
         output = FINAL_DIR / f"{key}.webp"
-        image.save(output, "WEBP", quality=82, method=6)
+        options = webp_options.get(key, {})
+        quality = int(options.get("quality", 82))
+        method = int(options.get("method", 6))
+        image.save(output, "WEBP", quality=quality, method=method)
         print(
             f"OPTIMIZED key={key} source={source.name} "
-            f"size={target[0]}x{target[1]} bytes={output.stat().st_size}"
+            f"size={target[0]}x{target[1]} quality={quality} method={method} "
+            f"bytes={output.stat().st_size}"
         )
     return 0
 
