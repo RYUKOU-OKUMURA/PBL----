@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1774,
+      "key": "1774-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "棚へ手を伸ばすと肩が気になる女性のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese adult woman safely reaching only to shoulder height for a lightweight item on a shelf, with a stable stance and a mildly concerned expression as she notices her shoulder. Show an ordinary daily-life situation without diagnosing the cause. Pale cream interior, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D, gentle trustworthy mood. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic grimace, medical guarantee, overhead strain, heavy object, dangerous movement, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1774,
+      "key": "1774-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "肩・肩甲骨・首の動きが関わる様子を模式的に表したイラスト",
+      "insert_after_heading": "痛みだけで原因を決められない理由",
+      "prompt": "4:3 soft flat educational illustration of a clothed Japanese adult upper body with simplified neutral visual lines indicating the shoulder, shoulder blade, neck and upper torso as several related regions. Avoid arrows that claim a single cause and avoid highlighting damage. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, diagnostic label, exposed anatomy, deformed anatomy or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1774,
+      "key": "1774-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "肩が気になる日常動作と症状を記録するイラスト",
+      "insert_after_heading": "今日から整理したいこと",
+      "prompt": "4:3 soft flat editorial illustration showing a Japanese adult calmly observing ordinary shoulder-related activities, such as reaching to a low shelf and putting on a loose jacket, with a separate blank notebook for recording daily situations and night symptoms. The activities are examples, not repeated pain tests or before-and-after scenes. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, forceful movement, heavy lifting, dangerous stretch, deformed anatomy or correction comparison."
+    },
+    {
+      "post_id": 1774,
+      "key": "1774-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "急な肩の痛みを医療機関へ相談する場面のイラスト",
+      "insert_after_heading": "受診を急ぎたい症状",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adult with the arm resting comfortably while calmly contacting a medical clinic, alongside a second consultation scene with a clinician assessing the situation. Convey timely professional consultation without reenacting an accident or using alarming imagery. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic emergency scene, medical guarantee, visible injury, dangerous movement, deformed anatomy or before-and-after comparison."
+    }
+  ]
+}

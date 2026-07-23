@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "7d02fd86136514e124206d5a7d67ec803ffd5646d4c4bd94f1170cd445849b8f",
+  "image_files": {
+    "1774-featured": {
+      "sha256": "3c6ed31658b98faf55875aafbdb850bf95adcf74d084638a236e94488535d31d",
+      "bytes": 28448,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1774-body1": {
+      "sha256": "563261f6d791a30dcf4959141836f09d2525b75d6ea0318a3309eb063338b03a",
+      "bytes": 22268,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1774-body2": {
+      "sha256": "ccd69a71c99af11eed165bfe4bb1a6dfd071d4129c3110e19a49ed76af1dd618",
+      "bytes": 40900,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1774-body3": {
+      "sha256": "be2c041165ec8b7fd8d71dd8135d796518009a47d53ea0bfa68978400742159d",
+      "bytes": 56264,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1774": {
+      "id": 1774,
+      "title": "腕を上げると肩が痛いときは？受診目安と動かし方の注意点",
+      "status": "future",
+      "date": "2026-08-05T13:00:00",
+      "date_gmt": "2026-08-05T04:00:00",
+      "modified": "2026-07-22T21:47:26",
+      "modified_gmt": "2026-07-22T12:47:26",
+      "featured_media": 314,
+      "content_sha256": "a1cbb2156d041dc4b99b2e6357cf4324cb97b970478d12e1af2abe6dbdf70520",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1774"
+    }
+  }
+}
