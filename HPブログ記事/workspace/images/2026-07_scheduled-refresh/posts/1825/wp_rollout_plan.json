@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "9fb750005f1790f804f1d212cd1d23ec868dac069bbd3b0a99aa1ef6ed1841e3",
+  "image_files": {
+    "1825-featured": {
+      "sha256": "6cd7f176e0d3c988169ba70379f37b4fb54013307e413731ac5b3f64999b258d",
+      "bytes": 54118,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1825-body1": {
+      "sha256": "eb8039fc21f143eaa3d94e15485eb4171e686af5a81faf2697487926e4304f0e",
+      "bytes": 66948,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1825-body2": {
+      "sha256": "ce98c4d49660e21f0d3020ff405d2c8242410d13ff45b7325834df99a27d6712",
+      "bytes": 60428,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1825-body3": {
+      "sha256": "3cd16e866055941835bc090a0f705cef06829067dc1e4055782b12c9e64b60bc",
+      "bytes": 75188,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1825": {
+      "id": 1825,
+      "title": "洗濯物を干すと股関節の外側が痛いときは？痛む瞬間と受診目安",
+      "status": "future",
+      "date": "2026-08-17T13:00:00",
+      "date_gmt": "2026-08-17T04:00:00",
+      "modified": "2026-07-23T10:53:46",
+      "modified_gmt": "2026-07-23T01:53:46",
+      "featured_media": 0,
+      "content_sha256": "c14ad19e559e065561235d1f2049b335bfb788af5c4a96003406ea18583d6a22",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1825"
+    }
+  }
+}
