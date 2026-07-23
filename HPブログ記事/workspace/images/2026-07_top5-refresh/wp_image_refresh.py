@@ -153,9 +153,12 @@ def insert_body_images(
 def assets_by_post(manifest: dict[str, Any]) -> dict[int, list[dict[str, Any]]]:
     grouped = {post_id: [] for post_id in POST_IDS}
     for asset in manifest["assets"]:
-        grouped[int(asset["post_id"])].append(asset)
-    if set(grouped) != set(POST_IDS) or sum(map(len, grouped.values())) != 16:
-        raise RolloutError("Manifest must describe exactly 16 assets for the five target posts")
+        post_id = int(asset["post_id"])
+        if post_id not in grouped:
+            raise RolloutError(f"Manifest contains an out-of-scope post: {post_id}")
+        grouped[post_id].append(asset)
+    if any(not assets for assets in grouped.values()):
+        raise RolloutError("Manifest must describe assets for every target post")
     for post_id, assets in grouped.items():
         if sum(asset["role"] == "featured" for asset in assets) != 1:
             raise RolloutError(f"Post {post_id} must have exactly one featured asset")
@@ -286,7 +289,7 @@ def validate_plan(config: dict[str, str]) -> tuple[dict[str, Any], dict[str, Any
     assets_by_post(manifest)
     expected_keys = {asset["key"] for asset in manifest["assets"]}
     if set(plan.get("image_files", {})) != expected_keys:
-        raise RolloutError("Plan does not contain exactly the 16 expected image files")
+        raise RolloutError("Plan does not contain exactly the expected image files")
     for key in expected_keys:
         path = FINAL_DIR / f"{key}.webp"
         if not path.exists() or image_file_record(path) != plan["image_files"][key]:
@@ -488,7 +491,7 @@ def command_verify(config: dict[str, str]) -> None:
     state = read_json(STATE_PATH)
     media_by_key = state.get("media", {})
     if set(media_by_key) != set(list_asset_keys()):
-        raise RolloutError("Media state does not contain exactly the 16 expected assets")
+        raise RolloutError("Media state does not contain exactly the expected assets")
 
     for asset in manifest["assets"]:
         validate_media(config, asset, media_by_key[asset["key"]])
