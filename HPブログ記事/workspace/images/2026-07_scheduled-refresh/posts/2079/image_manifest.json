@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 2079,
+      "key": "2079-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "側弯症手術後の学校・体育・スポーツ復帰を相談する家族のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese adolescent and parent consulting a surgeon about returning to school, physical education and sports after scoliosis surgery. Include subtle school and sports objects in the background, such as a backpack and ball, while the clinician explains an individualized plan using blank papers. Do not show a scar, surgical hardware or active sports. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, dramatic distress, deformed anatomy, dangerous movement or before-and-after comparison."
+    },
+    {
+      "post_id": 2079,
+      "key": "2079-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "側弯症手術後に段階的に歩行を再開するイラスト",
+      "insert_after_heading": "リハビリ期間は一つの数字では決まらない",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent walking calmly in a hospital corridor with a healthcare professional nearby after scoliosis surgery, showing an early, supervised stage of recovery. The adolescent is upright and comfortable, with no visible incision or hardware. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, unsafe movement, dramatic struggle, deformed anatomy or before-and-after correction comparison."
+    },
+    {
+      "post_id": 2079,
+      "key": "2079-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "学校・体育・スポーツを別の段階として考えるイラスト",
+      "insert_after_heading": "学校・体育・スポーツを分けて考える",
+      "prompt": "4:3 soft flat editorial illustration with three separate parallel scenes of a Japanese adolescent: seated comfortably in a classroom, doing gentle supervised walking in a gym, and discussing future sport participation with a coach while sports equipment rests unused nearby. Present these as distinct considerations, not a chronological before-and-after transformation. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, running, jumping, contact sport, heavy lifting, dangerous movement, deformed anatomy or correction comparison."
+    },
+    {
+      "post_id": 2079,
+      "key": "2079-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "術後の回復条件を主治医と確認する家族のイラスト",
+      "insert_after_heading": "回復を主治医と確認するポイント",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent and parent reviewing recovery conditions with the surgeon after scoliosis surgery. Show a blank checklist, a school backpack and a ball placed aside while the clinician listens and explains individualized restrictions. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, fixed return date, surgical scar, hardware, dangerous movement, deformed anatomy or before-and-after comparison."
+    }
+  ]
+}

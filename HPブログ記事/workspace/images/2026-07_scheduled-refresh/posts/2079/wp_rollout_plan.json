@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "138180c3e452418d01d603218e5943fe160c1552fc109eb26f616183b00cbc4e",
+  "image_files": {
+    "2079-featured": {
+      "sha256": "7dcd7a6d83300175ae11b93fcb92c7af9c8b0ae24b47ee453d93c942fc61fb4b",
+      "bytes": 45000,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "2079-body1": {
+      "sha256": "f1cee76d07037bf1be413603fb05a425af11a1c78a1ce525d79cf8ef79e2ec06",
+      "bytes": 46170,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "2079-body2": {
+      "sha256": "b2627f64bc036b7304f33cb06609a8aba9c919f3639865d22bc3d2b7925a57c5",
+      "bytes": 57204,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "2079-body3": {
+      "sha256": "9d7076339e12255e3579e5acbcd4236d6ab52d42c571a14bd94ad6286b42a798",
+      "bytes": 62722,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "2079": {
+      "id": 2079,
+      "title": "側弯症手術後のリハビリ期間は？学校・体育・スポーツ復帰の目安",
+      "status": "future",
+      "date": "2026-08-03T13:00:00",
+      "date_gmt": "2026-08-03T04:00:00",
+      "modified": "2026-07-22T21:23:47",
+      "modified_gmt": "2026-07-22T12:23:47",
+      "featured_media": 0,
+      "content_sha256": "d6979a77e25beb2ecbc978ca3be667d60e5890efb7b7868549e4f1d7ef728eb9",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=2079"
+    }
+  }
+}
