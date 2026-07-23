@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1762,
+      "key": "1762-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "insert_after_heading": null,
+      "alt": "安定したひじ掛け椅子から立ち上がる人のイラスト",
+      "prompt": "A Japanese adult calmly rising from a stable armchair with fixed armrests while another adult stands nearby for support without pulling, clear floor and relaxed expressions, ordinary home setting. Wide 16:9 composition with generous negative space. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no fall, no forced movement, no before-and-after comparison."
+    },
+    {
+      "post_id": 1762,
+      "key": "1762-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "立ち上がり研究から分かること",
+      "alt": "椅子から立ち上がる動作の流れを中立的に示したイラスト",
+      "prompt": "Three small neutral vignettes of the same person during ordinary sit-to-stand phases: preparing while seated, lifting from the seat, and standing, with gentle motion arcs and equal visual weight, presented as a movement-study sequence rather than corrective instruction. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no ideal-posture claim, no treatment result, not a before-and-after comparison."
+    },
+    {
+      "post_id": 1762,
+      "key": "1762-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "転倒を避けて記録する3手順",
+      "alt": "周囲を整えた安定した椅子で移動を準備するイラスト",
+      "prompt": "A Japanese adult seated in a stable chair with fixed armrests, clear floor, loose rug removed, supportive family member nearby, and a clipboard with simple text-free chair and timing pictograms, preparing safely without repeating the movement. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no stacked cushions, no pulling assistance, no dangerous self-test."
+    },
+    {
+      "post_id": 1762,
+      "key": "1762-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "救急と通常受診の目安",
+      "alt": "立ち上がるときの症状や座席の条件を医療者へ相談するイラスト",
+      "prompt": "A Japanese adult and a healthcare professional calmly reviewing a notebook with text-free pictograms of a chair, first step, leg, and clock, supportive consultation with the person safely seated. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no visible injury, no emergency dramatization, no diagnosis or treatment claim."
+    }
+  ]
+}
