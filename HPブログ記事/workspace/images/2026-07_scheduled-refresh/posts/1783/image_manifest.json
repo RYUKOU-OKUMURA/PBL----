@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1783,
+      "key": "1783-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "insert_after_heading": null,
+      "alt": "床のクッションに無理なくあぐらで座る人のイラスト",
+      "prompt": "A Japanese adult sitting calmly on a floor cushion with legs loosely crossed and hands relaxed, knees not being pushed down, a stable chair nearby as an alternative seat, peaceful home interior. Wide 16:9 composition with generous negative space. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no forced stretching, no extreme hip position, no before-and-after comparison."
+    },
+    {
+      "post_id": 1783,
+      "key": "1783-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "あぐらの研究から分かること",
+      "alt": "あぐらで股関節が複数方向に動くことを抽象的に示したイラスト",
+      "prompt": "A simplified top-down view of a person sitting with legs loosely crossed, with gentle muted-blue and sage arcs around the hips suggesting movement in several directions, neutral research-style visualization without angle measurements or anatomy claims. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no joint damage highlight, no forced range of motion, no before-and-after comparison."
+    },
+    {
+      "post_id": 1783,
+      "key": "1783-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "痛みを再現しない3点記録",
+      "alt": "椅子に座って床や座布団の条件を記録する人のイラスト",
+      "prompt": "A Japanese adult comfortably seated on a stable chair beside a floor cushion, calmly recording text-free pictograms for flooring, cushion, sitting time, and symptom location, without repeating the cross-legged position. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no forced stretching, no dangerous self-test, no before-and-after comparison."
+    },
+    {
+      "post_id": 1783,
+      "key": "1783-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "救急と通常受診の目安",
+      "alt": "股関節の症状について家族と医療機関へ相談するイラスト",
+      "prompt": "A Japanese adult seated safely with a supportive family member contacting a healthcare service by phone, calm expressions, a clear walkway and stable chair, no dramatic emergency scene. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red alarm symbols, no pain glow, no visible injury, no diagnosis claim."
+    }
+  ]
+}

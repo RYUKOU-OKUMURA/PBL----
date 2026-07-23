@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "1fbc3573f69506e8859a5120fde6b44eae0d37ff49058800a5ad59f38650fddd",
+  "image_files": {
+    "1783-featured": {
+      "sha256": "9c1a3ae70ad4773f7608c9a6b58a84b8d48abe07653c8aaf7ab3450d69a4e445",
+      "bytes": 21428,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1783-body1": {
+      "sha256": "d148b67c2f9ffe2a9db8ad33070c409bffbd1b2dd24d91b3db69f9441f433434",
+      "bytes": 18472,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1783-body2": {
+      "sha256": "caba59da639a958c971f1cbdafbf34155ffcd8e0469dc09e2c04c25cd2be92ca",
+      "bytes": 22764,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1783-body3": {
+      "sha256": "c74a5eba4ae69ea2f49a68ac1133a3a919af267d5c0eaf560466f9da41904b68",
+      "bytes": 27916,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1783": {
+      "id": 1783,
+      "title": "あぐらで股関節が痛いときは？無理に開かない対応と受診目安",
+      "status": "future",
+      "date": "2026-08-27T13:00:00",
+      "date_gmt": "2026-08-27T04:00:00",
+      "modified": "2026-07-23T13:34:31",
+      "modified_gmt": "2026-07-23T04:34:31",
+      "featured_media": 0,
+      "content_sha256": "af7011c5bbcdace4c7919fc74996c8449d9a448641c5cf8e814dfbb06e73a85e",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1783"
+    }
+  }
+}
