@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1823,
+      "key": "1823-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "手すりを使って落ち着いて階段を下りる人のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Soft Japanese editorial flat vector illustration of an adult descending a short indoor staircase slowly while holding the handrail, with a stable posture and calm attentive expression, emphasizing safety when the lower back feels uncomfortable. Warm cream background, muted sage green, dusty blue and pale peach, rounded simple architecture and figures, solid colors, generous negative space, readable at thumbnail size. No text, letters, numbers, logos, gradients, shadows, photorealism, fall, unstable pose, red pain marks, dramatic distress, corrective arrows, or before-and-after comparison. 16:9."
+    },
+    {
+      "post_id": 1823,
+      "key": "1823-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "階段の下りに視線や手すりと脚全体が関わることを示すイラスト",
+      "insert_after_heading": "階段を下りると腰が痛くても、原因を決められない理由",
+      "prompt": "Soft flat vector educational illustration of a person safely descending one stair while using a handrail, with subtle neutral visual links between the eyes, handrail, hip, knee and ankle to show that the task involves several coordinated elements. Warm cream background, muted sage, dusty blue and pale peach, simple rounded shapes, solid colors. No text, letters, numbers, logos, gradients, shadows, photorealism, anatomical cutaway, red pain marks, dangerous movement, single-cause claim, or posture correction. 4:3."
+    },
+    {
+      "post_id": 1823,
+      "key": "1823-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "階段での動き方には人による違いがあることを示すイラスト",
+      "insert_after_heading": "階段と腰痛の研究で分かること",
+      "prompt": "Soft flat vector editorial illustration of three different adults each using a handrail on separate short stair segments with small natural variations in movement, presented side by side as neutral examples rather than a correction sequence. Warm cream background, muted sage green, dusty blue and pale peach, rounded forms, solid colors, calm research-inspired composition. No text, letters, numbers, logos, gradients, shadows, photorealism, red pain marks, ranking, right-versus-wrong symbols, before-and-after imagery, or treatment claim. 4:3."
+    },
+    {
+      "post_id": 1823,
+      "key": "1823-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "階段で無理をせず手すりや別の移動方法を選ぶイラスト",
+      "insert_after_heading": "安全のために確認したい3つのこと",
+      "prompt": "Soft flat vector illustration of an adult calmly choosing a safe route, holding a stair handrail while an elevator door is visible nearby and a light bag rests aside, conveying practical safety choices without testing symptoms. Warm cream background, muted sage, dusty blue and pale peach, simple rounded shapes, solid colors, reassuring atmosphere. No text, letters, numbers, logos, gradients, shadows, photorealism, fall, rushing, heavy load, red pain marks, forceful stair practice, or medical claim. 4:3."
+    }
+  ]
+}

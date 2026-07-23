@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "b0c22dcdbb133efc306f7b0b3bbedebf787f39d4d0f10a08e0255eaee1976cae",
+  "image_files": {
+    "1823-featured": {
+      "sha256": "e2970929b598650aa21623b724c872519a53dfbd04c85f859de99468d7e9aa1a",
+      "bytes": 18310,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1823-body1": {
+      "sha256": "0c96ba4197f43ca6f799d0e3edc3b236aec3ddfcbc2b9f3f31477de4e77aaa8c",
+      "bytes": 25050,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1823-body2": {
+      "sha256": "6bc3e2e51b9d54f2369ca3480959ddb4366be21a59506944b3fbff786f90b194",
+      "bytes": 49054,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1823-body3": {
+      "sha256": "8e306d888bd835c0204edc00da63c5e34e4e287f4c20bb757a17989cd7c59def",
+      "bytes": 21502,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1823": {
+      "id": 1823,
+      "title": "階段を下りると腰が痛いときは？安全確認と受診目安",
+      "status": "future",
+      "date": "2026-08-11T13:00:00",
+      "date_gmt": "2026-08-11T04:00:00",
+      "modified": "2026-07-23T09:34:24",
+      "modified_gmt": "2026-07-23T00:34:24",
+      "featured_media": 0,
+      "content_sha256": "fb91028ee99bc6304146c30db095997f98fde240a5fe433015cd2b3c561cc790",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1823"
+    }
+  }
+}
