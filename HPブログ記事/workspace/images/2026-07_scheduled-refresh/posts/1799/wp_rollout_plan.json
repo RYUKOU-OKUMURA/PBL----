@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "d6df7a3fef5f3cf2143a37e5c5c953234991c8b079f461907d0ab93756d1f16b",
+  "image_files": {
+    "1799-featured": {
+      "sha256": "e9bb4c19c15c57fdfb7eb0e573d31bab2080e9c65c80604de4c596b9d968f3ec",
+      "bytes": 26550,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1799-body1": {
+      "sha256": "f009e771730242a15f4222c5c773b81dee8bf72c8383fe3f1a696a11ae0ac2cb",
+      "bytes": 11808,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1799-body2": {
+      "sha256": "0c0f66d417c562da0ea8ad7e418c79658b9cc2134898a44a2ccc83f183c91dc0",
+      "bytes": 21852,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1799-body3": {
+      "sha256": "cf867ac7b1febef9cd3b34e5ffbdc9f4c446d4664436dd1a5e10f40b5d1d7324",
+      "bytes": 26132,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1799": {
+      "id": 1799,
+      "title": "片手で荷物を持つと腰が痛いときは？荷物の条件と受診目安",
+      "status": "future",
+      "date": "2026-08-25T13:00:00",
+      "date_gmt": "2026-08-25T04:00:00",
+      "modified": "2026-07-23T13:07:30",
+      "modified_gmt": "2026-07-23T04:07:30",
+      "featured_media": 0,
+      "content_sha256": "58c54950cd6919a39ce34a9189c2e62efaac2660d31cf7ddfd1cd7b32d1c16f6",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1799"
+    }
+  }
+}

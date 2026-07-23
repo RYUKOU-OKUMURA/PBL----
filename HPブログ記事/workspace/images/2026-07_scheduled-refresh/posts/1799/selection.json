@@ -1,0 +1,41 @@
+{
+  "post_id": 1799,
+  "selected_sources": {
+    "1799-featured": "source/1799-featured.png",
+    "1799-body1": "source/1799-body1.png",
+    "1799-body2": "source/1799-body2.png",
+    "1799-body3": "source/1799-body3.png"
+  },
+  "webp_options": {
+    "1799-featured": {
+      "quality": 69,
+      "method": 6
+    },
+    "1799-body1": {
+      "quality": 70,
+      "method": 6
+    },
+    "1799-body2": {
+      "quality": 70,
+      "method": 6
+    },
+    "1799-body3": {
+      "quality": 70,
+      "method": 6
+    }
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "4画像をそれぞれ別のbuilt-in imagegen呼び出しで生成",
+      "文字・数字・ロゴ・透かしなし。body2の時計目盛りは非言語ピクトグラム",
+      "人物・手指・脚・買い物袋・安定台・椅子・記録用小物に重大な破綻なし",
+      "赤い痛み表現・損傷側の断定・姿勢矯正・診断断定・治療保証・ビフォーアフターなし",
+      "重すぎる荷物・無理な持ち上げ・前屈・危険動作なし",
+      "柔らかい完全寄りフラットデザインと共通配色に一致し、陰影・質感・グラデーションは過多でない",
+      "片手で袋を持つ歩行・左右均等な全身反応・台に置いた荷物条件の記録・医療者への相談が各仕様に一致",
+      "全4点が正常デコード可能なRGB WebPで、指定寸法・quality 70・method 6に一致し、目立つ圧縮劣化なし",
+      "独立画像QAでCritical 0・Major 0・Minor 0、公開可"
+    ]
+  }
+}
