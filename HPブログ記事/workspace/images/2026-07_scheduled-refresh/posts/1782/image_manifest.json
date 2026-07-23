@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1782,
+      "key": "1782-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "insert_after_heading": null,
+      "alt": "安定した椅子に座って靴下を履く人のイラスト",
+      "prompt": "A Japanese adult sitting on a stable non-wheeled chair and gently putting on a sock with a simple sock aid, clear dry floor, relaxed neutral expression, safe everyday dressing scene. Wide 16:9 composition with generous negative space. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no standing on one leg, no forced hip movement, no before-and-after comparison."
+    },
+    {
+      "post_id": 1782,
+      "key": "1782-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "靴下動作の研究から分かること",
+      "alt": "座って靴下を履くときの股関節や膝の動きを示したイラスト",
+      "prompt": "A simplified seated figure reaching toward a sock, with subtle soft arcs near the hip, knee, and ankle to show that several body regions contribute to the task, neutral movement-study visualization without angle values. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no anatomical damage, no target range of motion, no before-and-after comparison."
+    },
+    {
+      "post_id": 1782,
+      "key": "1782-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "座って行う着替えと記録の3手順",
+      "alt": "椅子と補助具を準備して安全に着替える様子のイラスト",
+      "prompt": "A safe dressing setup with a stable non-wheeled chair, clear dry floor, socks within easy reach, and a helper calmly placing a sock aid nearby while the seated Japanese adult remains relaxed, no pulling on the leg. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no standing balance task, no forced assistance, no before-and-after comparison."
+    },
+    {
+      "post_id": 1782,
+      "key": "1782-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "救急と通常受診の目安",
+      "alt": "靴下を履くときの困りごとを医療者へ伝えるイラスト",
+      "prompt": "A Japanese adult seated across from a healthcare professional, sharing a small notebook with simple text-free pictograms of a sock, chair, walking, and sleep, calm consultation focused on daily-life information. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no injury highlight, no diagnosis claim, no alarming emergency imagery."
+    }
+  ]
+}
