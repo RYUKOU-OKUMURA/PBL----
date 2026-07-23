@@ -6,6 +6,24 @@
     "1825-body2": "source/1825-body2.png",
     "1825-body3": "source/1825-body3.png"
   },
+  "webp_options": {
+    "1825-featured": {
+      "quality": 70,
+      "method": 6
+    },
+    "1825-body1": {
+      "quality": 70,
+      "method": 6
+    },
+    "1825-body2": {
+      "quality": 70,
+      "method": 6
+    },
+    "1825-body3": {
+      "quality": 70,
+      "method": 6
+    }
+  },
   "visual_qa": {
     "status": "passed",
     "checks": [
