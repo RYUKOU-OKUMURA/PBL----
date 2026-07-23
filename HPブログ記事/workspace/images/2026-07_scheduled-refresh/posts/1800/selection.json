@@ -6,6 +6,16 @@
     "1800-body2": "source/1800-body2.png",
     "1800-body3": "source/1800-body3.png"
   },
+  "webp_options": {
+    "1800-body1": {
+      "quality": 76,
+      "method": 0
+    },
+    "1800-body2": {
+      "quality": 76,
+      "method": 0
+    }
+  },
   "visual_qa": {
     "status": "passed",
     "checks": [

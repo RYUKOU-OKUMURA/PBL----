@@ -10,15 +10,15 @@
       "format": "WEBP"
     },
     "1800-body1": {
-      "sha256": "2743196eac15fc1870ab494a83c93fca3692c7c33c1fa3f4a409952d9f69db81",
-      "bytes": 35164,
+      "sha256": "790f0ba9a17eda4f43babeb586b7b5caacee2f7959a33889423291c0eac3d179",
+      "bytes": 43172,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
     },
     "1800-body2": {
-      "sha256": "9ee5fc4cd605eb11d353a7f978918539727057e723e910dd0596f82d4dbf7fa4",
-      "bytes": 33146,
+      "sha256": "8eb64616f812042a95bf19e41d9529ca5ed36ac290de0a42a0f147eb19a2bcb8",
+      "bytes": 44416,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
