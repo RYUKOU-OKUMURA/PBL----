@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "dbc63f486a853eaf4a23cd89069633806698386fa7e75782c0d0fd43faa792fc",
+  "image_files": {
+    "1801-featured": {
+      "sha256": "03f6251e1047bba382120bb35264c1820d7e28787a423fa6c0ddfff0c7c5a157",
+      "bytes": 25452,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1801-body1": {
+      "sha256": "92bdd7c1f18ed294254eac9fbd93169f03d612a1dc8ed15df6bdd32ea7c7931f",
+      "bytes": 20292,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1801-body2": {
+      "sha256": "56eefbec80c4bcb63e6982ea98b60f945b8c4ede5d5858d232bde637bbee0736",
+      "bytes": 32440,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1801-body3": {
+      "sha256": "10061b5470f649b4d2aa013f50f33c8b6097b24664a22c897c48a0d0f2f97377",
+      "bytes": 33360,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1801": {
+      "id": 1801,
+      "title": "横向きで股関節の外側が痛いときは？寝姿勢と受診の目安",
+      "status": "future",
+      "date": "2026-07-28T13:00:00",
+      "date_gmt": "2026-07-28T04:00:00",
+      "modified": "2026-07-22T20:18:57",
+      "modified_gmt": "2026-07-22T11:18:57",
+      "featured_media": 0,
+      "content_sha256": "2d8d956e670d5a25d1e934371ff937afd1859d4525f1467385ba8f507882787c",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1801"
+    }
+  }
+}

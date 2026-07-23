@@ -1,0 +1,20 @@
+{
+  "post_id": 1801,
+  "selected_sources": {
+    "1801-featured": "source/1801-featured.png",
+    "1801-body1": "source/1801-body1.png",
+    "1801-body2": "source/1801-body2.png",
+    "1801-body3": "source/1801-body3.png"
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "4画像をそれぞれ別のimagegen呼び出しで生成",
+      "文字・数字・ロゴ・透かしなし",
+      "手指・股関節・寝姿勢に重大な破綻なし",
+      "赤い痛み表現・治療保証・ビフォーアフターなし",
+      "柔らかい完全なフラットデザインと共通配色に一致",
+      "横向き寝・外側への接触・専門家への相談・2つの無理のない寝姿勢と記録が各仕様に一致"
+    ]
+  }
+}

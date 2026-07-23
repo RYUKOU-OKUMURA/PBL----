@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1801,
+      "key": "1801-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "横向き寝で股関節の外側が気になる女性のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese adult woman lying comfortably on her side in bed while gently noticing the outer hip area with one hand, with supportive pillows and a calm thoughtful expression. Show mild concern without depicting severe pain or diagnosing a condition. Pale cream bedroom, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D, gentle trustworthy mood. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic grimace, medical guarantee, exposed body, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1801,
+      "key": "1801-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "横向き姿勢で股関節外側に圧がかかる様子のイラスト",
+      "insert_after_heading": "横向きで外側が痛む背景",
+      "prompt": "4:3 soft flat educational illustration of a fully clothed Japanese adult resting on their side with a pillow between the knees. Use subtle muted contact curves near the mattress and outer hip to suggest positional pressure without showing damage, inflammation or a confirmed diagnosis. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic expression, medical guarantee, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1801,
+      "key": "1801-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "股関節外側痛の負担のかけ方を専門家と確認するイラスト",
+      "insert_after_heading": "研究から分かること",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adult discussing lateral hip symptoms, activity load and gentle exercise options with a healthcare professional. Include a blank plan sheet and a simple neutral hip model; show consultation and careful guidance, not a promised result. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, forced stretch, dangerous movement, deformed anatomy or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1801,
+      "key": "1801-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "無理のない寝姿勢と痛みの記録を確認するイラスト",
+      "insert_after_heading": "今日からできる3つの確認",
+      "prompt": "4:3 soft flat editorial illustration showing two equally comfortable sleep-position options in parallel: side-lying with a pillow between the knees and lying on the back with supportive pillows. Add a separate blank notebook for recording when symptoms occur. The scenes are choices, not before and after. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, repeated pain-provoking test, deformed anatomy or before-and-after comparison."
+    }
+  ]
+}
