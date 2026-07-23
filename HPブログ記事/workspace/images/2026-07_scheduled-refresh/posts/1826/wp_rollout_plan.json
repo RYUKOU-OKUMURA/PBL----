@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "d9ec9d2132c7f2a81cec445f0fde2c77db26d70e32febf9152628d27c8fb123e",
+  "image_files": {
+    "1826-featured": {
+      "sha256": "0ac4926b3927ca5bf16eccffd319a067534deef017a04a8f7fd99893cecfd445",
+      "bytes": 50556,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1826-body1": {
+      "sha256": "9a9ed8043304b3aea8d898b5d0bbc61697e95cfd7ea175a9c899a734fbf423ff",
+      "bytes": 66396,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1826-body2": {
+      "sha256": "f4f4fb77aa367cdf53a7d6c5eeffbb6009c59325812b8a8118365fb55edbcf00",
+      "bytes": 64998,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1826-body3": {
+      "sha256": "b8ec4ef667b6ebe0ce521589ad46f291ead3557c633f22ca2db7acffc0b494db",
+      "bytes": 54900,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1826": {
+      "id": 1826,
+      "title": "脚を上げると股関節の前が痛いときは？痛む場面と受診目安",
+      "status": "future",
+      "date": "2026-08-15T13:00:00",
+      "date_gmt": "2026-08-15T04:00:00",
+      "modified": "2026-07-23T10:24:32",
+      "modified_gmt": "2026-07-23T01:24:32",
+      "featured_media": 0,
+      "content_sha256": "d7a0925013a7d5fd0c4249be37606193cd933c20e4a388c5c4ad81bbb166709d",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1826"
+    }
+  }
+}
