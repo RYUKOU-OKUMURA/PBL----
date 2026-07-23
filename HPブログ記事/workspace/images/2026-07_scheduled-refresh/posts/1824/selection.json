@@ -6,6 +6,24 @@
     "1824-body2": "source/1824-body2.png",
     "1824-body3": "source/1824-body3.png"
   },
+  "webp_options": {
+    "1824-featured": {
+      "quality": 76,
+      "method": 1
+    },
+    "1824-body1": {
+      "quality": 76,
+      "method": 1
+    },
+    "1824-body2": {
+      "quality": 76,
+      "method": 1
+    },
+    "1824-body3": {
+      "quality": 76,
+      "method": 1
+    }
+  },
   "visual_qa": {
     "status": "passed",
     "checks": [

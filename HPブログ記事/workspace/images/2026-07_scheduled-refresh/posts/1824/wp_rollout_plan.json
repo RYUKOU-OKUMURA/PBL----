@@ -3,29 +3,29 @@
   "manifest_sha256": "55a46f25d88ee51daaf61d7aaaa1f43730a58a137de52475b82173e6d5508311",
   "image_files": {
     "1824-featured": {
-      "sha256": "e988820f63eb318b70e1b50404150b75d73ad4d6d1fc837f80e52db6d7ac6d92",
-      "bytes": 15146,
+      "sha256": "7ff2e480cc715a7dbf0b5380bf3c3f917e70da33715108e9154afb4f79c924f4",
+      "bytes": 13142,
       "width": 1200,
       "height": 675,
       "format": "WEBP"
     },
     "1824-body1": {
-      "sha256": "6a89b9983da58853a34d502664482da771be87b26fa242fc3047b45069e06687",
-      "bytes": 15410,
+      "sha256": "b9f225d0f178455a8c6a883e267b109fc94df2829cf76de7503f2fb2b1c167e8",
+      "bytes": 13810,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
     },
     "1824-body2": {
-      "sha256": "f16fa67338d63e12803825a269dde8c10ecde56d5748e8a209ab58d17cb4dc59",
-      "bytes": 50178,
+      "sha256": "884df6976be3e0f458c94622279250c7eeccb3fef6109deac1e0edc96ead22cc",
+      "bytes": 45610,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
     },
     "1824-body3": {
-      "sha256": "957168f264a413a6d9c131de0e6d05dd420f60060a9b12c475621b6101aac03c",
-      "bytes": 42150,
+      "sha256": "b11cf7a1c2f661b314521bf4e12319df25c03b944b757d172d8a7e7769b1111e",
+      "bytes": 37308,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
