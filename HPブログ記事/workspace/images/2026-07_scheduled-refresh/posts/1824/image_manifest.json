@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1824,
+      "key": "1824-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "低い場所の物を取るときに膝の状態へ気づく人のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Soft Japanese editorial flat vector illustration of an adult carefully lowering toward a low shelf to pick up a light object, with both feet stable and a calm thoughtful expression, illustrating everyday knee discomfort without suggesting a diagnosis or exercise prescription. Warm cream background, muted sage green, dusty blue and pale peach, simple rounded shapes, solid colors, generous negative space, reassuring mood, readable at thumbnail size. No text, letters, numbers, logos, gradients, shadows, photorealism, deep forced squat, unsafe movement, red pain marks, dramatic grimacing, before-and-after comparison, or correction claim. 16:9."
+    },
+    {
+      "post_id": 1824,
+      "key": "1824-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "しゃがむ動作に膝だけでなく股関節や足首も関わることを示すイラスト",
+      "insert_after_heading": "しゃがむと膝が痛くても、原因を決められない理由",
+      "prompt": "Soft flat vector illustration of a person making a comfortable shallow lowering movement with stable feet, accompanied by subtle neutral circles at the hip, knee and ankle to show whole-body participation without identifying a single cause. Warm cream background, muted sage, dusty blue and pale peach, rounded shapes, solid color blocks, calm educational composition. No text, letters, numbers, logos, gradients, shadows, photorealism, anatomical cutaway, red pain marks, deep squat, dangerous exercise, diagnosis, or posture correction claim. 4:3."
+    },
+    {
+      "post_id": 1824,
+      "key": "1824-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "膝の状態に合わせて運動や情報を個別に選ぶ場面のイラスト",
+      "insert_after_heading": "膝のお皿まわりの研究で分かること",
+      "prompt": "Soft flat vector editorial illustration of a healthcare professional and an adult calmly reviewing several gentle activity options represented by simple non-text cards, emphasizing individualized assessment and information rather than one exercise for everyone. Warm cream background, muted sage green, dusty blue and pale peach, rounded friendly forms, solid colors. No text, letters, numbers, logos, gradients, shadows, photorealism, treatment guarantee, red pain marks, forced squat, or before-and-after result. 4:3."
+    },
+    {
+      "post_id": 1824,
+      "key": "1824-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "膝が気になった場面や腫れなどの変化を記録するイラスト",
+      "insert_after_heading": "相談前に記録したい3つのこと",
+      "prompt": "Soft flat vector illustration of an adult noting naturally noticed knee-related situations in a blank notebook, with simple non-text symbols for a chair, stairs and daily walking nearby. The person remains seated comfortably and does not reproduce the painful movement. Warm cream background, muted sage, dusty blue and pale peach, rounded shapes, solid colors, practical reassuring mood. No visible writing, letters, numbers, logos, gradients, shadows, photorealism, red pain marks, repeated knee bending, forceful exercise, diagnosis, or medical promise. 4:3."
+    }
+  ]
+}

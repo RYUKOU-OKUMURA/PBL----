@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "55a46f25d88ee51daaf61d7aaaa1f43730a58a137de52475b82173e6d5508311",
+  "image_files": {
+    "1824-featured": {
+      "sha256": "e988820f63eb318b70e1b50404150b75d73ad4d6d1fc837f80e52db6d7ac6d92",
+      "bytes": 15146,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1824-body1": {
+      "sha256": "6a89b9983da58853a34d502664482da771be87b26fa242fc3047b45069e06687",
+      "bytes": 15410,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1824-body2": {
+      "sha256": "f16fa67338d63e12803825a269dde8c10ecde56d5748e8a209ab58d17cb4dc59",
+      "bytes": 50178,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1824-body3": {
+      "sha256": "957168f264a413a6d9c131de0e6d05dd420f60060a9b12c475621b6101aac03c",
+      "bytes": 42150,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1824": {
+      "id": 1824,
+      "title": "しゃがむと膝が痛いときは？お皿まわりの痛みと受診目安",
+      "status": "future",
+      "date": "2026-08-09T13:00:00",
+      "date_gmt": "2026-08-09T04:00:00",
+      "modified": "2026-07-23T09:13:55",
+      "modified_gmt": "2026-07-23T00:13:55",
+      "featured_media": 0,
+      "content_sha256": "e8feb46347fbeba0913afd6385cd52d5802a6f5d0645b57e577507c11c2d5a47",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1824"
+    }
+  }
+}
