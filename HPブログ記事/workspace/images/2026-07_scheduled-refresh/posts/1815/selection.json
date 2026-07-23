@@ -1,0 +1,39 @@
+{
+  "post_id": 1815,
+  "selected_sources": {
+    "1815-featured": "source/1815-featured.png",
+    "1815-body1": "source/1815-body1.png",
+    "1815-body2": "source/1815-body2.png",
+    "1815-body3": "source/1815-body3.png"
+  },
+  "webp_options": {
+    "1815-featured": {
+      "quality": 70,
+      "method": 6
+    },
+    "1815-body1": {
+      "quality": 70,
+      "method": 6
+    },
+    "1815-body2": {
+      "quality": 70,
+      "method": 6
+    },
+    "1815-body3": {
+      "quality": 70,
+      "method": 6
+    }
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "4画像をそれぞれ別のbuilt-in imagegen呼び出しで生成",
+      "文字・数字・ロゴ・透かしなし",
+      "人物・手指・脚・掃除機・記録カード・相談場面に重大な破綻なし",
+      "赤い痛み表現・傷害強調・診断断定・姿勢矯正・治療保証・ビフォーアフターなし",
+      "重い物の持ち上げ・不安定姿勢・症状を再現する反復動作・危険動作なし",
+      "柔らかいフラットデザインと共通配色に一致し、影・質感・グラデーションは最小限",
+      "安全な掃除場面・中立的な体幹動作・条件の記録・医療者への相談が各仕様に一致"
+    ]
+  }
+}

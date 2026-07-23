@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1815,
+      "key": "1815-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "insert_after_heading": null,
+      "alt": "明るい部屋で掃除機をかける人のイラスト",
+      "prompt": "A middle-aged Japanese adult vacuuming a bright, uncluttered living room on a level floor, relaxed neutral expression, modern lightweight vacuum cleaner, calm everyday moment. Wide 16:9 composition with clear central subject and generous negative space. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, clean geometric composition, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no injury highlight, no before-and-after comparison, no alarming medical imagery."
+    },
+    {
+      "post_id": 1815,
+      "key": "1815-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "掃除機動作の研究から分かること",
+      "alt": "掃除機を押し引きするときの胴体の動きを抽象的に示したイラスト",
+      "prompt": "A simplified Japanese adult using a vacuum cleaner, shown from a gentle three-quarter angle, with subtle muted-blue curved motion arcs suggesting forward reach and natural trunk rotation, presented as a neutral movement observation rather than an instruction. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no injury highlight, no corrective posture claim, no before-and-after comparison."
+    },
+    {
+      "post_id": 1815,
+      "key": "1815-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "自然に痛んだ場面を記録する3つのポイント",
+      "alt": "掃除機をかけた場面や床の条件を記録する様子のイラスト",
+      "prompt": "A Japanese adult calmly recording details on a clipboard while a vacuum cleaner rests safely nearby, with simple text-free pictograms for a vacuum head, hard floor, carpet, clock, and body outline, emphasizing observation without repeating a painful movement. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no injury highlight, no dangerous movement, no before-and-after comparison."
+    },
+    {
+      "post_id": 1815,
+      "key": "1815-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "insert_after_heading": "受診を優先したい症状",
+      "alt": "腰の違和感について医療者へ相談する様子のイラスト",
+      "prompt": "A Japanese adult seated comfortably in a calm clinic, speaking with a healthcare professional while a companion holds a small notebook, supportive consultation without dramatic symptoms or emergency imagery. Horizontal 4:3 composition. Soft Japanese healthcare editorial flat vector illustration, rounded simple shapes, warm ivory background, muted sage green, dusty blue, pale peach, and soft charcoal palette, no gradients, no texture, no drop shadows. No text, letters, numbers, labels, logos, or watermark. No red pain glow, no injury highlight, no diagnosis claim, no before-and-after comparison."
+    }
+  ]
+}

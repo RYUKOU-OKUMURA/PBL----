@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "4b593bd8d5f23d78cbaf06a210e4d50f60f6c5c28a8da1eb8b66d14f42b1eb55",
+  "image_files": {
+    "1815-featured": {
+      "sha256": "dc8dc78e1cb128cb8b44ab3caca32758a35f29ac27d26d64c36c1db5a1d3bb0d",
+      "bytes": 13984,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1815-body1": {
+      "sha256": "82a72d29235a9ef0234de36838722ed29779d18fdebbdc17aace6194aae81f39",
+      "bytes": 24460,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1815-body2": {
+      "sha256": "b235b257f5b482cdbe3fc42bf332e1cc411a60bcc42edcd8a5bf98b5b4cd6fe6",
+      "bytes": 36882,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1815-body3": {
+      "sha256": "3cb65022d8ba80ed905ac5873701aa017c3ca115a55b8f2b9bd4566542ba0d71",
+      "bytes": 38878,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1815": {
+      "id": 1815,
+      "title": "掃除機をかけると腰が痛いときは？痛む瞬間と受診目安",
+      "status": "future",
+      "date": "2026-08-21T13:00:00",
+      "date_gmt": "2026-08-21T04:00:00",
+      "modified": "2026-07-23T12:01:25",
+      "modified_gmt": "2026-07-23T03:01:25",
+      "featured_media": 0,
+      "content_sha256": "27394f80be4dd2b55fa6272d709ac0fecd085f2523b80c464ec8df66143496e3",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1815"
+    }
+  }
+}
