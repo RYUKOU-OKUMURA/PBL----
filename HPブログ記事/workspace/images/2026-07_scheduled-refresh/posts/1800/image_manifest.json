@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1800,
+      "key": "1800-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "台所で立ち続けて股関節の外側が気になる女性のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese adult woman pausing calmly while working at a kitchen counter after standing for a while, one hand resting neutrally near the outer hip and a stool available nearby. Show everyday load and mild concern without diagnosing an injury. Pale cream interior, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D, gentle trustworthy mood. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic grimace, medical guarantee, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1800,
+      "key": "1800-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "長時間の立ち仕事で股関節周囲に負担がかかる場面のイラスト",
+      "insert_after_heading": "長時間の荷重と股関節外側痛",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adult doing a prolonged standing kitchen task with a natural stable stance, while a chair or stool nearby suggests a safe opportunity to rest. Use subtle neutral visual emphasis around the whole hip region without showing tissue damage or a diagnosis. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, unsafe posture, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1800,
+      "key": "1800-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "股関節外側痛の原因を医療者と確認するイラスト",
+      "insert_after_heading": "症状だけで診断できない理由",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adult consulting a clinician about lateral hip symptoms. Include a simple neutral body diagram that shows the hip and lower back as areas to consider, with several abstract paths or shapes representing multiple possibilities, but no labels and no highlighted diagnosis. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, diagnostic certainty, deformed anatomy or before-and-after comparison."
+    },
+    {
+      "post_id": 1800,
+      "key": "1800-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "立ち作業を休みながら症状を記録するイラスト",
+      "insert_after_heading": "今日からできる3つの確認",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adult safely alternating a kitchen task with seated preparation, then recording the circumstances in a blank notebook. Use a balanced scene that emphasizes pacing, comfort and observation rather than treatment. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, repeated pain-provoking self-test, dangerous movement, deformed anatomy or before-and-after comparison."
+    }
+  ]
+}

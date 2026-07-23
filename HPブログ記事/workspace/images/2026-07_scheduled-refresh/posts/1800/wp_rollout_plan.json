@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "a735ddb9dfb076134d2d43105b274b9eb17f2f92a3266113ef879b9ee55c2ea5",
+  "image_files": {
+    "1800-featured": {
+      "sha256": "f647f96bc176afd997880d17b36cc69d9652b912f4d001cb015c0cda02bd5ae5",
+      "bytes": 27864,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1800-body1": {
+      "sha256": "2743196eac15fc1870ab494a83c93fca3692c7c33c1fa3f4a409952d9f69db81",
+      "bytes": 35164,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1800-body2": {
+      "sha256": "9ee5fc4cd605eb11d353a7f978918539727057e723e910dd0596f82d4dbf7fa4",
+      "bytes": 33146,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1800-body3": {
+      "sha256": "3536691e38f6cf972a3f2083babffd86bdc230fe3ddf9bd4a989f64ea8f1726c",
+      "bytes": 42780,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1800": {
+      "id": 1800,
+      "title": "立ちっぱなしで股関節の外側が痛いときは？荷重と受診の目安",
+      "status": "future",
+      "date": "2026-07-30T13:00:00",
+      "date_gmt": "2026-07-30T04:00:00",
+      "modified": "2026-07-22T20:28:10",
+      "modified_gmt": "2026-07-22T11:28:10",
+      "featured_media": 0,
+      "content_sha256": "7af42aa3b0478f143f60b1e9a99e69e73272412c6cdece0c6f6d7aeec7cd1bbb",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1800"
+    }
+  }
+}
