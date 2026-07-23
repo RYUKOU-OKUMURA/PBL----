@@ -1,0 +1,27 @@
+{
+  "post_id": 1805,
+  "selected_sources": {
+    "1805-featured": "source/1805-featured.png",
+    "1805-body1": "source/1805-body1.png",
+    "1805-body2": "source/1805-body2.png",
+    "1805-body3": "source/1805-body3.png"
+  },
+  "rejected_sources": {
+    "1805-featured": [
+      {
+        "file": "source/1805-featured-rejected.png",
+        "reason": "共通スタイル見本より線と背景の描き込みが多く、完全なフラットデザインから離れて見えるため"
+      }
+    ]
+  },
+  "visual_qa": {
+    "status": "passed",
+    "checks": [
+      "文字・ロゴ・透かしなし",
+      "装具・手指・身体表現に重大な破綻なし",
+      "赤い痛み表現・治療保証・ビフォーアフターなし",
+      "柔らかいフラットデザインと共通配色に一致",
+      "学校生活・睡眠・相談・準備の各挿入先と内容が一致"
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "a11d5bc4885e61ab3d7502d35aa300e6445a284b87a154a5c1b46156ad8cda6e",
+  "image_files": {
+    "1805-featured": {
+      "sha256": "4dfe0a3e201e0bf20ce5ba788a11dd5c8522005f516bbe830aa29ecd53757920",
+      "bytes": 43754,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1805-body1": {
+      "sha256": "d4570c556cdc4588c17a78e6e216847447970e29f5a40250338c2b8a1ba83849",
+      "bytes": 42244,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1805-body2": {
+      "sha256": "2797c390b90810818a303decd06205ef1cb12f736dc249fa8f15acd7b292d439",
+      "bytes": 46382,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1805-body3": {
+      "sha256": "fe33ecaa96d338efd59ecd76f93ab51d06d9af852cb49b56323921f3934f83cf",
+      "bytes": 43762,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1805": {
+      "id": 1805,
+      "title": "側弯症の装具を続けられないときは？学校生活と着用時間の相談ポイント",
+      "status": "future",
+      "date": "2026-07-26T13:00:00",
+      "date_gmt": "2026-07-26T04:00:00",
+      "modified": "2026-07-22T19:53:18",
+      "modified_gmt": "2026-07-22T10:53:18",
+      "featured_media": 0,
+      "content_sha256": "c6d0f9ef89e6290898db039c621d48d8b46524481da968e8b97b800c7b7e0f5c",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1805"
+    }
+  }
+}

@@ -45,9 +45,14 @@ def main() -> int:
         source_ratio = image.width / image.height
         target_ratio = target[0] / target[1]
         if abs(source_ratio - target_ratio) > 0.02:
-            raise ValueError(
-                f"Unexpected aspect ratio for {key}: {image.width}x{image.height}"
-            )
+            if source_ratio > target_ratio:
+                crop_width = round(image.height * target_ratio)
+                left = (image.width - crop_width) // 2
+                image = image.crop((left, 0, left + crop_width, image.height))
+            else:
+                crop_height = round(image.width / target_ratio)
+                top = (image.height - crop_height) // 2
+                image = image.crop((0, top, image.width, top + crop_height))
         image = image.resize(target, Image.Resampling.LANCZOS)
         output = FINAL_DIR / f"{key}.webp"
         options = webp_options.get(key, {})

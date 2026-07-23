@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1805,
+      "key": "1805-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "学校生活での装具の悩みを抱える中学生と保護者のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese middle-school student dealing thoughtfully with scoliosis brace use during school life, with the brace subtly suggested beneath loose clothing, a school backpack nearby and a supportive parent listening without blame. Calm classroom or home-study setting, respectful and reassuring rather than sad. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic distress, medical guarantee, exposed body, deformed anatomy or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1805,
+      "key": "1805-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "装具による学校生活や睡眠の負担を表したイラスト",
+      "insert_after_heading": "装具を続けにくい背景",
+      "prompt": "4:3 soft flat editorial illustration with two parallel, balanced vignettes of the same Japanese adolescent: sitting in a classroom with a school bag and preparing for sleep in a calm bedroom, showing that brace use can affect different parts of daily life. The brace may be subtly visible beneath clothing, with a neutral thoughtful expression. These are simultaneous contexts, not before and after. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, dramatic distress, blame, medical guarantee, exposed body or correction comparison."
+    },
+    {
+      "post_id": 1805,
+      "key": "1805-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "装具の困りごとを医療者と装具担当者へ相談するイラスト",
+      "insert_after_heading": "相談の方向性",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent and parent talking openly with a clinician and an orthotist about difficulties with scoliosis brace use. Place a torso brace on a stand and blank papers on the table; show attentive, nonjudgmental listening and shared discussion. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, blame, dramatic expression, deformed anatomy or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1805,
+      "key": "1805-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "装具の困る場面と学校での配慮を整理するイラスト",
+      "insert_after_heading": "相談前にできる3つの準備",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent and parent organizing concerns before a consultation using blank note cards and a blank notebook. Include simple textless objects representing school, sleep and daily life, such as a backpack, chair and bedside lamp, while a brace rests nearby. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, blame, deformed anatomy or before-and-after comparison."
+    }
+  ]
+}
