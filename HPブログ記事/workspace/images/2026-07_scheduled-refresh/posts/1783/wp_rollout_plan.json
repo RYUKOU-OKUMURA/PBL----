@@ -3,8 +3,8 @@
   "manifest_sha256": "1fbc3573f69506e8859a5120fde6b44eae0d37ff49058800a5ad59f38650fddd",
   "image_files": {
     "1783-featured": {
-      "sha256": "9c1a3ae70ad4773f7608c9a6b58a84b8d48abe07653c8aaf7ab3450d69a4e445",
-      "bytes": 21428,
+      "sha256": "84b5df16cbfa4aeb8be2933140fcf3350b239d13d59f4c14eb24795665694234",
+      "bytes": 21208,
       "width": 1200,
       "height": 675,
       "format": "WEBP"
