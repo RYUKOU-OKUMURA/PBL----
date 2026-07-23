@@ -56,8 +56,8 @@ def main() -> int:
         image = image.resize(target, Image.Resampling.LANCZOS)
         output = FINAL_DIR / f"{key}.webp"
         options = webp_options.get(key, {})
-        quality = int(options.get("quality", 82))
-        method = int(options.get("method", 6))
+        quality = int(options.get("quality", 78))
+        method = int(options.get("method", 0))
         image.save(output, "WEBP", quality=quality, method=method)
         print(
             f"OPTIMIZED key={key} source={source.name} "

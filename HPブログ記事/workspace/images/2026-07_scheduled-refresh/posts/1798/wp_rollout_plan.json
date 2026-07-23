@@ -1,0 +1,50 @@
+{
+  "site_url": "https://physical-balance-lab.com",
+  "manifest_sha256": "5010ac2ed76159ffa012160a7ebeb0d8893715fef82ccdc539b6706662a5bfb0",
+  "image_files": {
+    "1798-featured": {
+      "sha256": "c180d04e6dc20bb23ca76c6dafc4345602c464c05b75a89ed24bf16fb1407dec",
+      "bytes": 53866,
+      "width": 1200,
+      "height": 675,
+      "format": "WEBP"
+    },
+    "1798-body1": {
+      "sha256": "c1e2e1d845a816c08f7972c0fc5e1da45dcd4f5be372982f42b11f2744f65cdd",
+      "bytes": 41884,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1798-body2": {
+      "sha256": "724910ec2ce106232decf90f68105b749d1e6380707c243d808a53938e640b46",
+      "bytes": 52506,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    },
+    "1798-body3": {
+      "sha256": "1989a667dc8b9642c3fa0a975c46fd1cb116c23549ac23e4b55bdf61e11e5250",
+      "bytes": 63080,
+      "width": 1200,
+      "height": 900,
+      "format": "WEBP"
+    }
+  },
+  "posts": {
+    "1798": {
+      "id": 1798,
+      "title": "側弯症のコブ角20度台で装具は必要？成長余力と経過観察の確認点",
+      "status": "future",
+      "date": "2026-08-01T13:00:00",
+      "date_gmt": "2026-08-01T04:00:00",
+      "modified": "2026-07-22T21:01:02",
+      "modified_gmt": "2026-07-22T12:01:02",
+      "featured_media": 0,
+      "content_sha256": "daf363b142a9fb517845b1f31a5369f4d7f62f7882bda31da3755dab4f4b6ecf",
+      "content_img_count": 2,
+      "fixed_element_errors": [],
+      "link": "https://physical-balance-lab.com/?p=1798"
+    }
+  }
+}

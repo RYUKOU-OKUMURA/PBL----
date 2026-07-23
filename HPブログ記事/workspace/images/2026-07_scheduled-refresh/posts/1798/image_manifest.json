@@ -1,0 +1,42 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft Japanese healthcare editorial flat illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, labels, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, exaggerated medical findings, treatment guarantees, or before-and-after comparison.",
+  "assets": [
+    {
+      "post_id": 1798,
+      "key": "1798-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "コブ角20度台の経過と装具について医療者へ相談する親子のイラスト",
+      "insert_after_heading": null,
+      "prompt": "Wide 16:9 soft flat editorial illustration of a Japanese adolescent and parent consulting a clinician about scoliosis follow-up and whether a brace may be considered. Include a neutral spine model, a torso brace on a stand and blank medical papers, without displaying any angle or number. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D, calm trustworthy mood. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, diagnostic certainty, deformed anatomy, exaggerated spinal curve or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1798,
+      "key": "1798-body1",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "コブ角と成長の残りを複数の情報から考えるイラスト",
+      "insert_after_heading": "20度台だけで決められない理由",
+      "prompt": "4:3 soft flat educational illustration of a Japanese adolescent with a gentle abstract spine curve, surrounded by neutral symbols for growth history, skeletal maturity and repeated follow-up over time. Emphasize that several pieces of information are considered together, with no measurements or labels. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, exaggerated curve, deformed anatomy or before-and-after correction comparison."
+    },
+    {
+      "post_id": 1798,
+      "key": "1798-body2",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "経過観察・装具・運動の役割を分けて表したイラスト",
+      "insert_after_heading": "経過観察・装具・運動の役割",
+      "prompt": "4:3 soft flat editorial illustration with three balanced parallel vignettes representing distinct roles in scoliosis care: a calm clinician follow-up with a calendar, a torso brace on a stand, and a Japanese adolescent doing a gentle supervised exercise. Present them as complementary options, not as a treatment progression or before-and-after result. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, clean shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, dangerous movement, dramatic correction, deformed anatomy or outcome comparison."
+    },
+    {
+      "post_id": 1798,
+      "key": "1798-body3",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "次回受診でコブ角や成長について確認する親子のイラスト",
+      "insert_after_heading": "次回受診に向けた3つの確認",
+      "prompt": "4:3 soft flat editorial illustration of a Japanese adolescent and parent preparing blank question cards before a follow-up visit, then calmly discussing them with a clinician beside a simple spine model and calendar. Do not show written measurements or a predetermined treatment choice. Pale cream background, muted sage green, dusty blue, warm beige and soft peach, thin muted outlines, almost no shadows, no texture, no gradients, no 3D. Text-free. No text, letters, numbers, logos, watermark, red pain glow, medical guarantee, diagnostic certainty, deformed anatomy or before-and-after correction comparison."
+    }
+  ]
+}
