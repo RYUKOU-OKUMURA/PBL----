@@ -11,7 +11,21 @@
       "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1824-02-202607.webp",
       "width": 1200,
       "height": 900
+    },
+    "1824-body2": {
+      "id": 2219,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1824-03-202607.webp",
+      "width": 1200,
+      "height": 900
+    },
+    "1824-body3": {
+      "id": 2220,
+      "url": "https://physical-balance-lab.com/wp/wp-content/uploads/2026/07/pbl-1824-04-202607.webp",
+      "width": 1200,
+      "height": 900
     }
   },
-  "updated_posts": []
+  "updated_posts": [
+    1824
+  ]
 }
