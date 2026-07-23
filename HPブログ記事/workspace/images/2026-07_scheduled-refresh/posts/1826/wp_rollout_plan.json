@@ -3,29 +3,29 @@
   "manifest_sha256": "d9ec9d2132c7f2a81cec445f0fde2c77db26d70e32febf9152628d27c8fb123e",
   "image_files": {
     "1826-featured": {
-      "sha256": "0ac4926b3927ca5bf16eccffd319a067534deef017a04a8f7fd99893cecfd445",
-      "bytes": 50556,
+      "sha256": "98680bffb279cba4d9845bbc682cb130496ee02b2f0cba58f21a7f95e3476b0b",
+      "bytes": 30328,
       "width": 1200,
       "height": 675,
       "format": "WEBP"
     },
     "1826-body1": {
-      "sha256": "9a9ed8043304b3aea8d898b5d0bbc61697e95cfd7ea175a9c899a734fbf423ff",
-      "bytes": 66396,
+      "sha256": "ca73f014a206d68d85db6af48547428485b909d4da9e5aaa544d4865272fc3fb",
+      "bytes": 39450,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
     },
     "1826-body2": {
-      "sha256": "f4f4fb77aa367cdf53a7d6c5eeffbb6009c59325812b8a8118365fb55edbcf00",
-      "bytes": 64998,
+      "sha256": "a9749aa97485bba4619a792d1be5acdcec6801536c82497a82cbe7fcde7f58ff",
+      "bytes": 38978,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
     },
     "1826-body3": {
-      "sha256": "b8ec4ef667b6ebe0ce521589ad46f291ead3557c633f22ca2db7acffc0b494db",
-      "bytes": 54900,
+      "sha256": "00c2fe55db0f169cf7e39f83c4a00cd4d43954990d78730e8684148df97b5059",
+      "bytes": 31596,
       "width": 1200,
       "height": 900,
       "format": "WEBP"
