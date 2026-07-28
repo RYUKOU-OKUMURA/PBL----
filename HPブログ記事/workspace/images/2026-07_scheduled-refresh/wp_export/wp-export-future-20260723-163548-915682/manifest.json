@@ -81,15 +81,6 @@
     "file": "1815.html"
   },
   {
-    "id": 1813,
-    "title": "片側だけ立ちにくいと感じるときは？転倒を避ける確認と受診目安",
-    "status": "future",
-    "date": "2026-08-23T13:00:00",
-    "date_gmt": "2026-08-23T04:00:00",
-    "content_sha256": "3bea51483fb92218d89d7030a0cc9e53f715a61c66436bf2687b9481580398a5",
-    "file": "1813.html"
-  },
-  {
     "id": 1805,
     "title": "側弯症の装具を続けられないときは？学校生活と着用時間の相談ポイント",
     "status": "future",
@@ -115,15 +106,6 @@
     "date_gmt": "2026-07-30T04:00:00",
     "content_sha256": "7af42aa3b0478f143f60b1e9a99e69e73272412c6cdece0c6f6d7aeec7cd1bbb",
     "file": "1800.html"
-  },
-  {
-    "id": 1799,
-    "title": "片手で荷物を持つと腰が痛いときは？荷物の条件と受診目安",
-    "status": "future",
-    "date": "2026-08-25T13:00:00",
-    "date_gmt": "2026-08-25T04:00:00",
-    "content_sha256": "58c54950cd6919a39ce34a9189c2e62efaac2660d31cf7ddfd1cd7b32d1c16f6",
-    "file": "1799.html"
   },
   {
     "id": 1798,
@@ -153,15 +135,6 @@
     "file": "1783.html"
   },
   {
-    "id": 1782,
-    "title": "靴下を履くと股関節が痛いときは？着替えの工夫と受診目安",
-    "status": "future",
-    "date": "2026-08-29T13:00:00",
-    "date_gmt": "2026-08-29T04:00:00",
-    "content_sha256": "ca67a201461ab4a9b6b42c3e48250a66a7e85c89fabca08f83ce9ec934cd8bd1",
-    "file": "1782.html"
-  },
-  {
     "id": 1774,
     "title": "腕を上げると肩が痛いときは？受診目安と動かし方の注意点",
     "status": "future",
@@ -169,14 +142,5 @@
     "date_gmt": "2026-08-05T04:00:00",
     "content_sha256": "a1cbb2156d041dc4b99b2e6357cf4324cb97b970478d12e1af2abe6dbdf70520",
     "file": "1774.html"
-  },
-  {
-    "id": 1762,
-    "title": "立ち上がると足の付け根が痛いときは？転倒を避ける工夫と受診目安",
-    "status": "future",
-    "date": "2026-08-31T13:00:00",
-    "date_gmt": "2026-08-31T04:00:00",
-    "content_sha256": "6e4fe67b96392fb57b33dbadd6f530ec80a3ec69640e27fca0c9c6b989f8a255",
-    "file": "1762.html"
   }
 ]
