@@ -16,12 +16,13 @@ from wp_fixed_elements import (
     FixedElementsError,
     publication_html_errors,
     replace_footer,
+    replace_line_invitation,
 )
 
 
 LINE_BLOCK = """<div>
 <p>公式LINEへのメッセージ送信は24時間可能です。返信は営業時間内です。<br />
-ご予約や当院の一般的なご案内についてお問い合わせいただけます。診断・治療方針などの医療上の判断は医療機関へご相談ください。</p>
+ご予約や当院の一般的なご案内についてお問い合わせいただけます。</p>
 </div>
 <div class="q_button_wrap"><a href="https://lin.ee/cZKMhZ6">公式LINE</a></div>"""
 
@@ -59,6 +60,17 @@ class FixedElementsTests(unittest.TestCase):
     def test_canonical_footer_is_idempotent(self) -> None:
         original = publication_html()
         self.assertEqual(replace_footer(original), original)
+
+    def test_retired_line_sentence_is_removed(self) -> None:
+        retired = "診断・治療方針などの医療上の判断は医療機関へご相談ください。"
+        original = publication_html().replace(
+            "ご予約や当院の一般的なご案内についてお問い合わせいただけます。",
+            "ご予約や当院の一般的なご案内についてお問い合わせいただけます。"
+            + retired,
+        )
+        updated = replace_line_invitation(original)
+        self.assertNotIn(retired, updated)
+        self.assertEqual(publication_html_errors(updated), [])
 
     def test_missing_or_duplicate_footer_is_rejected(self) -> None:
         for html in (publication_html(""), publication_html(CANONICAL_FOOTER * 2)):

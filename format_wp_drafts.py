@@ -28,6 +28,7 @@ from wp_fixed_elements import (
     REQUIRED_SELECTORS,
     publication_html_errors,
     replace_footer,
+    replace_line_invitation,
 )
 
 
@@ -781,7 +782,7 @@ def command_fixed_elements(
     for post in posts:
         original = raw_content(post)
         try:
-            updated = replace_footer(original)
+            updated = replace_line_invitation(replace_footer(original))
             errors = publication_html_errors(updated)
         except FixedElementsError as exc:
             updated = original
@@ -885,7 +886,7 @@ def command_fixed_elements(
                 rollback_errors.append(f"{original['id']}: {rollback_error}")
         if rollback_errors:
             raise PipelineError(
-                f"footer update failed ({update_error}); rollback errors: {rollback_errors}"
+                f"fixed-element update failed ({update_error}); rollback errors: {rollback_errors}"
             ) from update_error
         raise
     print(f"VERIFIED={len(previews)} STATUS={status}")

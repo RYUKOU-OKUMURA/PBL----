@@ -25,10 +25,12 @@ LINE_INVITATION_MARKERS = (
 )
 LINE_INVITATION_TERMS = ("公式LINE", "ご予約", "お問い合わせ", "ご相談")
 AUTHOR_LABEL = "この記事の執筆・監修：奥村龍晃（柔道整復師）"
+REMOVED_MEDICAL_JUDGMENT_SENTENCE = (
+    "診断・治療方針などの医療上の判断は医療機関へご相談ください。"
+)
 CANONICAL_LINE_TEXT = (
     "公式LINEへのメッセージ送信は24時間可能です。返信は営業時間内です。 "
     "ご予約や当院の一般的なご案内についてお問い合わせいただけます。"
-    "診断・治療方針などの医療上の判断は医療機関へご相談ください。"
 )
 REQUIRED_SELECTORS = {
     "tldr": ".tldr",
@@ -159,3 +161,8 @@ def replace_footer(html: str) -> str:
     if updated_footer is None or updated[updated_footer.end() :] != after:
         raise FixedElementsError("content after the footer changed")
     return updated
+
+
+def replace_line_invitation(html: str) -> str:
+    """Remove the retired medical-judgment sentence from the LINE invitation."""
+    return html.replace(REMOVED_MEDICAL_JUDGMENT_SENTENCE, "")
