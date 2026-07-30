@@ -1,0 +1,33 @@
+{
+  "posts": {
+    "965": {
+      "baseline_content_sha256": "2c476175527a40c8559fe31523fc9ac36f1bf36cef75444bd21d665b6f72e2c2",
+      "expected_content_sha256": "bf0f3c1d1320349f156040043549f0de49b45607e3317f0fcd9af4f6a974d319",
+      "title": "ミルウォーキー装具・ボストンブレースの違い｜側弯症コルセット4種類",
+      "excerpt": "ミルウォーキー装具・ボストンブレース・シュロス装具・チェネオ装具（プレーリーくん）の4種類を比較。側弯症コルセットの特徴と、医師相談前に知っておきたい整理をしました。装具を検討中の方の予備知識としてお読みください。",
+      "status": "publish",
+      "slug": "%e3%80%90%e8%84%8a%e6%9f%b1%e5%81%b4%e5%bc%af%e7%97%87%e3%81%ae%e8%a3%85%e5%85%b7%e6%b2%bb%e7%99%82%e3%80%81%e7%a8%ae%e9%a1%9e%e3%81%a8%e9%81%b8%e3%81%b3%e6%96%b9%e3%81%ae%e3%83%9d%e3%82%a4%e3%83%b3"
+    },
+    "612": {
+      "baseline_content_sha256": "72df7ece3cc55298b4183d34a9810d2fa46c985c1cc7fd31318befd4fa7f7c8e",
+      "expected_content_sha256": "278991e629c247df2e20294fdd06574f1bc3881054464eb34cc2232d3fda28fe",
+      "title": "首の詰まり・上を向くと痛い｜確認したいポイントと受診の目安",
+      "excerpt": "首の詰まり・上を向くと痛いときに確認したいポイントを整理します。無理のないセルフケアと、医療機関への相談目安を解説します。",
+      "status": "publish",
+      "slug": "%e3%80%90%e9%a0%9a%e6%a4%8e%e7%97%87%e3%81%a7%e3%80%8c%e9%a6%96%e3%81%8c%e8%a9%b0%e3%81%be%e3%82%8b%e3%80%8d%e3%80%8c%e4%b8%8a%e3%82%92%e5%90%91%e3%81%8f%e3%81%a8%e7%97%9b%e3%81%bf%e3%82%92%e6%84%9f"
+    },
+    "976": {
+      "baseline_content_sha256": "888e431a6ecff6c01bb240e6b67fb63972081e08c0bcb5bc9adb61d6bb4c45ba",
+      "expected_content_sha256": "a037220a2ac80928057410d66d167362f40641fee9768dbdc55936c0ff543e79",
+      "title": "【脊柱側弯症手術後の痛み - 半数以上が経験する長期的な苦痛への理解を深める】",
+      "excerpt": "脊柱側弯症の手術後も痛みが残るケースについて、研究論文をもとに整理します。後遺症として報告されやすいこと、痛みが続く目安、日常生活への影響と相談のポイントを解説します。",
+      "status": "publish",
+      "slug": "%e3%80%90%e8%84%8a%e6%9f%b1%e5%81%b4%e5%bc%af%e7%97%87%e6%89%8b%e8%a1%93%e5%be%8c%e3%81%ae%e7%97%9b%e3%81%bf-%e5%8d%8a%e6%95%b0%e4%bb%a5%e4%b8%8a%e3%81%8c%e7%b5%8c%e9%a8%93%e3%81%99%e3%82%8b"
+    }
+  },
+  "qa_files": {
+    "965": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/ctr-refresh-20260730/qa_preview/965_qa.md",
+    "612": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/ctr-refresh-20260730/qa_preview/612_qa.md",
+    "976": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/ctr-refresh-20260730/qa_preview/976_qa.md"
+  }
+}
