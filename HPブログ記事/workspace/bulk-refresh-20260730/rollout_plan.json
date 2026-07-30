@@ -1,0 +1,66 @@
+{
+  "posts": {
+    "612": {
+      "baseline_sha256": "278991e629c247df2e20294fdd06574f1bc3881054464eb34cc2232d3fda28fe",
+      "expected_sha256": "ac778af1e5578f7820441474a37d9e232cf47867d7f190191537e912fa3911c3",
+      "status": "publish"
+    },
+    "965": {
+      "baseline_sha256": "bf0f3c1d1320349f156040043549f0de49b45607e3317f0fcd9af4f6a974d319",
+      "expected_sha256": "7acf6ac4b0ed2b55e341708809a4084d2176eeebcf9211a1378b064e3ab61584",
+      "status": "publish"
+    },
+    "1092": {
+      "baseline_sha256": "b92cbd60e7ab387f208e826cfa73128ac3e5d5d05c17ce1fe0e1957b2935fc91",
+      "expected_sha256": "ac108e34641fb0f026d95ffdd0e0827ce33c0fbcdd953b412496adf6b177e271",
+      "status": "publish"
+    },
+    "1171": {
+      "baseline_sha256": "727ecd21f9ff3505e4e6426608baaf6cdc5b71c3aa6d6888dd2e5e974172f6a1",
+      "expected_sha256": "7ac2109ad8baa641e23bffea2614735c3ff8b4bed9c01a19aa223454c2eae185",
+      "status": "publish"
+    },
+    "1176": {
+      "baseline_sha256": "b81bf67ac513b2d839a1aa964989f600154d5ac030aaf77228053f85660de998",
+      "expected_sha256": "876aaff9a00394d35bc7b512a85d3fc4ddc1a5b5b689305a008d4109d26cc484",
+      "status": "publish"
+    },
+    "1182": {
+      "baseline_sha256": "09ad6230f7d8c6f4b5c464f111c31d2682c8d3ecf0d1618c1e212f2d96fed5e0",
+      "expected_sha256": "4fecd6fd6fedd68906de49a9ebd7e6060a414367d859bdd47d429b711d522b88",
+      "status": "publish"
+    },
+    "1191": {
+      "baseline_sha256": "3e660e4e0ab469e9e707e2fc9651c2de08a4be8eb0e01dd3960c6876afc810fa",
+      "expected_sha256": "ff65cf9c6f7059c5829c595352191a4698e75d3fb72db0474d717adeedeb228f",
+      "status": "publish"
+    },
+    "1742": {
+      "baseline_sha256": "e391ed984d99ac23e0aee3eb5e81c997df34bbe554634c234ee0c594c9aacc28",
+      "expected_sha256": "4c3a9ac571ebf0aa3ecb6b56badad7519e0b42c38dab19058fa1c20ab59e6c81",
+      "status": "publish"
+    },
+    "1805": {
+      "baseline_sha256": "79f5e958207d4cce5469392c27f4a555bf9066735e1aca1bdd9a100ee9f6defd",
+      "expected_sha256": "6707dce5af59f0f4722d6e39124be9dccf46df902e3cde440e18c25d33c4cc87",
+      "status": "publish"
+    },
+    "1822": {
+      "baseline_sha256": "9b949ad5289d385f8d540ce25ed0f6593f8d7b89c6225c754997cf6ce07c5b35",
+      "expected_sha256": "f4f01da2749c8beaabaa4949a467597ce94cef20d3ccddc4da986d628e3b806a",
+      "status": "publish"
+    }
+  },
+  "qa_files": {
+    "612": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/612_qa.md",
+    "965": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/965_qa.md",
+    "1092": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1092_qa.md",
+    "1171": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1171_qa.md",
+    "1176": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1176_qa.md",
+    "1182": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1182_qa.md",
+    "1191": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1191_qa.md",
+    "1742": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1742_qa.md",
+    "1805": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1805_qa.md",
+    "1822": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/bulk-refresh-20260730/qa_preview/1822_qa.md"
+  }
+}

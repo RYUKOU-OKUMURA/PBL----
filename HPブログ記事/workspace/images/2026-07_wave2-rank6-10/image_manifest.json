@@ -1,0 +1,150 @@
+{
+  "style_reference": "HPブログ記事/投稿前/images/adult-scoliosis-after-surgery-activity-restrictions-guide/hero.webp",
+  "common_style": "Soft flat editorial illustration matching the style reference only. Pale cream background, muted sage green, dusty blue, warm beige and soft peach. Clean simple shapes, thin muted outlines, almost no shadows, no texture, no gradients, no 3D rendering. Gentle, trustworthy, non-alarming mood. Japanese people where a person is shown. No text, letters, numbers, logos, watermark, red pain glow, dramatic grimace, deformed anatomy, or exaggerated medical findings.",
+  "assets": [
+    {
+      "post_id": 1092,
+      "key": "1092-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "大人の脊柱側弯症で手術について医療者と相談する場面のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A calm Japanese adult woman and a healthcare professional discussing whether scoliosis surgery may be appropriate, seated across a small consultation table with blank papers and a simple abstract spine line motif on the wall. Wide landscape featured-image composition with generous safe margins. Reassuring shared-decision atmosphere, no visible surgical hardware, X-ray, hospital drama, promises of cure, or text."
+    },
+    {
+      "post_id": 1092,
+      "key": "1092-surgery-decision",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "脊柱側弯症の手術適応を考える際の症状と身体のバランスを表したイラスト",
+      "insert_after_heading": "手術が必要かどうかを決めるポイント",
+      "prompt": "A text-free editorial illustration showing a Japanese adult considering scoliosis surgery criteria through two calm visual cues: one side shows mild back discomfort during an ordinary daily task, the other shows a simple abstract side-view spine line with balanced posture guides near the shoulders and pelvis. Observational tone only, no red pain marks, severity labels, check marks, or implied medical recommendation."
+    },
+    {
+      "post_id": 1171,
+      "key": "1171-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "側弯症で背中や股関節まわりの筋肉の硬さを意識する女性のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A Japanese adult woman standing calmly with one hand near her lower back and the other near her hip, noticing muscle stiffness without distress. Subtle muted curved guides along the spine and outer thigh suggest uneven muscle tension, not diagnosis. Wide landscape featured-image composition, generous margins, no labels, pain glow, exaggerated curve, or promise of improvement."
+    },
+    {
+      "post_id": 1171,
+      "key": "1171-mechanism",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "側弯症で筋肉のバランスが崩れ拘縮しやすくなる仕組みを表したイラスト",
+      "insert_after_heading": "側弯症ではなぜ筋肉が拘縮するの？",
+      "prompt": "A text-free educational flat illustration of a clothed human torso from the back with a gently curved spine line and paired muted muscle regions on opposite sides, one side slightly shorter and tighter than the other to suggest long-term imbalance. Clean conceptual layout, no labels, arrows, exposed anatomy, red highlights, or claims that stiffness is reversed."
+    },
+    {
+      "post_id": 1171,
+      "key": "1171-muscles",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "側弯症で拘縮が起きやすい股関節・肩・背中の部位を模式的に表したイラスト",
+      "insert_after_heading": "側弯症で拘縮が起きやすい筋肉はどこ？",
+      "prompt": "A simplified text-free back and side view of a clothed human figure with four anatomically plausible muted color regions at the outer hip, upper back beside the shoulder blade, lower back, and lateral hip. Symmetrical clean layout suggesting common areas to pay attention to, no labels, exposed muscles, glowing pain, or diagnostic claims."
+    },
+    {
+      "post_id": 1171,
+      "key": "1171-selfcare",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "側弯症の筋拘縮ケアとして自宅でストレッチする場面のイラスト",
+      "insert_after_heading": "筋拘縮を改善するセルフケア方法",
+      "prompt": "A Japanese adult performing a gentle seated side stretch on a stable chair at home: sitting upright, one arm raised overhead, torso leaning slightly to the opposite side, both feet supported. Comfortable range, calm breathing, clear full-body instructional composition without arrows, labels, numbers, text, pain marks, or unstable posture."
+    },
+    {
+      "post_id": 923,
+      "key": "923-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "腰痛対策として骨盤ベルトを装着する場面のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A calm Japanese adult adjusting a simple unbranded lumbar support belt over clothing while standing in a bright home interior. The belt has neutral straps and a flat supportive panel, shown as a daily self-care tool rather than medical equipment. Wide landscape featured-image composition, generous margins, no brand logos, dramatic pain, claims of guaranteed relief, or text."
+    },
+    {
+      "post_id": 923,
+      "key": "923-research",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "骨盤ベルトに関する研究を表したイラスト",
+      "insert_after_heading": "最新の研究結果をわかりやすく解説！",
+      "prompt": "A text-free editorial illustration representing research on lumbar support belts: a small group of adults in comfortable clothing with simple blank survey cards, while a researcher reviews blank papers on a clipboard beside a neutral support belt on a table. Warm respectful atmosphere, no charts, labels, numbers, medical claims, or before-and-after comparison."
+    },
+    {
+      "post_id": 923,
+      "key": "923-muscle-impact",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "骨盤ベルト着用と筋肉の働きの関係を模式的に表したイラスト",
+      "insert_after_heading": "骨盤ベルトは筋肉を弱める？ 実は間違いかも！",
+      "prompt": "A text-free educational flat illustration showing the same Japanese adult in two calm everyday poses on one canvas: standing naturally without a belt in one scene and wearing a simple unbranded lumbar belt over clothing in the other, with subtle muted muscle regions around the lower back and abdomen suggesting continued muscle engagement. No weak-versus-strong symbols, check marks, red marks, labels, or implied guaranteed outcome."
+    },
+    {
+      "post_id": 923,
+      "key": "923-usage",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "骨盤ベルトを正しく装着して日常動作を行う場面のイラスト",
+      "insert_after_heading": "骨盤ベルトの効果的な使い方とは？",
+      "prompt": "A Japanese adult wearing a simple unbranded lumbar support belt over clothing while performing a safe everyday task such as standing from a chair with a neutral posture. A mirror and small side table suggest checking fit and comfort. Instructional but calm, no arrows, labels, numbers, text, dramatic pain, or promise of benefit."
+    },
+    {
+      "post_id": 1145,
+      "key": "1145-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "大人の脊柱側弯症で背中や腰の不調を感じる女性のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A Japanese adult woman pausing during an ordinary day at home, one hand resting gently near her lower back, calm thoughtful expression rather than suffering. Subtle abstract curved line motif near the spine, chair and warm interior details. Wide landscape featured-image composition, generous margins, no red pain glow, exaggerated posture, labels, or promise of relief."
+    },
+    {
+      "post_id": 1145,
+      "key": "1145-daily-impact",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "脊柱側弯症が日常生活に与える影響を表したイラスト",
+      "insert_after_heading": "3. 日常に潜む、脊柱側弯症の困った影響",
+      "prompt": "A clean text-free two-scene editorial illustration on one canvas: the same Japanese woman calmly sitting at a desk in one scene and standing while carrying a light bag in the other, with subtle muted posture guides suggesting that daily activities can feel uneven. No good-versus-bad symbols, check marks, red pain marks, labels, or exaggerated imbalance."
+    },
+    {
+      "post_id": 1145,
+      "key": "1145-homecare",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "自宅でできる脊柱側弯症ケアのストレッチを行う場面のイラスト",
+      "insert_after_heading": "4. おうちでできる！脊柱側弯症ケアのヒント",
+      "prompt": "A Japanese adult performing a gentle home self-care stretch on a yoga mat beside a stable chair: side-lying or seated trunk mobility with comfortable range and calm breathing. Bright tidy room, clear full-body composition, no arrows, labels, numbers, text, pain marks, unstable posture, or promise of improvement."
+    },
+    {
+      "post_id": 469,
+      "key": "469-featured",
+      "role": "featured",
+      "target_ratio": "16:9",
+      "alt": "中学生の脊柱側弯症について保護者と相談する場面のイラスト",
+      "insert_after_heading": null,
+      "prompt": "A Japanese middle-school student, parent, and healthcare professional calmly discussing scoliosis treatment options across a small consultation table. Supportive atmosphere with a simple abstract spine line motif in the background. Wide landscape featured-image composition, generous margins, no brace brand details, dramatic curve, hospital drama, text, or promises of cure."
+    },
+    {
+      "post_id": 469,
+      "key": "469-treatment",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "中学生の脊柱側弯症の治療選択肢を表したイラスト",
+      "insert_after_heading": "治療法の選択肢",
+      "prompt": "A text-free editorial illustration showing three calm treatment pathways for adolescent scoliosis as simple neutral icons in one scene: observation with a blank calendar, a modern white underarm torso brace on a stand, and a gentle exercise posture beside a chair. Equal visual weight, no ranking, labels, numbers, surgery imagery, or implied best choice."
+    },
+    {
+      "post_id": 469,
+      "key": "469-daily-support",
+      "role": "body",
+      "target_ratio": "4:3",
+      "alt": "学校生活を意識した脊柱側弯症の日常サポートを表したイラスト",
+      "insert_after_heading": "終わりに",
+      "prompt": "A Japanese middle-school student walking to school with a light backpack, posture naturally upright but not exaggerated, while a parent walks nearby offering quiet support. Bright morning street or school gate backdrop, hopeful everyday mood, no labels, red pain marks, dramatic spinal curve, or promise of recovery."
+    }
+  ]
+}
