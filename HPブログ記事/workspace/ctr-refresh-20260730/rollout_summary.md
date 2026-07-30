@@ -19,8 +19,11 @@
 - 612: GSC 57imp / 0click
 - 976: PV leader、GSC 7click/189imp
 
-## 再計測目安
-2026-08-13 〜 08-20 に同指標を比較
+## 再計測（2026-08-14 09:00 予定）
+- 集計期間: **2026-08-07 〜 2026-08-13**（7日）
+- 実行: `bash Analytics/scripts/remeasure_ctr_improvements.sh --notify`
+- 仕掛け: launchd（`install-ctr-remeasure-reminder.sh install`）+ カレンダー `.ics`
+- メモ: `Analytics/periodic/CTR改善_再測定メモ.md`
 
 ## ロールバック
 `backup_*.json` + `python3 wp_ctr_refresh.py` の rollback 相当は backup JSON から手動復元
