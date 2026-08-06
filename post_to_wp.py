@@ -22,7 +22,7 @@ import yaml
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 
-from wp_fixed_elements import publication_html_errors
+from wp_fixed_elements import publication_html_errors, publication_tag_errors
 
 
 # MIMEタイプの初期化
@@ -732,6 +732,19 @@ def run_fixed_elements_preflight(html_content: str) -> None:
     for error in errors:
         logger.error(f"  - {error}")
     logger.error("wp-fixed-elementsで原稿を修正し、全体QA後に再実行してください。")
+    raise SystemExit(1)
+
+
+def run_tag_preflight(tags: object) -> None:
+    """Abort before WordPress access when front-matter tags violate the whitelist."""
+    errors = publication_tag_errors(tags)
+    if not errors:
+        logger.info("タグホワイトリストチェック: OK")
+        return
+    logger.error("タグホワイトリストチェックに失敗しました。WordPressへの書き込みは行いません。")
+    for error in errors:
+        logger.error(f"  - {error}")
+    logger.error("wp-fixed-elementsの固定タグ一覧から、記事内容に合うタグだけを選んでください。")
     raise SystemExit(1)
 
 
@@ -1614,6 +1627,7 @@ def main():
     
     # Front Matterを解析
     metadata, body = parse_front_matter(content)
+    run_tag_preflight(metadata.get('tags'))
     
     # ファイル形式に応じて処理
     if is_html_file(file_path):

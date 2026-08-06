@@ -41,6 +41,25 @@ REQUIRED_SELECTORS = {
     "footer": "footer",
     "jsonld": 'script[type="application/ld+json"]',
 }
+ALLOWED_WP_TAGS = (
+    "股関節痛",
+    "名古屋市",
+    "フィジカルバランスラボ整体院",
+    "整体",
+    "名東区",
+    "星ヶ丘",
+    "千種区",
+    "レッドコード整体",
+    "坐骨神経痛",
+    "肩こり",
+    "脊柱側弯症",
+    "脊柱管狭窄症",
+    "腰椎椎間板ヘルニア",
+    "腰痛",
+    "五十肩",
+    "ぎっくり腰",
+    "ぶら下がり整体",
+)
 CANONICAL_FOOTER = """<footer>
 <p style="text-align: center;"><img class="size-full wp-image-629 aligncenter"
     src="https://physical-balance-lab.com/wp/wp-content/uploads/2024/05/ogp.jpg"
@@ -58,6 +77,32 @@ CANONICAL_FOOTER = """<footer>
 
 class FixedElementsError(RuntimeError):
     """Raised when fixed elements cannot be normalized safely."""
+
+
+def publication_tag_errors(tags: object) -> list[str]:
+    """Return preflight errors when front-matter tags violate the fixed whitelist."""
+    if tags is None:
+        return ["tags: required front matter is missing or empty"]
+    if isinstance(tags, str):
+        normalized_tags = [tags]
+    elif isinstance(tags, list) and all(isinstance(tag, str) for tag in tags):
+        normalized_tags = tags
+    else:
+        return ["tags: expected a string or list of strings"]
+
+    if not normalized_tags:
+        return ["tags: required front matter is missing or empty"]
+
+    errors: list[str] = []
+    duplicates = sorted({tag for tag in normalized_tags if normalized_tags.count(tag) > 1})
+    if duplicates:
+        errors.append(f"tags: duplicate values ({', '.join(duplicates)})")
+
+    allowed = set(ALLOWED_WP_TAGS)
+    disallowed = sorted(set(normalized_tags) - allowed)
+    if disallowed:
+        errors.append(f"tags: outside fixed whitelist ({', '.join(disallowed)})")
+    return errors
 
 
 def fixed_element_counts(html: str) -> dict[str, int]:

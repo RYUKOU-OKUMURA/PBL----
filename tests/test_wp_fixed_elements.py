@@ -12,9 +12,11 @@ import requests
 
 import format_wp_drafts
 from wp_fixed_elements import (
+    ALLOWED_WP_TAGS,
     CANONICAL_FOOTER,
     FixedElementsError,
     publication_html_errors,
+    publication_tag_errors,
     replace_footer,
     replace_line_invitation,
 )
@@ -47,6 +49,40 @@ OLD_FOOTER = """<footer>
 
 
 class FixedElementsTests(unittest.TestCase):
+    def test_fixed_tag_whitelist_matches_wordpress_tags(self) -> None:
+        self.assertEqual(
+            ALLOWED_WP_TAGS,
+            (
+                "股関節痛",
+                "名古屋市",
+                "フィジカルバランスラボ整体院",
+                "整体",
+                "名東区",
+                "星ヶ丘",
+                "千種区",
+                "レッドコード整体",
+                "坐骨神経痛",
+                "肩こり",
+                "脊柱側弯症",
+                "脊柱管狭窄症",
+                "腰椎椎間板ヘルニア",
+                "腰痛",
+                "五十肩",
+                "ぎっくり腰",
+                "ぶら下がり整体",
+            ),
+        )
+
+    def test_tag_preflight_accepts_only_whitelisted_subset(self) -> None:
+        self.assertEqual(publication_tag_errors(["名古屋市", "腰痛"]), [])
+        self.assertEqual(publication_tag_errors("肩こり"), [])
+
+    def test_tag_preflight_rejects_missing_duplicate_or_new_tags(self) -> None:
+        self.assertTrue(publication_tag_errors(None))
+        self.assertTrue(publication_tag_errors([]))
+        self.assertTrue(publication_tag_errors(["腰痛", "腰痛"]))
+        self.assertTrue(publication_tag_errors(["腰痛", "新しいタグ"]))
+
     def test_canonical_publication_html_passes(self) -> None:
         self.assertEqual(publication_html_errors(publication_html()), [])
 
