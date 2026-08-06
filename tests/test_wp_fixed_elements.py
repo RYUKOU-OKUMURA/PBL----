@@ -49,6 +49,43 @@ OLD_FOOTER = """<footer>
 
 
 class FixedElementsTests(unittest.TestCase):
+    def test_schedule_tag_gate_rejects_disallowed_or_changed_ids(self) -> None:
+        allowed = {"腰痛": 101, "名古屋市": 102}
+        post = {"tags": [102, 101]}
+        self.assertEqual(
+            format_wp_drafts.require_allowed_post_tags(
+                post, allowed, "post 1", expected=[101, 102]
+            ),
+            [101, 102],
+        )
+        with self.assertRaises(format_wp_drafts.PipelineError):
+            format_wp_drafts.require_allowed_post_tags(
+                {"tags": [999]}, allowed, "post 1"
+            )
+        with self.assertRaises(format_wp_drafts.PipelineError):
+            format_wp_drafts.require_allowed_post_tags(
+                {"tags": [101]}, allowed, "post 1", expected=[101, 102]
+            )
+
+    def test_schedule_match_includes_exact_planned_tags(self) -> None:
+        post = {
+            "status": "future",
+            "date": "2026-08-08T13:00:00",
+            "date_gmt": "2026-08-08T04:00:00",
+            "content": {"raw": "本文"},
+            "tags": [101, 102],
+        }
+        item = {
+            "status": "future",
+            "date": "2026-08-08T13:00:00",
+            "date_gmt": "2026-08-08T04:00:00",
+            "content_sha256": format_wp_drafts.content_hash("本文"),
+            "tags": [102, 101],
+        }
+        self.assertTrue(format_wp_drafts.schedule_matches(post, item))
+        post["tags"] = [101]
+        self.assertFalse(format_wp_drafts.schedule_matches(post, item))
+
     def test_fixed_tag_whitelist_matches_wordpress_tags(self) -> None:
         self.assertEqual(
             ALLOWED_WP_TAGS,

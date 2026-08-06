@@ -24,6 +24,7 @@ from requests.auth import HTTPBasicAuth
 
 from post_to_wp import load_config
 from wp_fixed_elements import (
+    ALLOWED_WP_TAGS,
     FixedElementsError,
     REQUIRED_SELECTORS,
     publication_html_errors,
@@ -169,6 +170,55 @@ def raw_content(post: dict[str, Any]) -> str:
 
 def raw_excerpt(post: dict[str, Any]) -> str:
     return post.get("excerpt", {}).get("raw") or ""
+
+
+def post_tag_ids(post: dict[str, Any], label: str) -> list[int]:
+    """Return normalized WordPress tag IDs or reject malformed post data."""
+    values = post.get("tags")
+    if not isinstance(values, list) or not values:
+        raise PipelineError(f"{label} must have at least one WordPress tag")
+    if not all(isinstance(value, int) for value in values):
+        raise PipelineError(f"{label} has malformed WordPress tag IDs")
+    if len(values) != len(set(values)):
+        raise PipelineError(f"{label} has duplicate WordPress tag IDs")
+    return sorted(values)
+
+
+def allowed_wp_tag_ids(config: dict[str, str]) -> dict[str, int]:
+    """Resolve every fixed tag name to one existing WordPress tag ID."""
+    resolved: dict[str, int] = {}
+    for name in ALLOWED_WP_TAGS:
+        payload = api_get(config, "tags", context="edit", search=name, per_page=100)
+        if not isinstance(payload, list):
+            raise PipelineError("WordPress tag collection response is not a list")
+        matches = [item for item in payload if item.get("name") == name]
+        if len(matches) != 1 or not isinstance(matches[0].get("id"), int):
+            raise PipelineError(
+                f"fixed WordPress tag must resolve exactly once: {name!r}"
+            )
+        resolved[name] = int(matches[0]["id"])
+    if len(set(resolved.values())) != len(resolved):
+        raise PipelineError("fixed WordPress tags do not have unique IDs")
+    return resolved
+
+
+def require_allowed_post_tags(
+    post: dict[str, Any],
+    allowed_by_name: dict[str, int],
+    label: str,
+    expected: list[int] | None = None,
+) -> list[int]:
+    """Require a non-empty allowed tag set and optionally an exact planned set."""
+    actual = post_tag_ids(post, label)
+    allowed_ids = set(allowed_by_name.values())
+    disallowed = sorted(set(actual) - allowed_ids)
+    if disallowed:
+        raise PipelineError(f"{label} has tags outside the fixed whitelist: {disallowed}")
+    if expected is not None and actual != sorted(expected):
+        raise PipelineError(
+            f"{label} tags changed after plan creation: expected {sorted(expected)}, got {actual}"
+        )
+    return actual
 
 
 def content_hash(html: str) -> str:
@@ -1105,8 +1155,15 @@ def command_prepare(
 
 def load_plan(path: Path) -> dict[str, Any]:
     plan = json.loads(path.read_text(encoding="utf-8"))
-    if plan.get("version") != 1 or not isinstance(plan.get("items"), list):
+    if plan.get("version") != 2 or not isinstance(plan.get("items"), list):
         raise PipelineError(f"invalid publication plan: {path}")
+    for item in plan["items"]:
+        if (
+            not isinstance(item.get("tags"), list)
+            or not item["tags"]
+            or not all(isinstance(tag_id, int) for tag_id in item["tags"])
+        ):
+            raise PipelineError(f"publication plan item has no valid tag lock: {item!r}")
     return plan
 
 
@@ -1141,9 +1198,14 @@ def command_plan(
             f"expected {expected_first_at.isoformat()}, got {first_at.isoformat()}"
         )
     dates = schedule_dates(len(posts), first_at)
+    allowed_by_name = allowed_wp_tag_ids(config)
+    name_by_id = {tag_id: name for name, tag_id in allowed_by_name.items()}
     items = []
     for index, (post, date) in enumerate(zip(posts, dates)):
         require_publication_html(raw_content(post), f"post {post['id']}")
+        tag_ids = require_allowed_post_tags(
+            post, allowed_by_name, f"post {post['id']}"
+        )
         status = "future" if date > now else ("publish" if index == 0 else "future")
         print(f"{post['id']}\t{status}\t{date.isoformat()}\t{raw_title(post)}")
         utc_date = date.astimezone(timezone.utc)
@@ -1152,6 +1214,8 @@ def command_plan(
                 "id": post["id"],
                 "title": raw_title(post),
                 "content_sha256": content_hash(raw_content(post)),
+                "tags": tag_ids,
+                "tag_names": [name_by_id[tag_id] for tag_id in tag_ids],
                 "status": status,
                 "date": date.strftime("%Y-%m-%dT%H:%M:%S"),
                 "date_gmt": utc_date.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -1159,7 +1223,7 @@ def command_plan(
             }
         )
     plan = {
-        "version": 1,
+        "version": 2,
         "site_url": config["WP_URL"],
         "timezone": "Asia/Tokyo",
         "created_at": now.isoformat(),
@@ -1173,6 +1237,7 @@ def command_plan(
 
 def command_approve(config: dict[str, str], path: Path, ids: set[int]) -> int:
     plan = load_plan(path)
+    allowed_by_name = allowed_wp_tag_ids(config)
     plan_items = {item["id"]: item for item in plan["items"]}
     missing = ids - set(plan_items)
     if missing:
@@ -1183,6 +1248,12 @@ def command_approve(config: dict[str, str], path: Path, ids: set[int]) -> int:
             raise PipelineError(f"post {post_id} is not a draft during QA approval")
         if content_hash(raw_content(post)) != plan_items[post_id]["content_sha256"]:
             raise PipelineError(f"post {post_id} content changed after plan creation")
+        require_allowed_post_tags(
+            post,
+            allowed_by_name,
+            f"post {post_id}",
+            expected=plan_items[post_id]["tags"],
+        )
         require_publication_html(raw_content(post), f"post {post_id}")
         plan_items[post_id]["qa_approved"] = True
         plan_items[post_id]["qa_approved_at"] = datetime.now(JST).isoformat()
@@ -1202,6 +1273,7 @@ def schedule_matches(post: dict[str, Any], item: dict[str, Any]) -> bool:
         and post.get("date") == item["date"]
         and post.get("date_gmt") == item["date_gmt"]
         and content_hash(raw_content(post)) == item["content_sha256"]
+        and sorted(post.get("tags") or []) == sorted(item["tags"])
     )
 
 
@@ -1413,12 +1485,19 @@ def command_schedule_plan(
         raise PipelineError(f"unexpected WordPress timezone: {actual_timezone!r}")
     if not plan["items"] or any(not item.get("qa_approved") for item in plan["items"]):
         raise PipelineError("every planned post must be QA-approved before scheduling")
+    allowed_by_name = allowed_wp_tag_ids(config)
     current_by_id: dict[int, dict[str, Any]] = {}
     pending: list[dict[str, Any]] = []
     for item in plan["items"]:
         current = fetch_post(config, item["id"])
         current_by_id[item["id"]] = current
         require_publication_html(raw_content(current), f"post {item['id']}")
+        require_allowed_post_tags(
+            current,
+            allowed_by_name,
+            f"post {item['id']}",
+            expected=item["tags"],
+        )
         if schedule_matches(current, item):
             print(f"ALREADY_MATCHES={item['id']}")
             continue
@@ -1465,6 +1544,12 @@ def command_schedule_plan(
         verified = fetch_post(config, item["id"])
         if not schedule_matches(verified, item):
             raise PipelineError(f"post {item['id']} failed schedule verification")
+        require_allowed_post_tags(
+            verified,
+            allowed_by_name,
+            f"post {item['id']}",
+            expected=item["tags"],
+        )
         require_publication_html(raw_content(verified), f"post {item['id']}")
         print(f"SCHEDULED={item['id']} STATUS={item['status']} DATE={item['date']}")
     return 0

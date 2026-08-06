@@ -21,6 +21,12 @@ HPブログをWordPressへ安全に投稿・予約するための正規手順。
 
 自動preflightは、固定要素の個数・順序、LINE案内ブロック、正規フッター、JSON構文を検査する。TL;DRの内容、TOCリンクの意味的一致、免責・CTAの文章品質、JSON-LDノードの妥当性までは代替しないため、最終3種QAと人による確認を省略しない。
 
+## タグの不変条件
+
+front matterの`tags`は必須とし、`wp_fixed_elements.py`の`ALLOWED_WP_TAGS`にある17タグから、記事内容に関連するものだけを重複なく選ぶ。一覧外・空・重複はpreflightで拒否し、新規WordPressタグは作成しない。
+
+下書き投稿時は、選択した全タグが既存WordPressタグIDへ解決され、投稿レスポンスに完全一致することを確認する。publication plan version 2はタグIDをQA状態として固定し、`approve`、`schedule`直前、予約後に同じタグIDと固定一覧への所属を再検証する。旧version 1のplanは使わず、作り直す。
+
 ## 標準フロー
 
 ### 1. ローカル原稿の固定要素チェック
@@ -40,6 +46,8 @@ python3 post_to_wp.py "HPブログ記事/投稿前/記事名.md" --draft --creat
 ```
 
 `post_to_wp.py` は投稿前に固定要素を自動検査する。検査は用語作成・画像アップロード・投稿APIより先に実行され、失敗時はWordPressへ書き込まない。
+
+`--create-terms`で自動作成するのはカテゴリだけであり、タグは作成しない。タグIDの未解決または投稿レスポンスとの不一致が1件でもあれば停止する。
 
 ### 3. WordPress下書きの整形と固定要素同期
 
@@ -97,7 +105,7 @@ python3 format_wp_drafts.py schedule --plan PLAN.json
 python3 format_wp_drafts.py schedule --plan PLAN.json --apply
 ```
 
-`schedule` はQA承認、本文ハッシュ、予約キュー、WordPressタイムゾーン、固定要素を再検証する。いずれかが変わっていたら予約しない。
+`schedule` はQA承認、本文ハッシュ、固定タグID、予約キュー、WordPressタイムゾーン、固定要素を再検証する。いずれかが変わっていたら予約しない。
 
 ### 7. 予約後の再検証
 

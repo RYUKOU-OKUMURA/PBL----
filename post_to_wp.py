@@ -484,7 +484,6 @@ def create_category(config: dict, category_name: str) -> Optional[int]:
 def get_tag_id(
     config: dict,
     tag_name: str,
-    create_if_not_exists: bool = False
 ) -> Optional[int]:
     """
     タグ名からIDを取得する。
@@ -492,8 +491,6 @@ def get_tag_id(
     Args:
         config: 設定辞書（WP_URL, WP_USER, WP_APP_PASSWORD）
         tag_name: タグ名
-        create_if_not_exists: 存在しない場合に自動作成するか
-    
     Returns:
         Optional[int]: タグID（見つからない場合はNone）
     """
@@ -516,49 +513,11 @@ def get_tag_id(
                     logger.debug(f"タグ '{tag_name}' のID: {tag['id']}")
                     return tag['id']
         
-        # 見つからない場合
-        if create_if_not_exists:
-            return create_tag(config, tag_name)
-        else:
-            logger.warning(f"タグ '{tag_name}' が見つかりませんでした")
-            return None
+        logger.warning(f"タグ '{tag_name}' が見つかりませんでした")
+        return None
             
     except requests.exceptions.RequestException as e:
         logger.warning(f"タグ検索中にエラーが発生: {e}")
-        return None
-
-
-def create_tag(config: dict, tag_name: str) -> Optional[int]:
-    """
-    新しいタグを作成する。
-    
-    Args:
-        config: 設定辞書
-        tag_name: 作成するタグ名
-    
-    Returns:
-        Optional[int]: 作成されたタグのID
-    """
-    endpoint = f"{config['WP_URL']}/wp-json/wp/v2/tags"
-    
-    try:
-        response = requests.post(
-            endpoint,
-            auth=HTTPBasicAuth(config['WP_USER'], config['WP_APP_PASSWORD']),
-            json={'name': tag_name},
-            timeout=30
-        )
-        
-        if response.status_code == 201:
-            tag_id = response.json()['id']
-            logger.info(f"タグ '{tag_name}' を作成しました (ID: {tag_id})")
-            return tag_id
-        else:
-            logger.warning(f"タグ '{tag_name}' の作成に失敗しました: {response.status_code}")
-            return None
-            
-    except requests.exceptions.RequestException as e:
-        logger.warning(f"タグ作成中にエラーが発生: {e}")
         return None
 
 
@@ -589,7 +548,6 @@ def resolve_category_ids(
 def resolve_tag_ids(
     config: dict,
     tags: List[str],
-    create_if_not_exists: bool = False
 ) -> List[int]:
     """
     タグ名のリストからIDのリストを取得する。
@@ -597,16 +555,26 @@ def resolve_tag_ids(
     Args:
         config: 設定辞書
         tags: タグ名のリスト
-        create_if_not_exists: 存在しない場合に自動作成するか
-    
     Returns:
         List[int]: タグIDのリスト
+
+    Raises:
+        RuntimeError: 1件でも既存WordPressタグへ解決できない場合
     """
-    tag_ids = []
+    tag_ids: List[int] = []
+    unresolved: List[str] = []
     for tag_name in tags:
-        tag_id = get_tag_id(config, tag_name, create_if_not_exists)
-        if tag_id is not None:
-            tag_ids.append(tag_id)
+        tag_id = get_tag_id(config, tag_name)
+        if tag_id is None:
+            unresolved.append(tag_name)
+            continue
+        tag_ids.append(tag_id)
+    if unresolved:
+        raise RuntimeError(
+            "既存のWordPressタグへ解決できません: " + ", ".join(unresolved)
+        )
+    if len(tag_ids) != len(set(tag_ids)):
+        raise RuntimeError("複数のタグ名が同じWordPressタグIDへ解決されました")
     return tag_ids
 
 
@@ -1498,6 +1466,20 @@ def handle_response(response: requests.Response, config: dict) -> None:
         sys.exit(1)
 
 
+def verify_post_response_tags(
+    response: requests.Response, expected_tag_ids: Optional[List[int]]
+) -> None:
+    """Fail closed when WordPress does not persist the exact requested tag set."""
+    if response.status_code not in (200, 201) or expected_tag_ids is None:
+        return
+    actual = response.json().get('tags')
+    if not isinstance(actual, list) or sorted(actual) != sorted(expected_tag_ids):
+        logger.error("WordPressの投稿結果でタグIDが一致しません。予約処理へ進まないでください。")
+        logger.error(f"  - 期待: {sorted(expected_tag_ids)}")
+        logger.error(f"  - 実際: {actual}")
+        raise SystemExit(1)
+
+
 # =============================================================================
 # Phase 1-2, 1-9: スクリプト骨格・CLIオプション整備
 # =============================================================================
@@ -1518,7 +1500,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
   python post_to_wp.py articles/sample.md --publish # QA済み記事を即時公開（予約には使わない）
   python post_to_wp.py articles/sample.md -v        # 詳細ログ付きで投稿
   python post_to_wp.py articles/page.html           # HTMLファイルを投稿
-  python post_to_wp.py articles/sample.md --create-terms  # カテゴリ/タグを自動作成
+  python post_to_wp.py articles/sample.md --create-terms  # カテゴリのみ自動作成
   python post_to_wp.py articles/sample.md --update-post-id 123  # 既存投稿を更新
 
 Front Matter対応:
@@ -1567,11 +1549,11 @@ Front Matter対応:
         help='公開として投稿'
     )
     
-    # カテゴリ/タグの自動作成オプション
+    # カテゴリの自動作成オプション（タグは固定ホワイトリストの既存項目のみ）
     parser.add_argument(
         '--create-terms',
         action='store_true',
-        help='存在しないカテゴリ/タグを自動作成'
+        help='存在しないカテゴリを自動作成（タグは作成しない）'
     )
 
     parser.add_argument(
@@ -1716,7 +1698,11 @@ def main():
         elif isinstance(tags, str):
             tags = [tags]
         logger.info(f"タグを解決中: {tags}")
-        tag_ids = resolve_tag_ids(config, tags, args.create_terms) if tags else []
+        try:
+            tag_ids = resolve_tag_ids(config, tags) if tags else []
+        except RuntimeError as exc:
+            logger.error(f"タグ解決に失敗しました。WordPressへの書き込みは行いません: {exc}")
+            raise SystemExit(1) from exc
         logger.info(f"タグID: {tag_ids}")
     
     # その他のメタデータ
@@ -1796,6 +1782,7 @@ def main():
     )
     
     # レスポンス処理
+    verify_post_response_tags(response, tag_ids)
     handle_response(response, config)
 
 
