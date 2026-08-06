@@ -49,6 +49,101 @@ OLD_FOOTER = """<footer>
 
 
 class FixedElementsTests(unittest.TestCase):
+    def test_schedule_tag_mismatch_rolls_back_to_exact_draft(self) -> None:
+        original = {
+            "id": 40,
+            "status": "draft",
+            "date": "2026-08-06T13:00:00",
+            "date_gmt": "2026-08-06T04:00:00",
+            "title": {"raw": "タグ復元テスト"},
+            "content": {"raw": publication_html()},
+            "excerpt": {"raw": "抜粋"},
+            "categories": [7],
+            "tags": [101],
+            "featured_media": 500,
+        }
+        state = copy.deepcopy(original)
+        plan = {
+            "version": 2,
+            "site_url": "https://example.com",
+            "timezone": "Asia/Tokyo",
+            "future_queue_snapshot": [],
+            "items": [
+                {
+                    "id": 40,
+                    "title": "タグ復元テスト",
+                    "content_sha256": format_wp_drafts.content_hash(publication_html()),
+                    "tags": [101],
+                    "tag_names": ["腰痛"],
+                    "status": "future",
+                    "date": "2026-08-08T13:00:00",
+                    "date_gmt": "2026-08-08T04:00:00",
+                    "qa_approved": True,
+                }
+            ],
+        }
+        payloads: list[dict] = []
+
+        def fake_fetch(_config: dict, _post_id: int) -> dict:
+            return copy.deepcopy(state)
+
+        def fake_post(_config: dict, _post_id: int, payload: dict) -> dict:
+            payloads.append(copy.deepcopy(payload))
+            if set(payload) == {"status", "date", "date_gmt", "tags"}:
+                state.update(payload)
+                state["tags"] = [999]
+                return copy.deepcopy(state)
+            state["title"] = {"raw": payload["title"]}
+            state["content"] = {"raw": payload["content"]}
+            state["excerpt"] = {"raw": payload["excerpt"]}
+            for key in (
+                "status",
+                "date",
+                "date_gmt",
+                "categories",
+                "tags",
+                "featured_media",
+            ):
+                state[key] = copy.deepcopy(payload[key])
+            return copy.deepcopy(state)
+
+        with tempfile.TemporaryDirectory() as directory:
+            with (
+                patch.object(format_wp_drafts, "load_plan", return_value=plan),
+                patch.object(
+                    format_wp_drafts,
+                    "wordpress_timezone",
+                    return_value="Asia/Tokyo",
+                ),
+                patch.object(
+                    format_wp_drafts,
+                    "allowed_wp_tag_ids",
+                    return_value={"腰痛": 101},
+                ),
+                patch.object(format_wp_drafts, "fetch_post", side_effect=fake_fetch),
+                patch.object(format_wp_drafts, "fetch_future_posts", return_value=[]),
+                patch.object(format_wp_drafts, "api_post", side_effect=fake_post),
+                patch.object(format_wp_drafts, "require_publication_html"),
+                patch.object(
+                    format_wp_drafts,
+                    "backup_posts",
+                    return_value=Path(directory) / "backup.json",
+                ),
+            ):
+                with self.assertRaises(format_wp_drafts.PipelineError):
+                    format_wp_drafts.command_schedule_plan(
+                        {"WP_URL": "https://example.com"},
+                        Path(directory) / "plan.json",
+                        True,
+                        Path(directory),
+                    )
+
+        self.assertEqual(state, original)
+        self.assertEqual(len(payloads), 2)
+        self.assertEqual(payloads[0]["tags"], [101])
+        self.assertEqual(payloads[1]["status"], "draft")
+        self.assertEqual(payloads[1]["tags"], [101])
+
     def test_schedule_tag_gate_rejects_disallowed_or_changed_ids(self) -> None:
         allowed = {"腰痛": 101, "名古屋市": 102}
         post = {"tags": [102, 101]}

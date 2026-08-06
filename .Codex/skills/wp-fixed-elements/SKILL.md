@@ -65,6 +65,7 @@ Reject publication when `tags:` is missing, empty, duplicated, or contains a val
 - Confirm that every selected tag resolves to an existing WordPress tag and that the draft response contains the exact requested tag IDs. Stop on any mismatch.
 - Schedule only through `format_wp_drafts.py` plan → approve → schedule.
 - Treat the publication plan's `tags` as locked QA state. Recheck the exact non-empty allowed tag set during approval, immediately before scheduling, and after scheduling.
+- If any post-schedule check fails, restore every attempted post to its complete before-schedule draft state, including tags, and verify the rollback. Never leave an unverified `future` post.
 - Export the WordPress edit-context HTML with `format_wp_drafts.py export` and use that file for final QA before approval.
 - For WordPress fixed-element repair, run `fixed-elements` without `--apply`, review the report, apply, then rerun until `PENDING=0` and `errors=[]`.
 - Prefer `--ids`; use `--all` only when every post in the selected status is intentionally in scope.

@@ -221,6 +221,38 @@ def require_allowed_post_tags(
     return actual
 
 
+def schedule_restore_payload(post: dict[str, Any]) -> dict[str, Any]:
+    """Build an exact publication-state restore payload, including locked tags."""
+    return {
+        "title": raw_title(post),
+        "content": raw_content(post),
+        "excerpt": raw_excerpt(post),
+        "status": post.get("status"),
+        "date": post.get("date"),
+        "date_gmt": post.get("date_gmt"),
+        "categories": list(post.get("categories") or []),
+        "tags": post_tag_ids(post, f"post {post.get('id')} backup"),
+        "featured_media": int(post.get("featured_media") or 0),
+    }
+
+
+def post_matches_restore_payload(
+    post: dict[str, Any], payload: dict[str, Any]
+) -> bool:
+    """Return whether a fetched post exactly matches a schedule restore payload."""
+    return (
+        raw_title(post) == payload["title"]
+        and raw_content(post) == payload["content"]
+        and raw_excerpt(post) == payload["excerpt"]
+        and post.get("status") == payload["status"]
+        and post.get("date") == payload["date"]
+        and post.get("date_gmt") == payload["date_gmt"]
+        and list(post.get("categories") or []) == payload["categories"]
+        and sorted(post.get("tags") or []) == payload["tags"]
+        and int(post.get("featured_media") or 0) == payload["featured_media"]
+    )
+
+
 def content_hash(html: str) -> str:
     return hashlib.sha256(html.encode("utf-8")).hexdigest()
 
@@ -1533,25 +1565,47 @@ def command_schedule_plan(
     ordered = [item for item in pending if item["status"] == "future"] + [
         item for item in pending if item["status"] == "publish"
     ]
-    for item in ordered:
-        verify_future_queue_unchanged()
-        payload = {
-            "status": item["status"],
-            "date": item["date"],
-            "date_gmt": item["date_gmt"],
-        }
-        api_post(config, item["id"], payload)
-        verified = fetch_post(config, item["id"])
-        if not schedule_matches(verified, item):
-            raise PipelineError(f"post {item['id']} failed schedule verification")
-        require_allowed_post_tags(
-            verified,
-            allowed_by_name,
-            f"post {item['id']}",
-            expected=item["tags"],
-        )
-        require_publication_html(raw_content(verified), f"post {item['id']}")
-        print(f"SCHEDULED={item['id']} STATUS={item['status']} DATE={item['date']}")
+    attempted: list[int] = []
+    try:
+        for item in ordered:
+            verify_future_queue_unchanged()
+            payload = {
+                "status": item["status"],
+                "date": item["date"],
+                "date_gmt": item["date_gmt"],
+                "tags": item["tags"],
+            }
+            attempted.append(item["id"])
+            api_post(config, item["id"], payload)
+            verified = fetch_post(config, item["id"])
+            if not schedule_matches(verified, item):
+                raise PipelineError(f"post {item['id']} failed schedule verification")
+            require_allowed_post_tags(
+                verified,
+                allowed_by_name,
+                f"post {item['id']}",
+                expected=item["tags"],
+            )
+            require_publication_html(raw_content(verified), f"post {item['id']}")
+            print(f"SCHEDULED={item['id']} STATUS={item['status']} DATE={item['date']}")
+    except Exception as schedule_error:
+        rollback_errors: list[str] = []
+        for post_id in reversed(attempted):
+            try:
+                restore_payload = schedule_restore_payload(current_by_id[post_id])
+                api_post(config, post_id, restore_payload)
+                restored = fetch_post(config, post_id)
+                if not post_matches_restore_payload(restored, restore_payload):
+                    raise PipelineError("restored post does not match before-schedule state")
+                print(f"ROLLED_BACK={post_id}")
+            except Exception as rollback_error:
+                rollback_errors.append(f"post {post_id}: {rollback_error}")
+        if rollback_errors:
+            raise PipelineError(
+                "schedule failed and rollback was incomplete: "
+                + "; ".join(rollback_errors)
+            ) from schedule_error
+        raise
     return 0
 
 

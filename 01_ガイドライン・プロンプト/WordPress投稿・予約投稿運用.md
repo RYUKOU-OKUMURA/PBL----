@@ -105,7 +105,7 @@ python3 format_wp_drafts.py schedule --plan PLAN.json
 python3 format_wp_drafts.py schedule --plan PLAN.json --apply
 ```
 
-`schedule` はQA承認、本文ハッシュ、固定タグID、予約キュー、WordPressタイムゾーン、固定要素を再検証する。いずれかが変わっていたら予約しない。
+`schedule` はQA承認、本文ハッシュ、固定タグID、予約キュー、WordPressタイムゾーン、固定要素を再検証する。適用後の検証に失敗した場合は、試行済み対象をタグ込みのbefore-schedule下書き状態へ全件戻し、復元結果を再取得して確認する。検証不能な`future`投稿は残さない。
 
 ### 7. 予約後の再検証
 
