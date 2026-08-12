@@ -1,0 +1,22 @@
+---
+description: サブエージェント起動時は Composer 2.5 を指定する
+alwaysApply: true
+---
+
+# サブエージェントのモデル指定
+
+Task でサブエージェントを起動するときは、必ず `model` に Composer 2.5（スラッグ `composer-2.5`）を指定する。
+
+- 対象: `pubmed-researcher`、`japanese-blog-style-guard`、`medical-compliance-checker`、`chinese-char-detector` など、すべてのサブエージェント
+- `inherit` や省略は使わない（親エージェントのモデルに依存させない）
+- `resume` 時は既存モデルを維持するため `model` は渡さない
+- ユーザーが別モデルを明示した場合のみ、その指定を優先する
+
+```
+# ✅ GOOD
+Task(subagent_type="japanese-blog-style-guard", model="composer-2.5", ...)
+
+# ❌ BAD
+Task(subagent_type="japanese-blog-style-guard", ...)  # model 省略
+Task(..., model="inherit")
+```

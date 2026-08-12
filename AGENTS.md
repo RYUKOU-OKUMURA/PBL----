@@ -129,6 +129,8 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 | `medical-compliance-checker` | 薬機法・医療広告準拠チェック | 全コンテンツのQA段階（プロアクティブに実行） |
 | `chinese-char-detector` | 中国語文字混入チェック | 全コンテンツのQA段階（プロアクティブに実行） |
 
+Task でサブエージェントを起動するときは、必ず `model` に Composer 2.5（`composer-2.5`）を指定する。`inherit` や省略は使わない。
+
 ## スキル一覧
 
 | スキル | 用途 |
