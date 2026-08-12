@@ -1,0 +1,16 @@
+{
+  "posts": {
+    "1182": {
+      "baseline_content_sha256": "4fecd6fd6fedd68906de49a9ebd7e6060a414367d859bdd47d429b711d522b88",
+      "expected_content_sha256": "4fecd6fd6fedd68906de49a9ebd7e6060a414367d859bdd47d429b711d522b88",
+      "title": "【側弯症解説シリーズ】第7回：脊柱側弯症で変わる歩き方と背中の筋肉の働き〜気づかない身体の変化と簡単改善法〜",
+      "excerpt": "側弯症の歩き方では、肩・骨盤・股関節の動きが変わりやすいことがあります。研究で報告された範囲で個人差があり、痛みやしびれが強い場合は医療機関への受診を先に検討してください。",
+      "status": "publish",
+      "slug": "%e3%80%90%e5%81%b4%e5%bc%af%e7%97%87%e8%a7%a3%e8%aa%ac%e3%82%b7%e3%83%aa%e3%83%bc%e3%82%ba%e3%80%91%e7%ac%ac7%e5%9b%9e%ef%bc%9a%e8%84%8a%e6%9f%b1%e5%81%b4%e5%bc%af%e7%97%87%e3%81%a7%e5%a4%89%e3%82%8f",
+      "date": "2025-04-18T17:43:26"
+    }
+  },
+  "qa_files": {
+    "1182": "/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/HPブログ記事/workspace/1182-excerpt-20260813/qa_preview/1182_qa.md"
+  }
+}
