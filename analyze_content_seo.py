@@ -25,6 +25,14 @@ from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
+_SCRIPTS_DIR = Path(__file__).resolve().parent / "Analytics" / "scripts"
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+try:
+    from period_window import is_exact_calendar_half
+except ImportError:
+    is_exact_calendar_half = None  # type: ignore[assignment]
+
 # オプショナルインポート（未インストール時は該当機能をスキップ）
 try:
     from google.oauth2 import service_account
@@ -292,9 +300,10 @@ def fetch_gsc_search_analytics(
         request = {
             "startDate": start_date,
             "endDate": end_date,
-            "dimensions": dimensions,
             "rowLimit": row_limit,
         }
+        if dimensions:
+            request["dimensions"] = dimensions
         response = service.searchanalytics().query(siteUrl=site_url, body=request).execute()
 
         rows = []
@@ -306,10 +315,10 @@ def fetch_gsc_search_analytics(
                 "ctr": row.get("ctr", 0),
                 "position": row.get("position", 0),
             }
-            if "query" in dimensions:
+            if dimensions and "query" in dimensions:
                 idx = dimensions.index("query")
                 r["query"] = keys[idx] if idx < len(keys) else ""
-            if "page" in dimensions:
+            if dimensions and "page" in dimensions:
                 idx = dimensions.index("page")
                 page_url = keys[idx] if idx < len(keys) else ""
                 r["page"] = page_url
@@ -450,6 +459,67 @@ def merge_and_output(
         logger.info(f"クエリ別 CSV 出力: {query_out}")
 
 
+def write_gsc_aggregates(
+    config: Dict[str, Any],
+    start_date: str,
+    end_date: str,
+    output_dir: Path,
+) -> None:
+    """
+    クエリ×ページ API では落ちるサイト全体・ページ単位の GSC を別ファイルに残す。
+    """
+    site_rows = fetch_gsc_search_analytics(config, start_date, end_date, dimensions=[])
+    site_path = output_dir / "gsc_site.csv"
+    with site_path.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(
+            f,
+            fieldnames=["window_start", "window_end", "clicks", "impressions", "ctr", "position"],
+        )
+        w.writeheader()
+        r = site_rows[0] if site_rows else {}
+        w.writerow(
+            {
+                "window_start": start_date,
+                "window_end": end_date,
+                "clicks": r.get("clicks", 0),
+                "impressions": r.get("impressions", 0),
+                "ctr": r.get("ctr", 0),
+                "position": r.get("position", 0),
+            }
+        )
+    logger.info(f"GSC サイト合計 CSV 出力: {site_path}")
+
+    page_rows = fetch_gsc_search_analytics(
+        config, start_date, end_date, dimensions=["page"]
+    )
+    page_path = output_dir / "gsc_pages.csv"
+    with page_path.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(
+            f,
+            fieldnames=["page", "path_id", "clicks", "impressions", "ctr", "position"],
+        )
+        w.writeheader()
+        for row in page_rows:
+            w.writerow(
+                {
+                    "page": row.get("page", ""),
+                    "path_id": row.get("path_id", ""),
+                    "clicks": row.get("clicks", 0),
+                    "impressions": row.get("impressions", 0),
+                    "ctr": row.get("ctr", 0),
+                    "position": row.get("position", 0),
+                }
+            )
+    logger.info(f"GSC ページ別 CSV 出力: {page_path}")
+
+
+def default_periodic_dir(start: str, end: str) -> Path:
+    """カレンダー半月と一致するときだけ periodic 直下。それ以外は ad-hoc。"""
+    if is_exact_calendar_half and is_exact_calendar_half(start, end):
+        return Path("Analytics") / "periodic" / f"{start}_{end}"
+    return Path("Analytics") / "periodic" / "ad-hoc" / f"{start}_{end}"
+
+
 # =============================================================================
 # CLI
 # =============================================================================
@@ -471,7 +541,7 @@ def main() -> None:
     parser.add_argument(
         "-o", "--output",
         default=None,
-        help="出力ファイルパス（--output-dir 未指定時のみ。未指定なら periodic フォルダへ）",
+        help="出力ファイルパス（--output-dir 未指定時のみ。未指定ならカレンダー半月は periodic、それ以外は ad-hoc）",
     )
     parser.add_argument(
         "--output-dir",
@@ -505,7 +575,7 @@ def main() -> None:
     if args.output_dir:
         output_dir = Path(args.output_dir)
     elif args.output is None:
-        output_dir = Path("Analytics") / "periodic" / f"{args.start}_{args.end}"
+        output_dir = default_periodic_dir(args.start, args.end)
 
     if output_dir is not None:
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -522,6 +592,9 @@ def main() -> None:
     gsc_rows = [] if args.wp_only else fetch_gsc_search_analytics(config, args.start, args.end)
 
     merge_and_output(wp_posts, ga4_rows, gsc_rows, output_path, args.format)
+
+    if output_dir is not None and not args.wp_only and args.format == "csv":
+        write_gsc_aggregates(config, args.start, args.end, output_dir)
 
     if args.html and output_dir is not None:
         script = Path(__file__).resolve().parent / "Analytics" / "scripts" / "generate_report_html.py"

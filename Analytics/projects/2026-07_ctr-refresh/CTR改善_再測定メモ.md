@@ -29,8 +29,8 @@ bash Analytics/scripts/remeasure_ctr_improvements.sh --dry-run
 | 仕掛け | 内容 |
 |--------|------|
 | **launchd** | `bash Analytics/scripts/install-ctr-remeasure-reminder.sh install` |
-| **カレンダー** | `Analytics/reminders/2026-08-14_CTR再測定.ics` をダブルクリックで登録 |
-| **レポート出力** | `Analytics/periodic/2026-08-07_2026-08-13/ctr_remeasure_report.md` |
+| **カレンダー** | `Analytics/projects/2026-07_ctr-refresh/reminders/2026-08-14_CTR再測定.ics` をダブルクリックで登録 |
+| **レポート出力** | `Analytics/projects/2026-07_ctr-refresh/measure_2026-08-07_2026-08-13/ctr_remeasure_report.md` |
 
 ## launchd 管理
 

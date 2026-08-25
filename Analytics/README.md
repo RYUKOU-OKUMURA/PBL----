@@ -5,18 +5,24 @@
 ## クイックスタート
 
 ```bash
-# 直近14日のデータ取得（CSV のみ・推奨）
+# 直近の完了済みカレンダー半月（1–14日 または 15–末日）
 bash Analytics/scripts/run_periodic.sh
 
-# dry-run（実行コマンドの確認のみ）
+# 進行中の半月を同じフォルダへ上書き
+bash Analytics/scripts/run_periodic.sh --current
+
+# dry-run
 bash Analytics/scripts/run_periodic.sh --dry-run
 ```
 
-生成物:
-- `Analytics/periodic/YYYY-MM-DD_YYYY-MM-DD/ga4_wp_gsc_analysis.csv`
-- `Analytics/periodic/YYYY-MM-DD_YYYY-MM-DD/ga4_wp_gsc_analysis_queries.csv`
+生成物（期間フォルダ内）:
+- `ga4_wp_gsc_analysis.csv` … 記事別 PV・セッション・GSC（クエリ×ページ由来。クリックは過少）
+- `ga4_wp_gsc_analysis_queries.csv` … クエリ×ページ
+- `gsc_site.csv` … サイト全体の検索クリック・表示（判断の正）
+- `gsc_pages.csv` … ページ単位の検索（トップ・about を含む）
+- `meta.json` … 窓の役割と実際の取得終了日
 
-数値の確認・解説は Cursor の Canvas で行う。ブラウザ用 HTML が必要なときだけ後述のコマンドで生成する。
+数値の確認は Cursor の Canvas。期間の見分けは [periodic/INDEX.md](periodic/INDEX.md)。
 
 ## フォルダ構成
 
@@ -25,14 +31,20 @@ Analytics/
 ├── README.md
 ├── 整理方針.md
 ├── scripts/
-│   ├── run_periodic.sh        # 2週間定期取得（CSV）
-│   └── generate_report_html.py  # HTML が必要なときのみ
-├── periodic/                  # 定期取得（YYYY-MM-DD_YYYY-MM-DD/）
-└── projects/                  # 特派分析
+│   ├── run_periodic.sh
+│   ├── period_window.py
+│   └── generate_report_html.py
+├── periodic/
+│   ├── INDEX.md              # 正系列 / 月次 / ad-hoc の案内
+│   ├── canonical.txt
+│   ├── YYYY-MM-DD_YYYY-MM-DD/
+│   └── ad-hoc/               # 転がし14日。比較に使わない
+└── projects/                 # 特派
 ```
 
 **正データ:** CSV  
-**ビュー:** Cursor Canvas（通常） / HTML（任意・オンデマンド）
+**比較系列:** `periodic/canonical.txt`  
+**ビュー:** Cursor Canvas（通常） / HTML（任意）
 
 ## セットアップ
 
@@ -52,36 +64,25 @@ pip install -r requirements.txt
 ## 定期運用
 
 ```bash
-# 基本（今日を終了日として直近14日）
 bash Analytics/scripts/run_periodic.sh
-
-# 終了日を指定
-bash Analytics/scripts/run_periodic.sh --end 2026-05-21
-
-# 手動で期間指定
-python analyze_content_seo.py --start 2026-05-08 --end 2026-05-21
+bash Analytics/scripts/run_periodic.sh --current
+bash Analytics/scripts/run_periodic.sh --ad-hoc          # 例外の直近14日
+bash Analytics/scripts/run_periodic.sh --end 2026-08-14  # その日を含む半月
 ```
 
-### periodic フォルダの中身
+月次など半月以外は `--output-dir` で場所を指定する:
 
-| ファイル | 内容 |
-|----------|------|
-| `ga4_wp_gsc_analysis.csv` | 記事別 PV・セッション・GSC |
-| `ga4_wp_gsc_analysis_queries.csv` | クエリ×ページ |
-| `summary.md` | 任意。人間向け要約 |
+```bash
+python analyze_content_seo.py --start 2026-07-13 --end 2026-08-12 \
+  --output-dir Analytics/periodic/2026-07-13_2026-08-12
+```
+
+指定しない場合、半月以外は `periodic/ad-hoc/` に入る。
 
 ## HTML 生成（任意）
 
-定期取得では生成しない。ブラウザで開きたいときだけ:
-
 ```bash
-# 1期間 + 横断 index
-python analyze_content_seo.py --start 2026-05-08 --end 2026-05-21 --html
-
-# 横断 index のみ
 python Analytics/scripts/generate_report_html.py --index
-
-# periodic 一括 + index
 python Analytics/scripts/generate_report_html.py --all-periodic
 ```
 
@@ -96,7 +97,8 @@ python Analytics/scripts/build_tv_impact_excel.py
 
 ## 命名ルール
 
-- **periodic:** `YYYY-MM-DD_YYYY-MM-DD`（開始_終了）
-- **projects:** `YYYY-MM_テーマ`（例: `2026-03_tv-redcode`）
+- **periodic 正系列:** カレンダー半月 `YYYY-MM-01_YYYY-MM-14` / `YYYY-MM-15_YYYY-MM-末日`
+- **ad-hoc:** 上記以外の取得
+- **projects:** `YYYY-MM_テーマ`
 
-詳細は [整理方針.md](整理方針.md) を参照。
+詳細は [整理方針.md](整理方針.md) と [periodic/INDEX.md](periodic/INDEX.md)。
