@@ -512,6 +512,29 @@ def get_tag_id(
                 if tag['name'].lower() == tag_name.lower():
                     logger.debug(f"タグ '{tag_name}' のID: {tag['id']}")
                     return tag['id']
+
+            # search APIで見つからない場合のフォールバック:
+            # 全タグを取得して名前の完全一致で解決する
+            page = 1
+            while True:
+                fallback = requests.get(
+                    endpoint,
+                    params={'per_page': 100, 'page': page},
+                    auth=HTTPBasicAuth(config['WP_USER'], config['WP_APP_PASSWORD']),
+                    timeout=30,
+                )
+                if fallback.status_code != 200:
+                    break
+                entries = fallback.json()
+                if not entries:
+                    break
+                for tag in entries:
+                    if tag['name'].lower() == tag_name.lower():
+                        logger.debug(f"タグ '{tag_name}' のID (フォールバック): {tag['id']}")
+                        return tag['id']
+                if len(entries) < 100:
+                    break
+                page += 1
         
         logger.warning(f"タグ '{tag_name}' が見つかりませんでした")
         return None
