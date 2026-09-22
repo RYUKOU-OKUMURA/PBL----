@@ -33,6 +33,11 @@ Use this skill to reduce publication risk before healthcare-related copy goes li
 - 誘引性の高い疾患名の使い方: disease keywords used as direct acquisition bait
 - 無資格業態での医療用語: seitai or similar services using physician-like language
 
+**Do Not Flag（PBL固有の適用範囲）**:
+- PBLは柔道整復師が施術するが、**整体院として表記している**。あはき法第7条・柔整法第24条の広告可能事項制限（`○○専門` の禁止を含む）は**適用しない**。適用されるのは景品表示法（優良誤認）と医師法。
+- 固定要素の `脊柱側弯症専門のフィジカルバランスラボ整体院` は、実態を伴う事業内容の記載として**指摘対象外**。書き換えを提案しない。
+- 上記の判断根拠は `reference.md` の「4. 整体院・カイロプラクティック」。`○○専門` を問題にできるのは、実態が伴わず優良誤認にあたる場合だけ。
+
 ## Rewrite Rules
 
 - Prefer soft, support-oriented phrasing such as `改善を目指す`, `負担軽減をサポートする`, `ご相談ください`.

@@ -29,11 +29,15 @@ PERIOD_DIR_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})_(\d{4}-\d{2}-\d{2})$")
 PROJECT_README: dict[str, str] = {
     "2026-03_tv-redcode": "README_analysis.md",
     "2026-03_search-barrier": "README_search_barrier.md",
+    "2026-07_title-review": "README.md",
+    "2026-07_ctr-refresh": "README.md",
 }
 
 PROJECT_DESCRIPTIONS: dict[str, str] = {
     "2026-03_tv-redcode": "TV放映に伴うアクセス急増の深掘り",
     "2026-03_search-barrier": "検索が伸びにくかった要因の整理",
+    "2026-07_title-review": "予約投稿タイトル見直しの計画JSON（GA4ではない）",
+    "2026-07_ctr-refresh": "CTR改善（965/612/976）の再測定",
 }
 
 load_dotenv(ROOT / ".env")
@@ -243,10 +247,24 @@ def parse_period_dir(name: str) -> tuple[date, date] | None:
     return _parse_date(m.group(1)), _parse_date(m.group(2))
 
 
+def load_period_name_list(filename: str) -> list[str]:
+    path = PERIODIC / filename
+    if not path.exists():
+        return []
+    names: list[str] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if line:
+            names.append(line)
+    return names
+
+
 def discover_periodic_dirs() -> list[dict[str, Any]]:
     items: list[dict[str, Any]] = []
     if not PERIODIC.exists():
         return items
+    canonical = set(load_period_name_list("canonical.txt"))
+    monthly = set(load_period_name_list("monthly.txt"))
     for path in sorted(PERIODIC.iterdir()):
         if not path.is_dir():
             continue
@@ -258,6 +276,24 @@ def discover_periodic_dirs() -> list[dict[str, Any]]:
         if not main_csv.exists():
             continue
         summary = summarize_main_rows(load_main_csv(main_csv))
+        if path.name in canonical:
+            role = "canonical"
+        elif path.name in monthly:
+            role = "monthly"
+        elif path.name == "2026-07-23_2026-07-29":
+            role = "ctr-baseline"
+        elif path.name == "2026-03-17_2026-04-06":
+            role = "tv"
+        else:
+            role = "other"
+        meta_path = path / "meta.json"
+        if meta_path.exists():
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+                if meta.get("role") == "current":
+                    role = "current"
+            except (OSError, json.JSONDecodeError):
+                pass
         items.append(
             {
                 "dir": path,
@@ -267,9 +303,18 @@ def discover_periodic_dirs() -> list[dict[str, Any]]:
                 "summary": summary,
                 "has_html": (path / "index.html").exists(),
                 "has_summary_md": (path / "summary.md").exists(),
+                "role": role,
             }
         )
     return items
+
+
+def canonical_periods(periods: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    order = load_period_name_list("canonical.txt")
+    if not order:
+        return periods
+    by_name = {p["name"]: p for p in periods}
+    return [by_name[name] for name in order if name in by_name]
 
 
 def enrich_periods(periods: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -625,17 +670,29 @@ def render_index_html(
     projects: list[dict[str, Any]],
     cumulative_top: list[dict[str, Any]],
     trend_notes: list[str],
+    chart_periods: list[dict[str, Any]] | None = None,
 ) -> str:
     generated = datetime.now().strftime("%Y-%m-%d %H:%M")
-    latest = periods[-1] if periods else None
+    chart_src = chart_periods if chart_periods else periods
+    latest = chart_src[-1] if chart_src else (periods[-1] if periods else None)
 
     rows = ""
+    role_label = {
+        "canonical": "正系列",
+        "monthly": "月次",
+        "ctr-baseline": "CTRベース",
+        "tv": "TV特派",
+        "other": "その他",
+        "current": "進行中",
+    }
     for p in periods:
         s = p["summary"]
         link = f"periodic/{p['name']}/index.html"
+        role = role_label.get(p.get("role", "other"), p.get("role", ""))
         rows += f"""
         <tr>
           <td><a href="{html.escape(link)}">{p['start']} 〜 {p['end']}</a></td>
+          <td>{html.escape(role)}</td>
           <td>{fmt_num(s['total_pv'])}</td>
           <td>{fmt_num(s['total_sessions'])}</td>
           <td>{fmt_num(s['gsc_clicks'])}</td>
@@ -645,13 +702,13 @@ def render_index_html(
         </tr>"""
 
     chart_block = ""
-    if len(periods) >= 2:
-        labels = [f"{p['start']}" for p in periods]
-        sessions = [p["summary"]["total_sessions"] for p in periods]
-        pvs = [p["summary"]["total_pv"] for p in periods]
-        gsc_clicks = [p["summary"]["gsc_clicks"] for p in periods]
+    if len(chart_src) >= 2:
+        labels = [f"{p['start']}" for p in chart_src]
+        sessions = [p["summary"]["total_sessions"] for p in chart_src]
+        pvs = [p["summary"]["total_pv"] for p in chart_src]
+        gsc_clicks = [p["summary"]["gsc_clicks"] for p in chart_src]
         chart_block = f"""
-        <h2>periodic 推移（記事行合計）</h2>
+        <h2>正系列の推移（記事行合計）</h2>
         <div class="chart-wrap"><canvas id="trendChart" height="120"></canvas></div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
         <script>
@@ -770,16 +827,16 @@ def render_index_html(
     <table>
       <thead>
         <tr>
-          <th>期間</th><th>PV</th><th>セッション</th><th>GSCクリック</th><th>CTR</th>
+          <th>期間</th><th>役割</th><th>PV</th><th>セッション</th><th>GSCクリック</th><th>CTR</th>
           <th>前期比セッション</th><th>前期比GSC</th>
         </tr>
       </thead>
-      <tbody>{rows or '<tr><td colspan="7">periodic データなし</td></tr>'}</tbody>
+      <tbody>{rows or '<tr><td colspan="8">periodic データなし</td></tr>'}</tbody>
     </table>
     {projects_block}
     <div class="footer">
       <p>CSV が正データ。HTML は <code>generate_report_html.py</code> から再生成できます。</p>
-      <p>定期取得: <code>bash Analytics/scripts/run_periodic.sh</code></p>
+      <p>定期取得: <code>bash Analytics/scripts/run_periodic.sh</code>（カレンダー半月。進行中は <code>--current</code>）</p>
       <p><a href="README.md">README</a> / <a href="整理方針.md">整理方針</a></p>
     </div>
   </div>
@@ -949,13 +1006,26 @@ def generate_period_report(report_dir: Path, start: date, end: date) -> Path:
 
 
 def generate_index() -> Path:
-    periods = enrich_periods(discover_periodic_dirs())
-    cumulative_top = compute_cumulative_top_posts(periods)
-    trend_notes = generate_trend_notes(periods, cumulative_top)
+    periods = discover_periodic_dirs()
+    chart_periods = enrich_periods(canonical_periods(periods))
+    by_name = {p["name"]: p for p in chart_periods}
+    for p in periods:
+        src = by_name.get(p["name"])
+        p["prev_session_change"] = src.get("prev_session_change") if src else None
+        p["prev_gsc_change"] = src.get("prev_gsc_change") if src else None
+    source_for_top = chart_periods or periods
+    cumulative_top = compute_cumulative_top_posts(source_for_top)
+    trend_notes = generate_trend_notes(chart_periods, cumulative_top)
     projects = discover_project_dirs()
     out = ANALYTICS / "index.html"
     out.write_text(
-        render_index_html(periods, projects, cumulative_top, trend_notes),
+        render_index_html(
+            periods,
+            projects,
+            cumulative_top,
+            trend_notes,
+            chart_periods=chart_periods,
+        ),
         encoding="utf-8",
     )
     return out

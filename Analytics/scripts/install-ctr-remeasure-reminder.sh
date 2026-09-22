@@ -22,15 +22,15 @@ render_plist() {
   sed \
     -e "s|__ROOT__|${ROOT}|g" \
     -e "s|__SCRIPT__|${ROOT}/Analytics/scripts/remeasure_ctr_improvements.sh|g" \
-    -e "s|__LOG__|${ROOT}/Analytics/logs/ctr-remeasure.log|g" \
-    -e "s|__ERR__|${ROOT}/Analytics/logs/ctr-remeasure.err|g" \
+    -e "s|__LOG__|${ROOT}/Analytics/projects/2026-07_ctr-refresh/logs/ctr-remeasure.log|g" \
+    -e "s|__ERR__|${ROOT}/Analytics/projects/2026-07_ctr-refresh/logs/ctr-remeasure.err|g" \
     "${PLIST_SRC}"
 }
 
 cmd="${1:-}"
 case "$cmd" in
   install)
-    mkdir -p "${ROOT}/Analytics/logs"
+    mkdir -p "${ROOT}/Analytics/projects/2026-07_ctr-refresh/logs"
     chmod +x "${ROOT}/Analytics/scripts/remeasure_ctr_improvements.sh"
     render_plist > "${PLIST_DST}"
     launchctl bootout "gui/$(id -u)/${LABEL}" 2>/dev/null || true

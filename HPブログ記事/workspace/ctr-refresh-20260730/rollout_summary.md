@@ -23,7 +23,7 @@
 - 集計期間: **2026-08-07 〜 2026-08-13**（7日）
 - 実行: `bash Analytics/scripts/remeasure_ctr_improvements.sh --notify`
 - 仕掛け: launchd（`install-ctr-remeasure-reminder.sh install`）+ カレンダー `.ics`
-- メモ: `Analytics/periodic/CTR改善_再測定メモ.md`
+- メモ: `Analytics/projects/2026-07_ctr-refresh/CTR改善_再測定メモ.md`
 
 ## ロールバック
 `backup_*.json` + `python3 wp_ctr_refresh.py` の rollback 相当は backup JSON から手動復元

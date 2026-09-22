@@ -73,7 +73,7 @@ else
   START="$(date -d "$END -$((WINDOW_DAYS - 1)) days" +%Y-%m-%d)"
 fi
 
-OUT_DIR="Analytics/periodic/${START}_${END}"
+OUT_DIR="Analytics/projects/2026-07_ctr-refresh/measure_${START}_${END}"
 BASELINE_CSV="Analytics/periodic/2026-07-23_2026-07-29/ga4_wp_gsc_analysis.csv"
 REPORT="${OUT_DIR}/ctr_remeasure_report.md"
 PYTHON="${PYTHON:-python3}"
@@ -84,18 +84,18 @@ echo "出力先:   ${OUT_DIR}"
 echo "ベース:   ${BASELINE_CSV}"
 
 if [[ "$DRY_RUN" -eq 1 ]]; then
-  echo "dry-run: ${PYTHON} analyze_content_seo.py --start ${START} --end ${END}"
+  echo "dry-run: ${PYTHON} analyze_content_seo.py --start ${START} --end ${END} --output-dir ${OUT_DIR}"
   echo "dry-run: ${PYTHON} Analytics/scripts/compare_ctr_baseline.py --measure-csv ${OUT_DIR}/ga4_wp_gsc_analysis.csv ..."
   exit 0
 fi
 
-mkdir -p Analytics/logs
+mkdir -p Analytics/projects/2026-07_ctr-refresh/logs
 
 if [[ "$SKIP_FETCH" -eq 0 ]]; then
   if [[ -f "${OUT_DIR}/ga4_wp_gsc_analysis.csv" ]]; then
     echo "既存CSVを更新します: ${OUT_DIR}/ga4_wp_gsc_analysis.csv"
   fi
-  "${PYTHON}" analyze_content_seo.py --start "${START}" --end "${END}"
+  "${PYTHON}" analyze_content_seo.py --start "${START}" --end "${END}" --output-dir "${OUT_DIR}"
 fi
 
 MEASURE_CSV="${OUT_DIR}/ga4_wp_gsc_analysis.csv"
