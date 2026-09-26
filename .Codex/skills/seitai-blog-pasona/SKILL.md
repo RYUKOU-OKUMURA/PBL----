@@ -1,104 +1,224 @@
 ---
 name: seitai-blog-pasona
-description: Write HP blog articles for this repository's seitai or clinic website using the established PASONA-based structure and voice. Use when Codex is asked to draft, rewrite, or expand a 健康ブログ記事, 整体院HP記事, 症状解説記事, セルフケア記事, or repository blog draft that should use first-person `僕`, `です・ます調`, patient-friendly explanations, and an approximately 3000-character flow.
+description: フィジカルバランスラボ整体院のHPブログ記事（約3000字・PASONA構成・一人称「僕」・です・ます調）を、検索クエリ選定から設計メモ、執筆、セルフ点検、保存まで一貫した品質で行う。HPブログ記事、症状解説記事、セルフケア記事の新規執筆・リライト・加筆を頼まれたときに使う。LINEコラムやSNS投稿には使わない。
 ---
 
-# Seitai Blog PASONA
+# HPブログ記事執筆（PASONA）
 
-Use this skill for full website blog articles, not short social or LINE posts. Preserve warmth, specificity, and readable explanations for non-experts.
+このスキルの目的は、誰がいつ書いても「検索意図に合い、根拠が正確で、医療広告上安全で、最後まで読める」記事を同じ品質で出すこと。手順は順番どおりに進め、各ステップの成果物を残してから次へ進む。
 
-## Repository Context
+## 参照ファイル
 
-- Read [ブログ記事執筆マスターガイド.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/ブログ記事執筆マスターガイド.md) before drafting.
-- Read [SEO技術ガイド.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/SEO技術ガイド.md) when metadata, structured data, or search framing matters.
-- Review nearby articles in the same series or folder so the new draft does not repeat the last post.
+- `01_ガイドライン・プロンプト/ブログ記事執筆マスターガイド.md`: 全ルールの正本。本スキルと食い違う場合はマスターガイドを優先し、食い違いをユーザーに報告する。
+- `01_ガイドライン・プロンプト/SEO技術ガイド.md`: メタ情報・構造化データを扱うとき。
+- 同じシリーズ・フォルダの直近記事2〜3本: 構成・言い回し・エピソードの重複を避けるため。
 
-## Query-First Topic Selection (do this before writing)
+## 手順
 
-Check the latest period's `Analytics/periodic/*/ga4_wp_gsc_analysis_queries.csv` and `HPブログ記事/ネタ帳_検索クエリ由来.md`, then:
+### 1. 主クエリを1つ決める
 
-1. Pick exactly ONE main query for the article, using wording that exists in real query data (or a natural variant). GSC data (2026-07) shows searchers type direct body-part+symptom phrases (`背中 片側 盛り上がる`, `側弯症 股関節の痛み`) and anxiety/decision words (`手術後 痛み いつまで`, `後遺症`, `できないこと`, `装具 種類`). Category labels like `大人の側弯症` and daily-scene words like `坂道`/`洗濯` have ZERO observed queries.
-2. Confirm no existing article already targets the same main query. If one does, improve that article instead of writing a new one — stacking articles on one query splits ranking.
+`Analytics/periodic/` の最新期 `ga4_wp_gsc_analysis_queries.csv` と `HPブログ記事/ネタ帳_検索クエリ由来.md` を見て、記事が拾う検索語を1つに絞る。実データにある語形か、その自然な変形を使う。
 
-## Workflow
+同じ主クエリを狙う既存記事（`HPブログ記事/` と WordPress 公開記事）がある場合は新規執筆をやめ、既存記事の加筆・改題を提案する。1クエリに複数記事を積むと順位を分け合い、どれも上がらないため。
 
-1. Clarify the article angle, target reader, and repository destination folder.
-2. Gather supporting evidence if the claim needs research support. Use `$pubmed-research` when the article depends on literature.
-3. Draft in PASONA order: reader problem, why it happens, solution direction, three at-home actions, and the next step.
-4. Keep most of the article in natural paragraphs. Use numbered items only for `今日からできること`.
-5. In the solution section, include a short "see a doctor first" paragraph covering red-flag symptoms (see Safety Red-Flags below).
-6. Add the required disclaimer at the end, and a `参考文献` list with working PubMed links for every study you cite.
-7. If the article is publication-bound, insert WordPress fixed elements before final QA, then run `$medical-ad-compliance` on the full article including TL;DR, author block, CTA, footer, and JSON-LD.
+実測で分かっている検索行動（2026年7月GSC）:
+- 表示・クリックを取るのは「部位＋症状の直接語」（`背中 片側 盛り上がる` `側弯症 股関節の痛み`）と「不安・決断の語」（`手術後 痛み いつまで` `後遺症` `できないこと` `装具 種類`）。
+- `大人の側弯症` のようなカテゴリ語、`坂道` `洗濯` `車の乗り降り` のような生活場面語を含むクエリは観測ゼロ。
+- タイトルが検索語そのものの記事だけが表示とクリックを獲得している。
 
-## Publication Quality Gate (automation and manual publishing)
+### 2. 根拠を集める
 
-Article quality is the primary condition. Formatting and scheduling never compensate for a weak article. Stop at draft status unless every gate below passes.
+記事の中心となる主張に研究の裏づけが要る場合は、`pubmed-research` スキルまたは `pubmed-researcher` サブエージェントで先に調べる。PMIDを実際に開いて存在と内容を確認できた研究だけを候補にする。
 
-1. **Search intent**: record exactly one `main_query`, its GSC source query or clearly labeled natural variant, and the existing owner URL/ID. If another article already owns the same intent, improve or link to that article instead of creating a competing title.
-2. **Title**: lead with the reader's symptom, question, or observed query wording. Keep category labels and incidental daily scenes out of the lead. The WordPress title, front matter title, and JSON-LD `headline` must be identical.
-3. **Editorial quality**: the article must have a coherent PASONA flow, a concrete reader problem, plain-language explanations, useful clinical reasoning, and exactly three realistic actions. Do not pad to reach the target length; remove repetition and document-only sentences.
-4. **Evidence quality**: verify every study and PMID. Match body citations, the reference list, and JSON-LD `citation`. State study design and limitation next to each material claim. If the central claim lacks adequate evidence, do not post.
-5. **Safety and compliance**: include relevant red flags and stop conditions. The full article must receive `$medical-ad-compliance` verdict `公開可`; any `要修正`, `法務確認`, or `公開不可` stops publication.
-6. **Mobile presentation**: use short paragraphs and sentence-level visual breaks; follow published article 1773 for emphasis. Use red text sparingly for two core concepts and red+bold for the reader's representative worry and the final takeaway. Never decorate references, disclaimers, author information, CTA, footer, or JSON-LD.
-7. **Fixed elements**: TL;DR, author information, TOC, references, disclaimer, LINE CTA, footer, and JSON-LD must each be present once and remain internally consistent.
-8. **Final QA**: after WordPress formatting, re-check the complete raw post for Japanese style, medical compliance, Chinese/variant character contamination, title/headline equality, JSON-LD validity, and schedule date. Any required correction resets the gate and all final checks must run again.
-9. **Scheduling**: only a fully approved post may move from `draft` to `future`. Append it to the current queue at 13:00 JST, two days after the latest scheduled post. Preserve all existing scheduled dates.
+### 3. 設計メモを作る（執筆前に必ず）
 
-## Voice Rules
+草稿に入る前に、次の項目を埋めた設計メモをユーザーへの返答（または作業ログ）に書く。ここで判断を固定しておくと、本文の品質が書き手や実行回によってぶれにくくなる。
 
-- Use first-person `僕`.
-- Use `です・ます調`.
-- Speak with professional warmth, not textbook distance.
-- Explain technical terms immediately in plain Japanese or with a short analogy.
-- Use patient-friendly search language in `title`, `H1`, `TL;DR`, `excerpt`, and major `H2` headings. Keep formal technical terms only where they improve precision or match real search intent.
-- When a technical term matters for SEO or accuracy, introduce it once in the first half of the article as `平易語（専門語）` or `専門語、つまり平易語`, then use the plain term for most later mentions.
-- Avoid raw clinician-facing terms in body copy, such as `介入`, `個別化`, `エビデンス強度`, and `生活機能スコア`. Rewrite them as patient-friendly phrases like `調整`, `その人に合わせること`, `研究の確かさ`, and `日常生活のつらさ`.
-- In body text, introduce studies as `2025年の研究では` or `複数の研究をまとめたレビューでは`. Never write researcher surnames like `Uchidaさんたちの研究` or `Smithらの` in body copy — keep names in the reference list only.
-- After citing a study's finding, state its limitation in the same passage: e.g. `横断研究が中心で因果関係は断定できません`, `研究の確かさは高くありません`, `人数は限られています`. A finding without a hedge is incomplete.
-- Include at least one short anonymous patient consultation example when writing a full article from scratch.
-- Keep anonymous episodes to common worries or de-identified intake concerns. Do not describe treatment results, post-treatment changes, before/after comparisons, or testimonial-style efficacy claims.
-- Avoid exaggerated guarantees, aggressive sales language, and dense blocks of unexplained jargon.
+```md
+- main_query: （GSC由来の語 / 自然な変形の場合はその旨）
+- 既存の競合記事: なし / あり（URL・ID と対応方針）
+- タイトル案: （主クエリの語で始まる）
+- 読者像と困っている場面: （誰が、いつ、どう困るか）
+- 切り分けの軸: （「どの瞬間で痛いか」などで症状を分ける軸）
+- 使う研究: PMID / 研究の種類 / 使う数字 / 限界（本文に書く限界の一文）
+- TL;DRに入れる数字: （上の研究から1つ）
+- 危険サイン: （この症状に合うものを選ぶ）
+- 今日からできること3つ: （回数・時間を書く場合は根拠のPMIDかガイドライン名）
+- 匿名の相談例: （よくある悩みの要約。改善結果は含めない）
+```
 
-## Evidence & Citations (critical for automated drafting)
+中心の主張を支える研究が見つからない場合は、執筆を止めてユーザーに報告する。根拠の弱い記事を公開しても、信頼と順位の両方を失うため。
 
-The strongest recent articles all share the same evidence discipline; weak older ones do not. Follow this exactly.
+### 4. 草稿を書く
 
-- Cite only studies you can verify. Every study mentioned in the body MUST appear in the `参考文献` list with a real, working PubMed URL (`https://pubmed.ncbi.nlm.nih.gov/<PMID>/`), and the same PMIDs go into the JSON-LD `citation` array.
-- Never fabricate a PMID, journal name, year, sample size, or finding. If you cannot confirm a study exists, do not cite it — write the point as general physiology instead, or run `$pubmed-research` first.
-- Do not overstate. The body claim must not exceed what the study supports. Prefer `〜の可能性が示されました` / `関連が報告されました` over `〜が証明された` / `必ず〜する`.
-- Put the study type and its limitation next to the claim (systematic review / meta-analysis / RCT / cross-sectional / cohort), e.g. `2019年の8研究レビューでは…ただし横断研究が中心で因果関係は断定できません`.
+下の「記事構成」「文体と用語」「エビデンスの書き方」「文章のリズム」に従って書く。保存先の指定がなければ `HPブログ記事/投稿前/<タイトル>.md`。ファイル名に `"` `'` `` ` `` `\` `$` `!` を使わない。
 
-## Safety Red-Flags (required paragraph)
+### 5. セルフ点検
 
-Inside the solution section, add one short paragraph that tells the reader when to see a doctor instead of relying on self-care. Cover the relevant subset of: 安静時・夜間も強い痛み、しびれや力の入りにくさが広がる、発熱や体重減少、転倒・外傷後の痛み、症状が悪化していく。Frame it calmly as `セルフケアより先に医療機関での確認を優先してください`, not as fear-mongering. Make it specific to the article's symptom.
+「リズム点検」を1回行い、その後「最終チェックリスト」をすべて確認する。満たせない項目があれば直してから次へ進む。
 
-## Structural Rules
+### 6. 公開する記事の場合
 
-- Target roughly 3000 Japanese characters of body text unless the user explicitly wants a different length.
-- Title pattern: lead with the main query's exact wording — `〈主クエリの語〉のはなぜ？〈体のしくみ〉をやさしく解説`. Keep daily-scene words (坂道, 立ち上がり, 洗濯…) OUT of the title (use them in H2s and body); never lead the title with category labels like `大人の側弯症`.
-- TL;DR (80–120 chars, one sentence) should carry one concrete study figure, e.g. `2020年の21研究メタ解析では…`.
-- In the solution section, open by splitting the symptom by moment/situation (例: 座っている間か、離殿の瞬間か、立ち切った後か) so the reader can locate where load concentrates. This "which moment hurts" framing is a signature of the best articles.
-- The anonymous episode must be framed as a typical intake worry — add a clause like `これは施術後の変化ではなく、来院時によくある悩みとして紹介しています` so it never reads as a before/after testimonial.
-- Use `##` and `###` headings.
-- Keep paragraph flow natural. Do not turn the whole article into bullets.
-- Describe the solution flow as information gathering and safe role-sharing, for example `症状と困る場面を整理する → 必要に応じて医療機関へ相談する → 安全な対応を検討する`. Do not use `調整→変化を確かめる`, which can imply that the clinic improves bodily function and verifies a treatment effect.
-- Make `今日からできること` a numbered list with exactly three actions.
-- Include `痛みが出たら中止` in the self-care section. Give a precise dose only when a cited study or authoritative guideline supports that exact instruction; otherwise use a situational or safety boundary instead of inventing seconds, repetitions, or sets.
-- End with this disclaimer or a meaning-preserving equivalent:
+`wp-fixed-elements` スキルで固定要素（TL;DR、執筆者情報、目次、参考文献、免責、LINE CTA、フッター、JSON-LD、tags）を挿入したあと、記事全体に対して3種QA（`japanese-blog-style-guard`、`medical-compliance-checker`、`chinese-char-detector`）を実行する。投稿・予約は `01_ガイドライン・プロンプト/WordPress投稿・予約投稿運用.md` に従う。
+
+## 公開ゲート
+
+次のどれか1つでも満たせない記事は下書きで止める。整形や予約で記事の弱さは補えない。
+
+1. **検索意図**: main_query が1つあり、同じ意図の既存記事と競合していない。
+2. **タイトル**: 主クエリの語で始まる。WordPressタイトル、front matter の `title`、JSON-LD の `headline` が完全一致している。
+3. **編集品質**: PASONAの流れが通っていて、具体的な読者の困りごと、平易な説明、現場の考え方、現実的な行動がちょうど3つある。文字数を満たすための水増しや、記事の進行を説明するだけの文がない。
+4. **エビデンス**: 本文の研究、参考文献、JSON-LD `citation` のPMIDが一致し、すべて実在する。主張の横に研究の種類と限界がある。
+5. **安全**: 症状に合った危険サインと中止条件がある。`medical-compliance-checker` の判定が `公開可`。`要修正` `法務確認` `公開不可` のどれかなら止める。
+6. **モバイル表示**: 短い段落で、装飾は公開済み記事ID 1773 の型に合わせる。赤字は核となる概念2つだけ、赤太字は読者の代表的な悩みと最後の結論だけに使う。参考文献・免責・執筆者情報・CTA・フッター・JSON-LDは装飾しない。
+7. **固定要素**: 各固定要素がちょうど1回ずつあり、内容が互いに矛盾しない。
+8. **最終QA**: WordPress整形後の完成HTMLで3種QAを再実行し、1か所でも修正したらQAをすべてやり直す。
+9. **予約**: 全ゲートを通った下書きだけを、最後の予約記事の2日後13:00 JSTに追加する。既存の予約日は動かさない。
+
+## 記事構成（PASONA）
+
+見出しは `##` と `###`。H2は原則5つで、下の順番に対応させる。箇条書きは「今日からできること」だけに使う。
+
+| 順 | 役割 | 必ず入れる | 入れない |
+|---|---|---|---|
+| 1 はじめに | Problem | 匿名の相談例1つ、「〜ですよね」の共感、この記事で分かることの短い予告 | 箇条書き、改善結果 |
+| 2 なぜ起こるのか | Agitation | 専門用語と直後の平易な説明、比喩1つ以上、放置した場合のリスク（淡々と） | 箇条書き、恐怖をあおる表現 |
+| 3 解決の方向性 | Solution | 「どの瞬間で痛いか」による切り分け、受診を優先すべき危険サインの段落、医療機関へ相談すべき状態と生活上の工夫の区別、記事だけでは原因を特定できないことの明記、段階的に進めること | 箇条書き、`調整→変化を確かめる` |
+| 4 今日からできること | Narrow down | 番号付きで3項目、「痛みが出たら中止」、安全で再現しやすい内容 | 根拠のない回数・秒数・セット数 |
+| 5 まとめと次の一歩 | Action | 要点のやさしい再掲、「できることから少しずつ」などの励まし、相談・予約への自然な導線 | 箇条書き、売り込み口調 |
+
+補足:
+- **解決の方向性の流れ**は `症状と困る場面を整理する → 必要に応じて医療機関へ相談する → 安全な対応を検討する` と書く。`調整→変化を確かめる` は、整体で機能が改善し効果を確認するという意味に読めるため使わない。
+- **危険サインの段落**は、記事の症状に合わせて次から選ぶ: 安静時・夜間も強い痛み、しびれや力の入りにくさが広がる、発熱や体重減少、転倒・外傷後の痛み、症状が悪化していく。脅かさず `セルフケアより先に医療機関での確認を優先してください` と伝える。
+- **今日からできること**で回数・時間を書くのは、引用した研究か公的ガイドラインに同じ指示がある場合だけ。「約」「目安」を付けても、根拠のない数値は書かない。根拠がなければ、状況や安全の条件で示す。
+
+今日からできることの例:
+
+```md
+1. 作業前に困る場面を一度確認する（痛みのない短時間）
+   症状が出る姿勢や時間帯を記録し、原因を自己判断しないでください。
+
+2. 同じ姿勢を無理に続けない（状況に応じて）
+   楽な範囲で姿勢を変え、痛みやしびれが出たら中止します。
+
+3. 受診時に伝える内容をまとめる
+   症状の経過、悪化する場面、しびれや力の入りにくさの有無を記録します。
+```
+
+## 匿名の相談例
+
+各記事に1つ以上入れる。使ってよいのは「よくある相談例」か「個人が特定されないよう加工した来院時の悩み」まで。改善結果、施術後の変化、ビフォーアフター、効果を示す体験談は、医療広告上の体験談規制に触れるため書かない。ビフォーアフターと誤読されないよう、`これは施術後の変化ではなく、来院時によくある悩みとして紹介しています` の一文を添える。
+
+```md
+「運動したいけれど、動くと痛い」「整体は受けたいけれど、強い刺激は不安」。
+こんな相談を、僕は日々の現場でよく受けます。先日も、長引く腰の違和感で
+運動を避けてきた50代の方が、「怖くて動けないまま時間だけ過ぎた」と
+お話ししてくれました。これは施術後の変化ではなく、来院時によくある悩みとして紹介しています。
+```
+
+## タイトルとTL;DR
+
+- タイトルは主クエリの語で始める。型の例: `〈主クエリの語〉のはなぜ？〈体のしくみ〉をやさしく解説`。
+- 生活場面語（坂道・立ち上がり・洗濯など）はタイトルに入れず、H2と本文で使う。検索実績がないため。
+- `大人の側弯症` `成人側弯症` などのカテゴリ語をタイトルの先頭に置かない。使うなら後半の補足に回す。
+- TL;DRは80〜120字の1文で、研究の具体的な数字を1つ入れる（例: `2020年の21研究メタ解析では…`）。
+
+## 文体と用語
+
+- 一人称は「僕」、です・ます調。「〜なんです」「〜ですよね」と語りかけ、専門性・やさしさ・励ましを両立する。
+- タイトル、H1、TL;DR、メタディスクリプション、主要H2では、患者さんが検索しそうな平易な語を主役にする。
+- SEOや正確性のために必要な専門語は、本文前半で1〜2回だけ `平易語（専門語）` または `専門語、つまり平易語` の形で橋渡しし、2回目以降は平易語を使う。
+- 専門用語を使ったら、直後に平易な説明か比喩を添える。
+- 段落は2〜4文で改行し、本文の70%以上をふつうの段落にする。太字は重要語に最小限。本文の目安は約3000字（2500〜3800字）。
+
+| 専門用語・固い表現 | 患者向けの言い方 |
+|---|---|
+| 神経筋制御 | 筋肉と神経のチームワーク |
+| ウィークリンク | 動作の鎖の中の弱い環 |
+| 免荷 | 体重の一部を預けて負担を軽くする工夫 |
+| トリガーポイント | 筋肉の中の小さな結び目 |
+| 筋膜癒着 | 洗濯物が絡まったようにくっつく状態 |
+| 代償動作 | かばう動き |
+| 可動域 | 関節が動く範囲 |
+| アライメント | 背骨の並び方（アライメント） |
+| 成人側弯症 | 大人の側弯症（医学的には成人側弯症） |
+| 介入では | 対応としては |
+| 個別化が重要 | その人に合わせて考えることが大切 |
+| エビデンス強度にばらつきがある | 研究の確かさには差がある |
+| 生活機能スコア | 日常生活のつらさ |
+
+## エビデンスの書き方
+
+最近の質の高い記事と弱い旧記事の差が最も大きいのがここ。
+
+- 本文で触れた研究は、すべて末尾の `参考文献` に実在するPubMedリンク（`https://pubmed.ncbi.nlm.nih.gov/<PMID>/`）付きで載せ、同じPMIDをJSON-LDの `citation` に入れる。
+- PMID、雑誌名、発表年、人数、結果を作らない。実在を確認できない研究は引用せず、一般的な体のしくみとして書く。
+- 本文では `2025年の研究では` `複数の研究をまとめたレビューでは` と紹介し、研究者名（`Smithらの` など）は参考文献だけに書く。
+- 研究の種類（システマティックレビュー、メタ解析、RCT、横断研究、コホート研究）を結果のすぐ横に書き、同じ段落で限界を添える（例: `横断研究が中心で因果関係は断定できません`、`人数は限られています`）。限界のない結果紹介は未完成。
+- 主張は研究が支持する範囲を超えない。`証明された` `必ず〜する` ではなく `〜の可能性が示されました` `関連が報告されました` と書く。
+
+## 文章のリズム
+
+構成もコンプライアンスも守れているのに読まれない記事は、文の長さ、段落の密度、段落の入り方が全部そろってしまっている。
+
+**状況を書き、記事の進行は語らない。** 判定軸は「その文が伝えているのは体や研究の話か、この記事の話か」。`ここまでは原因の話でした` `次は対策を見ていきます` `本記事では〜を扱います` のような文は削る。次の見出しの1文目が具体的なら、読者はそのまま読み進める。研究の限界も、記事の使い方ではなく研究の事実として書く。
+
+| 避ける（記事の話） | 使う（研究の話） |
+|---|---|
+| 記事内では〜という範囲で参考にします | 坂道を調べた研究ではないので、そこまでは言えません |
+| ここでは詳しく触れません | 人数が限られていて、確かさは高くありません |
+| この研究は参考程度に留めます | レビュー論文なので、原因を特定するものではありません |
+
+- **文の拍**: 短い文で足場を作り、長い文で説明し、短い文で止める。長い説明文を3つ以上続けず、間に短い一文か患者さんの言葉を挟む。
+- **段落の密度**: 説明の詰まった段落が2〜3個続いたら短い段落を1つ挟む。具体（場面・数字・患者さんの言葉）の段落と、意味づけの段落を交互に置く。
+- **見出し直後の1文目**: 見出しを言い直さない。患者さんが実際に抱く反問（`では、坂を避ければいいのでしょうか`）や、その場面の具体的な描写から入る。
+- **研究段落**: `2019年の研究では` `2020年のレビューでは` と同じ書き出しを3段落続けない。読者の疑問が動く順に並べ、各研究を直前の具体的な場面に着地させる（例: `上り坂で腰が反る、あの感じの正体がこれです`）。
+- **読み進める理由**: 読者の素朴な疑問（`平地は平気なのに、なぜ坂だけつらいのか`）や僕の思考過程（`僕がまず分けて見るのは〜`）で引っ張る。体について誤った理解を一度持たせてから覆す書き方、不安をあおる書き方、問いを立てたまま答えない終わり方はしない。
+
+## 安全表現
+
+- 使わない: `完治` `100%` `即効性` `必ず治る`、断定的な効果保証、他者・他院の誹謗。
+- セルフケアには「痛みが出たら中止」を必ず書き、禁忌があれば注意を添える。
+- 記事末尾に次の免責を入れる（固定要素の免責と同じ文面）。
 
 ```md
 本記事は一般情報であり、個別の診断・治療を提供するものではありません。
 痛みや違和感が出たら中止してください。症状が続く、強くなる、または日常生活に支障がある場合は、期間にかかわらず医療機関にご相談ください。
 ```
 
-## Writing Rhythm (anti-monotony)
+## リズム点検（草稿完成後に1回）
 
-- One sentence-level test decides deletions: does the sentence update the situation (body, research, patient, the writer's clinical reasoning) or only the document (「ここからは〜を見ていきます」「この記事では〜をお伝えしました」)? Document-only sentences get deleted; the next section's first sentence should simply start concrete.
-- State research limitations as facts about the research (`坂道を調べた研究ではないので、そこまでは言えません`), never as document-usage notes (`記事内では〜という範囲で参考にします`).
-- Do not open 3+ consecutive paragraphs with the same `〇〇年の研究では` pattern — reorder by the reader's question, vary openings (scene / question / what is still unknown), and land each study on the concrete moment described just before it.
-- Avoid runs of 3+ long declarative sentences; insert a short anchor sentence or a patient's quoted phrase.
-- Keep tension from the reader's own naive question (`平地は平気なのに、なぜ坂だけつらいのか`) or the writer's clinical reasoning (`僕がまず分けて見るのは〜`). Never from asserting something false to overturn it later, and never from fear.
+1. 各段落の最初の文だけを拾って読む。「この記事の話」をしている文は削る。削ると論理が飛ぶなら、体や研究の話として書き直す。
+2. `〇〇年の` で始まる段落が続いていたら、場面・疑問・まだ分かっていないことから入る形に変える。
+3. 長い断定文が3つ以上続く箇所に、短い足場か患者さんの言葉を挟む。
 
-## Save Path
+## 最終チェックリスト
 
-If the user asks you to save the draft and does not specify a destination, default to `HPブログ記事/投稿前/`.
+検索・タイトル
+- [ ] 主クエリが1つで、実データ（または自然な変形）に基づき、既存記事と競合していない
+- [ ] タイトル先頭が主クエリの語で、生活場面語やカテゴリ語が主軸になっていない
+- [ ] TL;DRが80〜120字の1文で、研究の具体的な数字が1つある
+
+構成
+- [ ] PASONAの5つのH2がそろっている
+- [ ] 解決の方向性に、切り分けの軸と危険サインの段落がある
+- [ ] 今日からできることが番号付きでちょうど3項目あり、「痛みが出たら中止」がある
+- [ ] 根拠のない回数・時間・セット数がない
+
+文体
+- [ ] 一人称が「僕」で統一され、です・ます調に揺れがない
+- [ ] 専門用語の直後に平易な説明があり、専門語の橋渡しは本文前半の1〜2回だけ
+- [ ] `介入` `個別化` などの業界語を患者向けの言い方に直している
+- [ ] 記事の進行を説明するだけの文がない
+- [ ] 研究段落の書き出しが3つ以上同じ形で続いていない
+- [ ] 長い説明文が3つ以上続く箇所がない
+
+エビデンス
+- [ ] 本文の研究がすべて参考文献に実在PubMedリンク付きで載り、JSON-LD `citation` と一致している
+- [ ] 本文に研究者名がなく、どの研究にも種類と限界が添えてある
+
+安全
+- [ ] 匿名の相談例が1つ以上あり、「施術後の変化ではない」と明示している
+- [ ] 誇大表現、効果保証、他院の誹謗がない
+- [ ] 免責がある
+- [ ] 本文が約3000字（2500〜3800字）

@@ -1,70 +1,82 @@
 ---
 name: medical-ad-compliance
-description: Review healthcare marketing copy for compliance with Japanese medical advertising rules, including 医療広告ガイドライン, あはき法, 柔整法, and nearby risk areas such as 誇大表現, 比較優良表現, 体験談, and ビフォーアフター表現. Use when Codex is asked to do an 広告チェック, コンプライアンス確認, 薬機法チェック, 公開前レビュー, or rewrite blog posts, LINE columns, website copy, LPs, and profile text for clinics, osteopathic practices, acupuncture, or seitai businesses.
+description: 整体院・治療院の健康コンテンツ（HPブログ記事、LINEコラム、HP掲載文、CTA・固定要素）を、景品表示法、医師法、医療広告ガイドラインの考え方、体験談・ビフォーアフター規制の観点で公開前にレビューし、問題箇所の修正案と「公開可 / 要修正 / 法務確認 / 公開不可」の判定を出す。「広告チェック」「コンプライアンス確認」「薬機法チェック」「公開前レビュー」と頼まれたときに使う。
 ---
 
-# Medical Ad Compliance
+# 医療広告コンプライアンスチェック
 
-Use this skill to reduce publication risk before healthcare-related copy goes live. Treat the result as an editorial compliance review, not legal advice.
+公開前の健康コンテンツから、行政指導や信頼低下につながる表現を取り除くための編集レビュー。法的助言ではないため、判断に迷う表現は `法務確認` とする。
 
-## Load This Resource
+## 前提: PBLに適用する規制
 
-- Load `reference.md` when you need statutory detail, channel-specific nuance, or rewrite examples.
+フィジカルバランスラボ整体院（PBL）は柔道整復師が施術するが、**整体院として表記している**。そのため次のとおり扱う。
 
-## Workflow
+- 適用する: 景品表示法（優良誤認・有利誤認）、医師法（医行為の暗示）、医療広告ガイドラインの考え方（効果の断定、比較優良、体験談、ビフォーアフター）。健康食品・器具を紹介する場合は薬機法。
+- 適用しない: あはき法第7条・柔整法第24条の広告可能事項の制限。施術者の経歴、技術名、`〇〇専門` の記載はそれだけでは指摘しない。
+- 固定要素の `脊柱側弯症専門のフィジカルバランスラボ整体院` は、実態を伴う事業内容の記載なので指摘も書き換え提案もしない。`〇〇専門` を問題にするのは、実態が伴わず優良誤認にあたる場合だけ。
 
-1. Read the entire draft and identify the content type: blog article, LINE column, website page, profile, CTA block, testimonial section, or campaign copy.
-   - For repository HP blog articles, confirm that fixed elements are included in scope: body, TL;DR, author block, CTA, footer, and JSON-LD.
-   - Classify the business type as one of `医療機関 / 柔整 / 整体 / 混合`.
-2. Scan high-risk claims first: guaranteed outcomes, cure language, superiority claims, exclusive claims, disease inducement, medical-act wording, testimonials, and before/after framing.
-3. Check profession-specific restrictions. Distinguish between medical institutions, あはき, 柔整, and seitai-like businesses because the applicable risk profile changes.
-4. Quote the exact risky phrase and explain why it is risky in plain Japanese.
-5. Rewrite each risky phrase with safer wording that preserves the intended meaning.
-6. End with a clear verdict using exactly one of: `公開可`, `要修正`, `法務確認`, `公開不可`.
+PBL以外（あはき・柔整として表記する院、医療機関）の文面を頼まれた場合は、`reference.md` の該当章を読んで業態に合わせて判定する。
 
-## What To Flag
+## 手順
 
-- 効果効能の断定: `治る`, `完治`, `必ず改善`, `絶対によくなる`
-- 最上級・比較優良: `No.1`, `最高`, `唯一`, `他院より優れている`
-- 医療行為の暗示: `診断`, `治療`, `処方`, `医療的に証明`
-- 専門性の過剰訴求: `交通事故専門`, `骨盤矯正専門`, `唯一の技術`
-- 体験談と結果保証: treatment-result stories, post-treatment changes, before/after images, or anonymous episodes that imply efficacy
-- 相談例の逸脱: `よくある相談例` を超えて改善結果や施術後変化を示している表現
-- 誘引性の高い疾患名の使い方: disease keywords used as direct acquisition bait
-- 無資格業態での医療用語: seitai or similar services using physician-like language
+1. 対象全体を読む。HPブログ記事なら、本文・TL;DR・執筆者情報・CTA・フッター・JSON-LDがすべて範囲に入っていることを確認し、欠けていれば報告する。
+2. 業態（医療機関 / 柔整 / 整体 / 混合）とコンテンツ種別（HPブログ / LINE / HP掲載文 / CTA・固定要素）を決める。
+3. 下の「チェック観点」を上から順に確認する。文字どおりの意味だけでなく、読者が受け取る含意（効果がありそうに読めるか）で判断する。
+4. 問題箇所ごとに、原文をそのまま引用し、理由を平易な日本語で書き、意図を保った修正案を出す。
+5. 重大度を付け、最後に判定を1つだけ出す。
 
-**Do Not Flag（PBL固有の適用範囲）**:
-- PBLは柔道整復師が施術するが、**整体院として表記している**。あはき法第7条・柔整法第24条の広告可能事項制限（`○○専門` の禁止を含む）は**適用しない**。適用されるのは景品表示法（優良誤認）と医師法。
-- 固定要素の `脊柱側弯症専門のフィジカルバランスラボ整体院` は、実態を伴う事業内容の記載として**指摘対象外**。書き換えを提案しない。
-- 上記の判断根拠は `reference.md` の「4. 整体院・カイロプラクティック」。`○○専門` を問題にできるのは、実態が伴わず優良誤認にあたる場合だけ。
+## チェック観点
 
-## Rewrite Rules
+| 観点 | 指摘する例 | 修正の方向 |
+|---|---|---|
+| 効果の断定・保証 | `治る` `完治` `必ず良くなる` `痛みが取れる` `〇〇に効く` | `〜が期待できる` `〜の可能性が報告されています` `負担を減らす工夫` |
+| 最上級・比較優良 | `最高` `No.1` `地域一番` `唯一の` `他院より優れた` | 削除するか、客観データと出典がある事実だけにする |
+| 医行為の暗示 | `診断` `治療` `処方` `矯正治療` `医学的に証明` | `評価` `施術` `ケア` `整理する` |
+| 体験談・ビフォーアフター | 施術後の変化、改善した話、前後比較、効果を示す患者の声 | よくある相談例・来院時の悩みに戻す。注記（個人の感想です等）だけでは解消しない |
+| 相談例の逸脱 | 相談例が改善結果や施術後の変化まで語っている | 悩みの描写で止める |
+| 施術効果の含意 | `調整→変化を確かめる`、整体で機能が改善すると読める流れ | `症状を整理する → 必要に応じて医療機関へ相談する → 安全な対応を検討する` |
+| 根拠を超えた主張 | 研究が示す以上の断定、根拠のない回数・時間の指示 | 研究の範囲に弱める、状況・安全条件で示す |
+| 疾患名での誘引 | 疾患名を並べて来院を強く促す、不安をあおって予約へ誘導 | 情報提供の文脈に戻し、導線は控えめに |
+| 受診の妨げ | 医療機関の受診を遅らせるように読める表現、危険サインの欠落 | 危険サインと受診を優先する一文を入れる |
 
-- Prefer soft, support-oriented phrasing such as `改善を目指す`, `負担軽減をサポートする`, `ご相談ください`.
-- Preserve factual business information when it is allowed: practitioner name, location, hours, reservation availability, parking, contact details.
-- If evidence or credentials are mentioned, avoid turning them into superiority or guarantee claims.
-- When in doubt, downgrade certainty, remove competitive positioning, and use `法務確認` if the expression may require expert judgment.
+## 重大度と判定
 
-## Output Format
+| 重大度 | 基準 |
+|---|---|
+| Critical | 効果の断定・保証、医行為の暗示、効果を示す体験談、虚偽・捏造の疑い。1件でもあれば公開しない |
+| High | 比較優良、根拠を超えた主張、受診を妨げうる表現 |
+| Moderate | 含意として効果を感じさせる言い回し、誘引がやや強い導線 |
+| Low | より安全な言い方があるが、そのままでも大きな問題はない |
 
-Use a compact markdown report:
+| 判定 | 使う場面 |
+|---|---|
+| `公開可` | Critical・Highがない（Moderate・Lowは修正推奨として残してよい） |
+| `要修正` | High以上があるが、示した修正で解消できる |
+| `法務確認` | 専門家の判断が必要な表現がある |
+| `公開不可` | Criticalが複数ある、または記事の主旨そのものが効果の訴求になっている |
+
+判定は必ずこの4つのどれか1つを使う。
+
+## 出力フォーマット
 
 ```md
 ## 広告コンプライアンスチェック結果
 
-- 対象: [title or file]
+- 対象: [タイトル / ファイル]
 - 業態: 医療機関 / 柔整 / 整体 / 混合
+- 種別: HPブログ / LINE / HP掲載文 / CTA・固定要素
 - 確認範囲: 本文 / TL;DR / 執筆者情報 / CTA / フッター / JSON-LD
 - 総合判定: 公開可 / 要修正 / 法務確認 / 公開不可
 
-| カテゴリ | 判定 | 問題箇所 | 修正案 |
+| 重大度 | 該当箇所（原文） | 理由 | 修正案 |
 |---|---|---|---|
 
-### 修正優先度が高い項目
-- ...
-
 ### 補足
-- ...
+- （範囲の欠け、判断に迷った点など）
 ```
 
-Always include the exact phrase to change and a concrete safer rewrite.
+問題がなければ表は「該当なし」と書く。修正案は、そのまま置き換えられる完成した文で書く。
+
+## 参考資料
+
+法令の詳細、業態別の規制、修正例は [reference.md](reference.md) を参照。

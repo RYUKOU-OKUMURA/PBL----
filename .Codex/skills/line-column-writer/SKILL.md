@@ -1,48 +1,118 @@
 ---
 name: line-column-writer
-description: Write short health columns for a clinic or seitai practice's LINE official account in the established repository voice. Use when Codex is asked to create a LINEコラム, short seasonal health tip, weekly broadcast text, reader-friendly prevention advice, or a light educational post for patients and followers. This skill fits outputs around 15-25 lines, warm Japanese copy, weekly scheduling, and repository save paths under `LINEコラム/YYYY/`.
+description: フィジカルバランスラボ整体院のLINE公式アカウントで毎週水曜に配信する健康コラム（15〜25行、です・ます調、季節フックで始まり「(^^)/」で締める奥村スタイル）を執筆・リライトする。LINEコラム、週次配信、短い季節の健康Tipsを頼まれたときに使う。HPブログ記事には使わない。
 ---
 
-# Line Column Writer
+# LINEコラム執筆
 
-Use this skill for weekly LINE content that feels human, warm, and easy to read on a phone. Keep the delivery lightweight; this is not a full blog article.
+スマホで30秒で読めて、「自分のことだ」と感じ、今日1つだけ試したくなるコラムを毎週同じ品質で書く。HPブログのような構成や根拠の厚さは求めない。代わりに、温かさ、勢い、具体性を重視する。
 
-## Repository Context
+## 手順
 
-- Read [年間スケジュール.md](/Users/ryukouokumura/マイドライブ（okumura@physical-balance-lab.net）/PBL情報発信/01_ガイドライン・プロンプト/年間スケジュール.md) when the date matters.
-- Review the nearest existing columns in the same month or season to avoid repetition.
+1. **配信日を決める。** 配信は毎週水曜。`01_ガイドライン・プロンプト/年間スケジュール.md` でその週のテーマを確認する。テーマだけを渡された場合は、配信日から季節を決める。
+2. **重複を避ける。** `LINEコラム/<年>/` の直近4本を読み、同じ悩み・同じアドバイス・同じ締めの言葉を繰り返さない。
+3. **悩みを1つに絞る。** 1本で3つの悩みを解決しようとしない。
+4. **5つのパートで書く**（下の「構成」）。
+5. **セルフ点検する**（最後の「チェックリスト」）。
+6. **保存する。** `LINEコラム/YYYY/YYYY-MM-DD_【タイトル】.md`。
+7. **QA。** `medical-compliance-checker` と `chinese-char-detector` を並列で実行し、指摘を直す。スタイルガードはブログ専用なので使わない。
 
-## Workflow
+## 構成
 
-1. Fix the delivery date first. If the user gives only a theme, infer the likely season from the requested publication date or current schedule.
-2. Pick one concrete reader problem. Do not solve three problems in one column.
-3. Draft in five beats: seasonal hook, problem empathy, simple professional insight, one or two practical actions, encouraging close.
-4. Keep paragraphs short for mobile reading and avoid mechanical section headers.
-5. If asked to save, use `LINEコラム/YYYY/YYYY-MM-DD_【タイトル】.md`.
+| パート | 分量 | 書くこと |
+|---|---|---|
+| 1 季節・天候フック | 1〜2文 | 今週の季節感・天気から入る（`急に寒くなりましたね💦`） |
+| 2 問題提起 | 2〜3段落 | 「〜していませんか？」と問いかけ、具体的な場面を描き、共感する |
+| 3 ちょっとした専門知識 | 1〜2段落 | なぜそうなるかを比喩でやさしく。記憶に残る数字を1つ入れる（`頭の重さは約5kg、ボウリングの球くらい`） |
+| 4 今日からできること | 1〜2段落 | ケアは1つ、多くても2つ。量や回数を具体的に書き（`コップ1杯` `左右5回ずつ`）、`痛くない範囲で` を添える |
+| 5 励ましの締め | 1〜2文 | 前向きな一言と、必ず `(^^)/` で締める |
 
-## Style Rules
+## 文体
 
-- Use `です・ます調`.
-- Keep the tone warm, encouraging, and slightly lively.
-- Use few emojis. Two or three per column is enough.
-- End with `(^^)/`.
-- Avoid overtly AI-like framing such as `【1】`, `【ポイント】`, or rigid mini-headings.
-- Avoid medical jargon. If a technical term is unavoidable, explain it immediately in plain Japanese.
-- Avoid fear-based persuasion and guaranteed outcomes.
+- です・ます調。温かく、テンション高めで言い切りの勢いがある。「！」を積極的に使い、強調したいところは「！！」も可。
+- 家族の小話や、院でよく聞く悩みなどの個人的なタッチを、温かさが増すときだけ入れる（`うちの娘も最近よく水を飲み忘れるので、一緒にコップ1杯チャレンジしています！`）。
+- 専門用語は使わない。どうしても必要なら直後に言い換える。
+- 絵文字は1本に2〜3個。季節や気持ちに合わせて選ぶ（💦 心配・共感、🌸 春・前向き、☀️ 夏・明るい話題、🍂 秋、❄️ 冬・冷え、💪 応援）。
+- 1行は全角20〜25字程度、2〜4行ごとに空行。全体で15〜25行。
+- 人が書いた自然な流れにする。`【1】` `【ポイント】` のような括弧見出し、「〜しましょう。」の連続、整いすぎた文体はAIっぽく見えるので避ける。
 
-## Structural Targets
+## 安全の線引き
 
-- Target 15-25 lines.
-- Keep most lines to a phone-friendly visual width.
-- Prefer one specific action with a number, duration, or frequency, such as `コップ1杯`, `5回`, or `1時間に1回`.
-- Add a short personal touch only when it improves warmth and credibility.
+LINEも医療広告の考え方の対象になる。勢いのある文体でも、次の線は越えない。
 
-## Output
+- 効果を言い切らない。`〜が良くなります` `〜が変わります` `〜をつくります` ではなく、`〜しやすくなりますよ` `〜を目指していきましょう` `〜の助けになります` と書く。
+- `必ず` `絶対` `治る` を使わない。
+- 施術後に良くなった話、改善した患者さんの話は書かない。院の話は「こんな悩みの方が増えています」までにする。
+- 不安をあおらない（`〜しないと大変なことに！` は使わない）。
+- ケアには `痛くない範囲で` を添え、3ステップ以上の複雑な方法は紹介しない。
 
-When drafting from scratch, provide:
+## よく織り込むメッセージ
 
-1. A title in the format `【タイトル】`
-2. The column body
-3. The suggested save path if the user wants the file written
+毎回ではなく、目安の頻度で自然に入れる: 水分補給の大切さ（月2〜3回）、ストレッチの習慣化（月2回）、「90歳でも自分の脚で歩ける体を目指す」（年6回）。
 
-If the user asks for review instead of drafting, rewrite only the lines that break these rules.
+季節テーマの例: 春（花粉と肩こり、新生活の疲れ、寒暖差）、梅雨（湿気とだるさ、むくみ、気圧の変化）、夏（冷房の冷え、水分補給、夏バテ）、秋（寒暖差、ぎっくり腰、乾燥）、冬（冷え、年末年始の疲れ）。
+
+## お手本
+
+```
+最近の名古屋、昼間は3月後半みたいな暖かさですよね。
+でも朝晩はまだまだ冷える…この寒暖差がくせ者なんです💦
+
+実はこの時期、ぎっくり腰のご相談が増えてます！！
+
+昼間の暖かさで「もう大丈夫かな」と油断して動いたら、
+朝の冷え込みで固まった体がついていけなくて…ギクッ！
+うちの院でも、このパターンのお話をよく聞きます。
+
+寒暖差が10度以上ある日は、体にとってかなりの負担。
+筋肉が縮んだり緩んだりを繰り返して、疲れが溜まりやすいんですね。
+
+だからこそ、暖かい日も油断せずに水分をしっかり摂ること！
+いつもよりコップ1杯多く飲むところから始めてみてください💪
+
+あとはお風呂上がりに、太ももの裏をゆっくり伸ばしてあげてください！
+痛くない範囲で15秒キープするだけでもOKです！
+
+春はもうすぐそこ！
+あと少し、体を労わりながら乗り越えていきましょう(^^)/
+```
+
+```
+急に寒くなりましたね💦
+
+朝晩の冷え込みで、
+体がギュッと縮こまっていませんか？
+
+実は、寒くなると私たちの体は
+無意識に肩をすくめてしまうんです。
+
+これが続くと、肩や首がガチガチに…
+なんだか頭も重く感じますよね。
+
+そんな時は、お風呂でゆっくり温まった後、
+首をゆーっくり回してみてください🌸
+
+左右5回ずつ、痛くない範囲でOKです！
+
+小さなケアの積み重ねで、
+元気に動ける体を目指していきましょう。
+
+寒い日が続きますが、
+お体大切にお過ごしくださいね(^^)/
+```
+
+## 出力
+
+新しく書くときは、`【タイトル】`、本文、保存先パスを出す。レビューを頼まれたときは、ルールに反する行だけを書き直して示す。
+
+## チェックリスト
+
+- [ ] 季節・天候フックから始まっている
+- [ ] 悩みが1つに絞られ、直近4本と内容・締めが重複していない
+- [ ] 15〜25行、1行20〜25字程度、2〜4行ごとに空行
+- [ ] 記憶に残る具体的な数字が1つ以上ある
+- [ ] ケアは1〜2つで、`痛くない範囲で` がある
+- [ ] 効果の言い切り、`必ず` `絶対` `治る`、改善体験談、不安をあおる表現がない
+- [ ] 専門用語がなく、括弧見出しがない
+- [ ] 絵文字が2〜3個
+- [ ] `(^^)/` で締めている

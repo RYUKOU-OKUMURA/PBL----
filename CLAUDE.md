@@ -133,7 +133,18 @@ LINEコラムでは style-guard は不要（ブログ専用）。以下の2つ�
 | `medical-compliance-checker` | 薬機法・医療広告準拠チェック | 全コンテンツのQA段階（プロアクティブに実行） |
 | `chinese-char-detector` | 中国語文字混入チェック | 全コンテンツのQA段階（プロアクティブに実行） |
 
-Task でサブエージェントを起動するときは、必ず `model` に Sonnet（`sonnet`）を指定する。`inherit` や省略は使わない。
+Task でサブエージェントを起動するときの `model` は実行環境ごとに固定する。Cursor では Composer 2.5（`composer-2.5`、`.cursor/rules/subagent-composer-2.5.mdc`）、Claude Code では Sonnet（`sonnet`、`.claude/agents/*.md` の frontmatter）。`inherit` や省略は使わない。
+
+### スキルの正本
+
+| スキル | 正本 | コピー |
+|-------|------|-------|
+| `seitai-blog-pasona` / `medical-ad-compliance` / `wp-fixed-elements` | `.cursor/skills/<name>/` | `.Codex/skills/<name>/`（同一内容） |
+| `line-column-writer` / `pubmed-research` | `.Codex/skills/<name>/` | なし |
+
+- `.claude/commands/*_SKILL.md` は正本を読むよう指示するだけの案内ファイル。独自ルールを書かない。
+- QAエージェント（`.claude/agents/`）は判定基準をスキルから読む。基準を変えるときはスキル側を直す。
+- 正本を編集したら `cp` でコピー側を更新し、`python3 -m unittest tests.test_skill_sync` で一致を確認する。
 
 ## スキル一覧
 
