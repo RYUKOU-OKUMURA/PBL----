@@ -293,7 +293,7 @@ class FixedElementsTests(unittest.TestCase):
 
     def test_tracked_publication_ready_drafts_use_canonical_elements(self) -> None:
         raw_paths = subprocess.check_output(
-            ["git", "ls-files", "-z", "--", "HPブログ記事/投稿前/*.md"]
+            ["git", "ls-files", "-z", "--", "HPブログ記事/投稿前/*.md", "HPブログ_新/投稿前/*.md"]
         )
         checked = 0
         for raw_path in raw_paths.split(b"\0"):
