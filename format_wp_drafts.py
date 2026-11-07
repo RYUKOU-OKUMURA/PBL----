@@ -14,7 +14,7 @@ import hashlib
 import json
 import re
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -34,6 +34,7 @@ from wp_fixed_elements import (
 
 
 JST = timezone(timedelta(hours=9))
+PUBLISH_DAYS = (7, 17, 27)  # 新ブログは月3本（HPブログ_新/テーマ台帳.md）
 RED_STYLE = "color: #ff0000;"
 FIXED_SELECTORS = dict(REQUIRED_SELECTORS)
 HEADING_RE = re.compile(
@@ -845,8 +846,20 @@ def command_export(
     return 0
 
 
-def require_publication_html(html: str, label: str) -> None:
+def stored_html_errors(html: str) -> list[str]:
     errors = publication_html_errors(html)
+    local_images = [
+        image.get("src", "")
+        for image in BeautifulSoup(html, "html.parser").find_all("img")
+        if not image.get("src", "").startswith("https://")
+    ]
+    if local_images:
+        errors.append(f"images not uploaded: {local_images}")
+    return errors
+
+
+def require_publication_html(html: str, label: str) -> None:
+    errors = stored_html_errors(html)
     if errors:
         raise PipelineError(f"{label} failed fixed-element preflight: {'; '.join(errors)}")
 
@@ -865,7 +878,7 @@ def command_fixed_elements(
         original = raw_content(post)
         try:
             updated = replace_line_invitation(replace_footer(original))
-            errors = publication_html_errors(updated)
+            errors = stored_html_errors(updated)
         except FixedElementsError as exc:
             updated = original
             errors = [str(exc)]
@@ -1021,12 +1034,21 @@ def command_format(
     return 0
 
 
-def schedule_dates(count: int, now: datetime) -> list[datetime]:
-    dates = [now]
-    first_future = (now + timedelta(days=2)).date()
-    for index in range(count - 1):
-        day = first_future + timedelta(days=index * 2)
-        dates.append(datetime(day.year, day.month, day.day, 13, 0, tzinfo=JST))
+def next_publish_day(after: date) -> date:
+    day = after + timedelta(days=1)
+    while day.day not in PUBLISH_DAYS:
+        day += timedelta(days=1)
+    return day
+
+
+def publish_slot(day: date) -> datetime:
+    return datetime(day.year, day.month, day.day, 13, 0, tzinfo=JST)
+
+
+def schedule_dates(count: int, first: datetime) -> list[datetime]:
+    dates = [first]
+    for _ in range(count - 1):
+        dates.append(publish_slot(next_publish_day(dates[-1].date())))
     return dates
 
 
@@ -1037,18 +1059,18 @@ def parse_jst_datetime(value: str) -> datetime:
     return parsed.astimezone(JST).replace(microsecond=0)
 
 
-def next_slot_for_future_posts(
-    future_posts: Iterable[dict[str, Any]], now: datetime
-) -> datetime:
-    posts = list(future_posts)
-    if posts:
-        latest = max(parse_jst_datetime(post["date"]) for post in posts)
-        day = latest.date() + timedelta(days=2)
-    else:
-        day = now.date()
-    next_slot = datetime(day.year, day.month, day.day, 13, 0, tzinfo=JST)
+def latest_published_posts(config: dict[str, str]) -> list[dict[str, Any]]:
+    return api_get(
+        config, "posts", status="publish", per_page=1, orderby="date", order="desc", _fields="date"
+    )
+
+
+def next_slot_after_posts(posts: Iterable[dict[str, Any]], now: datetime) -> datetime:
+    """Return the first publish day after every given scheduled or published post."""
+    latest = max((parse_jst_datetime(post["date"]).date() for post in posts), default=now.date())
+    next_slot = publish_slot(next_publish_day(latest))
     while next_slot <= now:
-        next_slot += timedelta(days=2)
+        next_slot = publish_slot(next_publish_day(next_slot.date()))
     return next_slot
 
 
@@ -1058,7 +1080,7 @@ def command_next_slot(config: dict[str, str]) -> int:
         raise PipelineError(f"unexpected WordPress timezone: {actual_timezone!r}")
     future_posts = fetch_future_posts(config)
     now = datetime.now(JST).replace(microsecond=0)
-    next_slot = next_slot_for_future_posts(future_posts, now)
+    next_slot = next_slot_after_posts(future_posts + latest_published_posts(config), now)
     print(f"NEXT_SLOT={next_slot.isoformat()}")
     print(f"FUTURE_COUNT={len(future_posts)}")
     if future_posts:
@@ -1223,7 +1245,7 @@ def command_plan(
         raise PipelineError(
             f"requested first slot is no longer in the future: {first_at.isoformat()}"
         )
-    expected_first_at = next_slot_for_future_posts(future_posts, now)
+    expected_first_at = next_slot_after_posts(future_posts + latest_published_posts(config), now)
     if first_at != expected_first_at:
         raise PipelineError(
             "requested first slot is stale: "

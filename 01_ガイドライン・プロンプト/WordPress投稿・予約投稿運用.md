@@ -74,7 +74,7 @@ python3 format_wp_drafts.py prepare --ids POST_ID --first-at NEXT_SLOT --apply
 python3 format_wp_drafts.py plan --ids POST_ID --first-at NEXT_SLOT --plan PLAN.json
 ```
 
-`NEXT_SLOT` には `next-slot` が返したISO 8601日時をそのまま使う。既存の予約日時は動かさず、最新予約の2日後13:00（JST）へ追加する。
+`NEXT_SLOT` には `next-slot` が返したISO 8601日時をそのまま使う。既存の予約日時は動かさず、毎月7・17・27日の13:00（JST）のうち、最新の予約・公開より後で最初の日へ追加する。
 
 ### 5. WordPress上の完成稿を全体QA
 

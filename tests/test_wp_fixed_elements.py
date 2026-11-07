@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import contextlib
 import copy
+import io
 import re
 import subprocess
 import tempfile
@@ -31,7 +33,7 @@ LINE_BLOCK = """<div>
 
 def publication_html(footer: str = CANONICAL_FOOTER) -> str:
     return f"""<p class="tldr">要約です。</p>
-<img class="wp-image-361" src="profile.jpg" />
+<img class="wp-image-361" src="https://example.com/profile.jpg" />
 <p>この記事の執筆・監修：奥村龍晃（柔道整復師）</p>
 <nav class="toc"><ol><li>目次</li></ol></nav>
 <h2>本文</h2><p>本文です。</p>
@@ -46,6 +48,107 @@ OLD_FOOTER = """<footer>
 <p><img class="alignleft size-full wp-image-629" src="old.jpg" /></p>
 <p>旧住所</p>
 </footer>"""
+
+
+class StoredHtmlTests(unittest.TestCase):
+    def test_image_left_as_local_path_stops_scheduling(self) -> None:
+        html = publication_html()
+        format_wp_drafts.require_publication_html(html, "post 1")
+        with self.assertRaisesRegex(format_wp_drafts.PipelineError, "images not uploaded"):
+            format_wp_drafts.require_publication_html(
+                html.replace("</nav>", '</nav><img src="images/a.webp" alt="a" />', 1), "post 1"
+            )
+
+    def test_image_without_https_is_rejected(self) -> None:
+        for src in ("http://example.com/a.jpg", "//example.com/a.jpg", "data:image/png;base64,AA"):
+            with self.subTest(src=src):
+                html = f'<img src="{src}" />'
+                self.assertTrue(
+                    any("images not uploaded" in e for e in format_wp_drafts.stored_html_errors(html))
+                )
+
+    def test_dry_run_reports_image_left_as_local_path(self) -> None:
+        html = publication_html().replace("</nav>", '</nav><img src="images/a.webp" />', 1)
+        post = {"id": 1, "date": "2026-11-17T13:00:00", "title": {"raw": "t"}, "content": {"raw": html}}
+        output = io.StringIO()
+        with (
+            patch.object(format_wp_drafts, "selected_posts", return_value=[post]),
+            contextlib.redirect_stdout(output),
+            self.assertRaisesRegex(format_wp_drafts.PipelineError, "preflight failed"),
+        ):
+            format_wp_drafts.command_fixed_elements({}, "future", None, False, Path("unused"))
+        self.assertIn("images not uploaded", output.getvalue())
+
+
+class PublishSlotTests(unittest.TestCase):
+    def slot(self, dates: list[str], now: str) -> str:
+        posts = [{"date": value} for value in dates]
+        now_at = format_wp_drafts.parse_jst_datetime(now)
+        return format_wp_drafts.next_slot_after_posts(posts, now_at).isoformat()
+
+    def test_same_day_as_latest_post_moves_to_next_publish_day(self) -> None:
+        self.assertEqual(
+            self.slot(["2026-11-07T11:23:52"], "2026-11-07T11:50:00"),
+            "2026-11-17T13:00:00+09:00",
+        )
+
+    def test_publish_day_is_used_until_its_slot_passes(self) -> None:
+        latest = ["2026-11-07T11:23:52"]
+        self.assertEqual(
+            self.slot(latest, "2026-11-17T12:59:00"), "2026-11-17T13:00:00+09:00"
+        )
+        self.assertEqual(
+            self.slot(latest, "2026-11-17T13:00:00"), "2026-11-27T13:00:00+09:00"
+        )
+
+    def test_slot_follows_latest_reservation_across_month_end(self) -> None:
+        self.assertEqual(
+            self.slot(["2026-11-07T11:23:52", "2026-12-27T13:00:00"], "2026-11-08T09:00:00"),
+            "2027-01-07T13:00:00+09:00",
+        )
+
+    def test_long_gap_skips_publish_days_already_passed(self) -> None:
+        self.assertEqual(
+            self.slot(["2026-08-07T13:00:00"], "2026-11-08T09:00:00"),
+            "2026-11-17T13:00:00+09:00",
+        )
+
+    def published_posts_api(self, config: dict, path: str, **params: object) -> list[dict]:
+        self.assertEqual((path, params.get("status")), ("posts", "publish"))
+        newest_first = params.get("order") == "desc"
+        return [{"date": "2099-11-17T09:00:00" if newest_first else "2000-01-01T09:00:00"}]
+
+    def test_next_slot_command_skips_latest_published_day(self) -> None:
+        output = io.StringIO()
+        with (
+            patch.object(format_wp_drafts, "wordpress_timezone", return_value="Asia/Tokyo"),
+            patch.object(format_wp_drafts, "fetch_future_posts", return_value=[]),
+            patch.object(format_wp_drafts, "api_get", self.published_posts_api),
+            contextlib.redirect_stdout(output),
+        ):
+            format_wp_drafts.command_next_slot({})
+        self.assertIn("NEXT_SLOT=2099-11-27T13:00:00+09:00", output.getvalue())
+
+    def test_plan_command_skips_latest_published_day(self) -> None:
+        first = format_wp_drafts.parse_jst_datetime("2099-11-17T13:00:00")
+        with (
+            patch.object(format_wp_drafts, "selected_drafts", return_value=[]),
+            patch.object(format_wp_drafts, "fetch_future_posts", return_value=[]),
+            patch.object(format_wp_drafts, "api_get", self.published_posts_api),
+            self.assertRaisesRegex(format_wp_drafts.PipelineError, "expected 2099-11-27T13:00"),
+        ):
+            format_wp_drafts.command_plan({}, None, Path("unused.json"), first)
+
+    def test_multiple_posts_use_following_publish_days(self) -> None:
+        first = format_wp_drafts.parse_jst_datetime("2026-11-27T13:00:00")
+        self.assertEqual(
+            [value.isoformat() for value in format_wp_drafts.schedule_dates(3, first)],
+            [
+                "2026-11-27T13:00:00+09:00",
+                "2026-12-07T13:00:00+09:00",
+                "2026-12-17T13:00:00+09:00",
+            ],
+        )
 
 
 class FixedElementsTests(unittest.TestCase):
